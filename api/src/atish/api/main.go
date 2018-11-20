@@ -79,6 +79,8 @@ func main() {
   router.HandleFunc("/", heartbeat)
   router.HandleFunc("/data", Data.Post)
   router.HandleFunc("/get/{number}", Data.Get)
+  router.HandleFunc("/data", Data.Update)
+  router.HandleFunc("/data", Data.Delete)
   log.Fatal(http.ListenAndServe(":8080", router))
 }
 
