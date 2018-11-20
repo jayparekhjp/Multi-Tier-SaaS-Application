@@ -13,7 +13,8 @@ import (
 
 
 type Identification struct {
-   Count string `json:"number,common_name"`
+  number string `json:"number"`
+  name string `json:"name"`
 }
 
 
@@ -59,6 +60,7 @@ func Get(w http.ResponseWriter, r *http.Request){
    data +="{number:" +number+","+ "common_name:"+ common_name+"}"
 	 // idents = append(idents, )
     // json.NewEncoder(w).Encode(ident)
+   json.NewEncoder(w).Encode(Identification{number: number, name: common_name})
   }
   if err := iter.Close(); err != nil {
     errs = append(errs, err.Error())
@@ -66,11 +68,9 @@ func Get(w http.ResponseWriter, r *http.Request){
   }
     // generate a unique UUID for this user
   // gocqlUuid = gocql.TimeUUID()
-  identification := &Identification{
-    }
-  err := json.Unmarshal([]byte(data), identification)
-  fmt.Println(data)
-  s2, _ := json.Marshal(data)
+  // err := json.Unmarshal([]byte(data), identification)
+  // fmt.Println(data)
+  // s2, _ := json.Marshal(data)
   // result,_ := json.Marshal(data)
   json.NewEncoder(w).Encode(data)
 }
