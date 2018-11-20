@@ -1,0 +1,14 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "author": "atish",
+  "license": "ISC",
+  "dependencies": {
+    "bourbon": "^5.1.0"
+  }
+}
