@@ -98,3 +98,30 @@ func Get(w http.ResponseWriter, r *http.Request){
 
 
 }
+
+
+func Put(w http.ResponseWriter, r *http.Request) {
+	var errs []string
+	r.ParseForm()
+	number := r.FormValue("number")
+  common_name :=r.FormValue("common_name")
+	 fmt.Printf("Updating Emp with id = %s\n", emp.id)
+	 if err := Cassandra.Session.Query("UPDATE cmpe281.cmpe281 SET number = ?, common_name = ? WHERE number = ?",
+		 number,common_name).Exec(); err != nil {
+		 fmt.Println("Error while updating user")
+		 fmt.Println(err)
+	}
+}
+
+
+func Delete(w http.ResponseWriter, r *http.Request) {
+	var errs []string
+	r.ParseForm()
+	number := r.FormValue("number")
+  common_name :=r.FormValue("common_name")
+	fmt.Printf("Deleting User with number = %s\n", number_num)
+	  if err := Cassandra.Session.Query("DELETE FROM cmpe281.cmpe281 WHERE number = ?", number_num).Exec(); err != nil {
+		 fmt.Println("Error while deleting user")
+		 fmt.Println(err)
+	}
+}
