@@ -1,3 +1,31 @@
+console.log("THIS")
+$( "#login_btn" ).on( "click", function() {
+   // alert("hi2" );
+   $.ajax({
+      type: 'POST',
+      url: 'http://demo8655652.mockable.io/login',
+      data: { 
+       username: 4, 
+       password: 5, 
+      },
+      dataType: "json",
+
+      crossDomain: true,
+      success: function (msg) {
+         if(msg.verified === 1){
+            sessionStorage.setItem("user", "user");
+            document.cookie = "username=John Doe";
+            document.location.href = '/'
+         }
+         console.log(msg.verified);
+
+      },
+      error: function (request, status, error) {
+
+         alert(error);
+      }
+   });
+});
 $(function() {
 
    $(".input input").focus(function() {
@@ -117,3 +145,25 @@ $(function() {
    });
 
 });
+
+/*function getlogindata(){
+   console.log("asd")
+     $.ajax({
+         type: 'POST',
+         url: 'http://demo8655652.mockable.io/login',
+
+         dataType: "jsonp",
+
+         crossDomain: true,
+         success: function (msg) {
+
+             alert(msg);
+
+         },
+         error: function (request, status, error) {
+
+             alert(error);
+         }
+     });
+}*/
+   

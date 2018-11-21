@@ -9,6 +9,9 @@
   "author": "atish",
   "license": "ISC",
   "dependencies": {
-    "bourbon": "^5.1.0"
+    "bourbon": "^5.1.0",
+    "ejs": "^2.6.1",
+    "http": "0.0.0",
+    "request": "^2.88.0"
   }
 }
