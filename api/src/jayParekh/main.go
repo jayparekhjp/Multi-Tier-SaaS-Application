@@ -65,8 +65,24 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func createUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("TO BE IMPLEMENTED")
+	r.ParseForm()
+
+	id := strconv.Itoa(rand.Intn(100000000))
+	name := r.FormValue("name")
+	password := r.FormValue("password")
+
+	session, err := mgo.Dial(mongoServer)
+	if err != nil {
+		panic(err)
+	}
+	defer session.Close()
+
+	session.SetMode(mgo.Monotonic, true)
+
+	c := session.DB(mongoDatabase).C(mongoCollection)
+	err = c.Insert(&User{Id: id, Name: name, Password: password})
 }
+
 
 func updateUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("TO BE IMPLEMENTED")
