@@ -1,5 +1,5 @@
 .main-content {
-    background-image: url(../images/landing_page.png);
+    /*background-image: url(../images/landing_page.png);*/
     background-size: contain;
     background-repeat: no-repeat;
     width: 100%;
@@ -14,6 +14,6 @@
 .centered {
     position: absolute;
     top: 15%;
-    left: 77%;
+    left: 37%;
     transform: translate(-50%, -50%);
 }

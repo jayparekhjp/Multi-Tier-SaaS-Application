@@ -15,7 +15,7 @@ $( "#login_btn" ).on( "click", function() {
          if(msg.verified === 1){
             sessionStorage.setItem("user", "user");
             document.cookie = "username=John Doe";
-            document.location.href = '/'
+            document.location.href = '/restraunts'
          }
          console.log(msg.verified);
 

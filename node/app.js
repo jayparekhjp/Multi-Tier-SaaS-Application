@@ -8,6 +8,7 @@ app.set('view engine', 'ejs');
 var request = require('request');
 var http = require('http');
 var cookie = require('cookie');
+var Client = require('node-rest-client').Client;
 
 
 app.use(express.static(__dirname + '/public'));
@@ -29,6 +30,8 @@ function parseCookies (request) {
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.get('/', function (req, res) {
     var cookies = parseCookies(req);  
    var name = cookies.username;
@@ -42,6 +45,33 @@ app.get('/login', function (req, res) {
    res.sendFile( __dirname + "/views/" + "login.html" );  
 })  
  
+app.get('/restraunts', function (req, res) {
+    var cookies = parseCookies(req);  
+   var name = cookies.username;
+   console.log(name);
+   res.render('search',{
+    name : name
+   });
+})  
+
+app.post('/search', function (req, res) {
+  var client = new Client();
+  var pin = req.body.pin;
+  var args = {
+      parameters: { "pin": pin } // request headers
+  };
+  client.get("http://demo8655652.mockable.io/restraunts",args, function (data, response) {
+      // parsed response body as js object
+      // var data = JSON.parse(data);
+      console.log(data);
+      console.log(data["restraunts"][0]["name"]);
+      res.render('search',{
+        data:data["restraunts"]
+      });
+  });
+   // console.log(req.body.pin);
+
+})  
 /* route to handle login and registration */
 // app.post('/api/register',registerController.register);
 // app.post('/api/authenticate',authenticateController.authenticate);

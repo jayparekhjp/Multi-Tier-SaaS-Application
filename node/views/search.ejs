@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- -->    
+      <title>Locations Near You - The Counter</title>
+      <link rel="shortcut icon" type="image/x-icon" href="https://olocdn.global.ssl.fastly.net/img/thecounter/favicon.ico?6579"/>
+      <link rel="stylesheet" type="text/css" media="screen" href="https://olocdn.global.ssl.fastly.net/css/thecounter/site-6579.css" />
+      <link rel="stylesheet" type="text/css" href="./css/landing.css">
+      <script type="text/javascript" language="javascript" src="https://olocdn.global.ssl.fastly.net/js/jquery-1.12.4.min.js"></script> 
+      <script>window.jQuery || document.write('<script src="/Scripts/jquery-1.12.4.min.js">\x3C/script>')</script>
+      <!-- <script type="text/javascript">
+         var OLO = OLO || {};
+         </script>
+         
+         
+         
+         
+         <script type="text/javascript">
+         !function(e,n,t,r,o,s,c,a){e.RaygunObject=o,e[o]=e[o]||function(){(e[o].o=e[o].o||
+         []).push(arguments)},s=n.createElement(t),c=n.getElementsByTagName(t)[0],s.async=1,
+         s.src=r,c.parentNode.insertBefore(s,c),a=e.onerror,e.onerror=function(n,t,r,s,c)
+         {a&&a(n,t,r,s,c),e[o].q=e[o].q||[],e[o].q.push({e:c})}}(window,document,"script",
+         "https://olocdn.global.ssl.fastly.net/js/raygun-2.0.2.min.js","rg4js");
+         </script> -->
+   </head>
+   <body class="Order">
+      <a tabindex="0" href="#ContentWrapper" class="sr-only sr-only-focusable skip-link">Skip to main content</a>
+      <div id="OuterWrapper" class="Order">
+         <div id="outer" class="Order ">
+            <div class="inner">
+               <div id="HeaderBar" role="banner">
+                  <div id="TopBar">
+                     <span id="Logo">
+                     <a href="/home/"><span class="sr-only">The Counter Parent Site</span></a>
+                     </span>
+                     <div id="LoginRegisterLink" class="hidden">
+                        New to The Counter? 
+                        <a href="/user/register?url=%2Fvendor%2Fsearch%3FStreetAddress%3D95112%26mode%3DOrder">Create an account!</a>
+                     </div>
+                     <a class="pull-right" href="/user/login?url=%2Fvendor%2Fsearch%3FStreetAddress%3D95112%26mode%3DOrder" id="loginLink">Login</a>
+                     <div class="custom-header-links pull-right ">
+                        <!-- -->
+                     </div>
+                     <div class="clear"></div>
+                  </div>
+                  <div id="NavBar">
+                     <ul role="navigation" aria-label="primary">
+                        <li id="Home"><a href="/"><span>Home</span></a></li>
+                        <li id="Browse" class="active"><a href="/vendor/search"><span>View Menus</span></a></li>
+                        <li id="Register"><a href="/user/register?url=%2Fvendor%2Fsearch%3FStreetAddress%3D95112%26mode%3DOrder"><span>Create Account</span></a></li>
+                        <li id="HowItWorks"><a href="/help"><span>How It Works</span></a></li>
+                        <li id="FAQ"><a href="/faq"><span>FAQ</span></a></li>
+                        <li id="BasketNavItem">
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+               <div id="ContentWrapper">
+				<form  method="POST" role="form" action="/search">                        
+					<input type="text" id="pin" aria-label="Enter zip code or city and state" class="StreetAddress" name="pin" placeholder="Enter zip code">
+					<!-- <input type="button" name="btnAddLocation" id="btnAddLocation" value="GO"> -->
+					<button type="submit">GO</button>
+				</form>
+				<ul>
+				<% if (data !== undefined ) { %>
+					<% data.forEach(function(data) { %>
+				        <li><%= data.name %></li>
+				    <% }); %>
+				<% } %>
+				</ul>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div id="OuterFooter"></div>
+      <div id="PopupDialog" class="modal"></div>
+      <div id="Tooltip" style="display:none"></div>
+      <!-- <script src="https://olocdn.global.ssl.fastly.net/js/bootstrap-3.3.7-20184.min.js"></script> -->
+      <script type="text/javascript">
+      	
+      	/*$("#btnAddLocation").on('click',function(){
+      		var pin = document.getElementById("pin").value;
+
+      		$.ajax({
+		      type: 'GET',
+		      url: 'http://demo8655652.mockable.io/restraunts',
+		      data: { 
+		       pin: pin
+		      },
+		      dataType: "json",
+
+		      crossDomain: true,
+		      success: function (msg) {
+		         if(msg.length !=0 ){
+		          console.log("hereeeeee");  
+		         }
+
+		      },
+		      error: function (request, status, error) {
+
+		         alert(error);
+		      }
+		   });
+      	})*/
+      </script>
+   </body>
+</html>
