@@ -5,7 +5,7 @@
       <title>Locations Near You - The Counter</title>
       <link rel="shortcut icon" type="image/x-icon" href="https://olocdn.global.ssl.fastly.net/img/thecounter/favicon.ico?6579"/>
       <link rel="stylesheet" type="text/css" media="screen" href="https://olocdn.global.ssl.fastly.net/css/thecounter/site-6579.css" />
-      <link rel="stylesheet" type="text/css" href="./css/landing.css">
+      <link rel="stylesheet" type="text/css" href="./css/search.css">
       <script type="text/javascript" language="javascript" src="https://olocdn.global.ssl.fastly.net/js/jquery-1.12.4.min.js"></script> 
       <script>window.jQuery || document.write('<script src="/Scripts/jquery-1.12.4.min.js">\x3C/script>')</script>
       <!-- <script type="text/javascript">
@@ -56,18 +56,56 @@
                   </div>
                </div>
                <div id="ContentWrapper">
-				<form  method="POST" role="form" action="/search">                        
-					<input type="text" id="pin" aria-label="Enter zip code or city and state" class="StreetAddress" name="pin" placeholder="Enter zip code">
-					<!-- <input type="button" name="btnAddLocation" id="btnAddLocation" value="GO"> -->
-					<button type="submit">GO</button>
-				</form>
-				<ul>
-				<% if (data !== undefined ) { %>
-					<% data.forEach(function(data) { %>
-				        <li><%= data.name %></li>
-				    <% }); %>
-				<% } %>
-				</ul>
+                  <form  method="GET" role="form" action="/restraunts">
+                     <input type="text" id="pin" aria-label="Enter zip code or city and state" class="StreetAddress" name="pin" placeholder="Enter zip code">
+                     <!-- <input type="button" name="btnAddLocation" id="btnAddLocation" value="GO"> -->
+                     <button type="submit">GO</button>
+                  </form>
+                  <div id="VendorSearchResults">
+                     <div>
+                        <div id="locationFilters" class="clearfix">
+                           <div id="location-attribute-filters">
+                           </div>
+                        </div>
+                        <table id="VendorList">
+                           <tbody>
+                              <tr>
+                                 <th>Name</th>
+                                 <th>Open Hours</th>
+                                 <th>Option</th>
+                              </tr>
+                              <% if (data !== undefined ) { %>
+                                 <% data.forEach(function(data) { %>
+                                    <tr class="   vendor" data-vendorid="10295" data-hasdispatch="false">
+                                       <td>
+                                          <a class="order-action" href="https://order.thecounter.com/menu/counter-santana-row">
+                                          <strong><%= data.name %></strong>
+                                          </a>
+                                          <div class="streetaddress">
+                                             <%= data.address %><br>
+                                             Phone:<%= data.phone %>
+                                          </div>
+                                       </td>
+                                       <td>
+                                          <%= data.open_hours %>
+                                          <br>
+                                       </td>
+                                       <td>
+                                          <script>
+                                            var res_id = <%= data.restraunt_id %>            
+                                         </script>
+                                          <a href="/menu?id=<%= data.restraunt_id %>" class="btn btn-default">Order</a>
+                                          <!-- <button class="vendor-action order-action" type="button" href="/menu/<%= data.restraunt_id %>">Order</button> -->
+                                       </td>
+                                    </tr>
+                                 <% }); %>
+                              <% } %>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <ul>
+                  </ul>
                </div>
             </div>
          </div>
@@ -77,31 +115,12 @@
       <div id="Tooltip" style="display:none"></div>
       <!-- <script src="https://olocdn.global.ssl.fastly.net/js/bootstrap-3.3.7-20184.min.js"></script> -->
       <script type="text/javascript">
-      	
-      	/*$("#btnAddLocation").on('click',function(){
-      		var pin = document.getElementById("pin").value;
-
-      		$.ajax({
-		      type: 'GET',
-		      url: 'http://demo8655652.mockable.io/restraunts',
-		      data: { 
-		       pin: pin
-		      },
-		      dataType: "json",
-
-		      crossDomain: true,
-		      success: function (msg) {
-		         if(msg.length !=0 ){
-		          console.log("hereeeeee");  
-		         }
-
-		      },
-		      error: function (request, status, error) {
-
-		         alert(error);
-		      }
-		   });
-      	})*/
+         $( document ).ready(function() {
+            sessionStorage.setItem("user", "user");
+            // var res_id = <% data.restraunt_id %>
+            // document.cookie = "restraunt_id="+res_id;
+            console.log(res_id);
+         });
       </script>
    </body>
 </html>

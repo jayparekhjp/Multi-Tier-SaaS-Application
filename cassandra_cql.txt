@@ -1,3 +1,15 @@
+CREATE KEYSPACE cmpe281
+  WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 }; //Change this in production
+  
+  
+CREATE TABLE emps (
+  empid text PRIMARY KEY,
+  first_name text,
+  last_name text,
+  age int
+);
+
+
 CREATE type cmpe281.item(
 	name text,
 	price float,
@@ -5,19 +17,19 @@ CREATE type cmpe281.item(
 );
 
 CREATE table cmpe281.restraunts(
-	restraunt_id uuid,
+	restraunt_id text PRIMARY KEY,
 	restraunt_name text,
 	restraunt_address text,
 	zip_code bigint,
-	menu list<frozen <item>>,
-	primary key(restraunt_id)
+	menu list<frozen <item>>
 );
+
 
 
 
 INSERT INTO cmpe281.restraunts(restraunt_id,restraunt_name,restraunt_address,zip_code,menu)
 VALUES(
-	uuid(),
+	'1',
 	'The Counter Santana Row',
 	'3050 Olin Avenue San Jose,CA , Santana',
 	95112,
@@ -37,7 +49,7 @@ VALUES(
 
 INSERT INTO cmpe281.restraunts(restraunt_id,restraunt_name,restraunt_address,zip_code,menu)
 VALUES(
-	uuid(),
+	'2',
 	'The Counter Cupertino',
 	'20080 Stevens Creek Blvd Cupertino, CA Blaney',
 	95112,
