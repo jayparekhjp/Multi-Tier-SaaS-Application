@@ -1,14 +1,6 @@
 CREATE KEYSPACE cmpe281
   WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 }; //Change this in production
   
-  
-CREATE TABLE emps (
-  empid text PRIMARY KEY,
-  first_name text,
-  last_name text,
-  age int
-);
-
 
 CREATE type cmpe281.item(
 	name text,
@@ -21,15 +13,24 @@ CREATE table cmpe281.restraunts(
 	restraunt_name text,
 	restraunt_address text,
 	zip_code bigint,
+	opening_hours text,
+	phone_number text,
 	menu list<frozen <item>>
 );
 
+CREATE table cmpe281.menu(
+	restraunt_id text,
+	name text,
+	price float,
+	item_id text PRIMARY KEY
+);
 
 
-
-INSERT INTO cmpe281.restraunts(restraunt_id,restraunt_name,restraunt_address,zip_code,menu)
+INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code,menu)
 VALUES(
 	'1',
+	'9am-5pm',
+	'1234567890',
 	'The Counter Santana Row',
 	'3050 Olin Avenue San Jose,CA , Santana',
 	95112,
@@ -47,9 +48,11 @@ VALUES(
 	]
 );
 
-INSERT INTO cmpe281.restraunts(restraunt_id,restraunt_name,restraunt_address,zip_code,menu)
+INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code,menu)
 VALUES(
 	'2',
+	'9am-5pm',
+	'1234567890',
 	'The Counter Cupertino',
 	'20080 Stevens Creek Blvd Cupertino, CA Blaney',
 	95112,
@@ -67,6 +70,66 @@ VALUES(
 	]
 );
 
+INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code,menu)
+VALUES(
+	'3',
+	'9am-5pm',
+	'1234567890',
+	'The Counter Fremont',
+	'3050 Olin Avenue San Jose,CA , Fremont',
+	95112,
+	[
+		{
+			name : 'Burger',
+			price : 9.59,
+			item_id: '1'
+		},
+		{
+			name : 'Fries',
+			price : 5.99,
+			item_id : '2'
+		}
+	]
+);
+
+INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code,menu)
+VALUES(
+	'3',
+	'9am-5pm',
+	'1234567890',
+	'The Counter Fremont',
+	'3050 Olin Avenue San Jose,CA , Fremont',
+	95113,
+	[
+		{
+			name : 'Burger',
+			price : 9.59,
+			item_id: '1'
+		},
+		{
+			name : 'Fries',
+			price : 5.99,
+			item_id : '2'
+		}
+	]
+);
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+VALUES(
+	'1',
+	'Burger',
+	9.59,
+	'1'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+VALUES(
+	'2',
+	'Fries',
+	5.99,
+	'2'
+);
 
 SELECT restraunt_name,toJson(menu) from cmpe281.restraunts;
 
