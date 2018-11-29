@@ -139,6 +139,47 @@ func menuHandler(formatter *render.Render) http.HandlerFunc {
 			log.Fatal(err)
 		}
 		iter := Session.Query("SELECT item_id,name,price,restraunt_id FROM menu WHERE restraunt_id = ? ALLOW FILTERING",res_id).Iter()
+		// var restraunt_array []menuResponse
+		// var data menuResponse
+		array := []map[string]interface{}{}
+		ret := &map[string]interface{}{
+			"restraunt_id":     &restraunt_id,
+			"item_id": &item_id,
+			"price": &price,
+			"name": &name,
+		}
+		// var data = make(map[string]restrauntResponse)
+		for iter.Scan(&item_id,&name,&price,&restraunt_id) {
+			ret = &map[string]interface{}{
+				"restraunt_id":     &restraunt_id,
+				"item_id": &item_id,
+				"price": &price,
+				"name": &name,
+			}
+			array = append(array,*ret)
+			fmt.Println("%+v", *ret)
+		}
+
+		// fmt.Printf("%+v", restraunt_array)
+		// var final,_ = json.Marshal(restraunt_array)
+		// fmt.Println(string(final))
+		formatter.JSON(w, http.StatusOK, array)
+	}
+}
+
+/*func menuHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		vars := req.URL.Query()
+		var res_id string
+		res_id = vars.Get("restraunt_id")
+		var restraunt_id string
+		var item_id string
+		var price float32
+		var name string
+		if err := Session.Query("SELECT item_id,name,price,restraunt_id FROM menu WHERE restraunt_id = ? ALLOW FILTERING",res_id).Consistency(gocql.One).Scan(&item_id,&name,&price,&restraunt_id); err != nil {
+			log.Fatal(err)
+		}
+		iter := Session.Query("SELECT item_id,name,price,restraunt_id FROM menu WHERE restraunt_id = ? ALLOW FILTERING",res_id).Iter()
 		var restraunt_array []menuResponse
 		var data menuResponse
 		// var data = make(map[string]restrauntResponse)
@@ -158,7 +199,45 @@ func menuHandler(formatter *render.Render) http.HandlerFunc {
 		// fmt.Println(string(final))
 		formatter.JSON(w, http.StatusOK, restraunt_array)
 	}
-}
+}*/
+
+/*func menuHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		vars := req.URL.Query()
+		var res_id string
+		res_id = vars.Get("restraunt_id")
+		var restraunt_id string
+		var item_id string
+		var price float32
+		var name string
+		array := []map[string]interface{}{}
+		ret := &map[string]interface{}{
+			"restraunt_id":     &restraunt_id,
+			"item_id": &item_id,
+			"price": &price,
+			"name": &name,
+		}
+		iter := Session.Query(`SELECT * FROM menu WHERE restraunt_id = ? ALLOW FILTERING`,res_id).Iter()
+		if ok := iter.MapScan(*ret); !ok {
+			log.Fatal("select:", iter.Close())
+		} else {
+			ret = &map[string]interface{}{
+				"restraunt_id":     &restraunt_id,
+				"item_id": &item_id,
+				"price": &price,
+				"name": &name,
+			}
+			array = append(array,*ret)
+			fmt.Println("name:",ret)	
+			// restraunt_array = append(restraunt_array, data)
+			// fmt.Printf("%+v", restraunt_array)
+		}
+		// fmt.Printf("%+v", restraunt_array)
+		// var final,_ = json.Marshal(restraunt_array)
+		// fmt.Println(string(final))
+		formatter.JSON(w, http.StatusOK, array)
+	}
+}*/
 
 func main() {
 
