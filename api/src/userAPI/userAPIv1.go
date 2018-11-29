@@ -23,28 +23,20 @@ type User struct {
 	Name      string        `json:"name"`
 	Password  string        `json:"password"`
 	TimeStamp time.Time     `json:"timestamp"`
+	Contact   int           `json:"contact"`
+	Address   string        `json:"address"`
 }
 
-// UserResource struct
-type UserResource struct {
-	User User `json:"user"`
-}
-
-// UsersResource struct
-type UsersResource struct {
-	Users []User `json:"users"`
-}
-
-func pingHandler(w http.ResponseWriter, r *http.Request) {
+func ping(w http.ResponseWriter, r *http.Request) {
 	// function execution log
-	log.Println("pingHandler Function Executed")
+	log.Println("Ping Function Executed")
 	// Send message suggesting API is working
-	fmt.Fprint(w, "API is ALIVE!")
+	fmt.Fprint(w, "Login/SignUp API is ALIVE!")
 }
 
-func getUsersHandler(w http.ResponseWriter, r *http.Request) {
+func getusers(w http.ResponseWriter, r *http.Request) {
 	// function execution log
-	log.Println("getUsersHandler Function Executed")
+	log.Println("getusers Function Executed")
 
 	var users []User
 
@@ -55,31 +47,32 @@ func getUsersHandler(w http.ResponseWriter, r *http.Request) {
 		users = append(users, result)
 	}
 	w.Header().Set("Content-Type", "application/json")
-	j, err := json.Marshal(UsersResource{Users: users})
+	j, err := json.Marshal(users)
 	if err != nil {
 		panic(err)
 	}
 	w.Write(j)
 }
 
-func getUserHandler(w http.ResponseWriter, r *http.Request) {
+func login(w http.ResponseWriter, r *http.Request) {
 	// function execution log
-	log.Println("getUserHandler Function Executed")
+	log.Println("Login Function Executed")
 	fmt.Println("TO BE IMPLEMENTED")
 }
 
-func createUserHandler(w http.ResponseWriter, r *http.Request) {
+func signup(w http.ResponseWriter, r *http.Request) {
 	// function execution log
-	log.Println("createUserHandler Function Executed")
+	log.Println("SignUp Function Executed")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	var user User
+	log.Println(r)
 
-	var userResource UserResource
-
-	err := json.NewDecoder(r.Body).Decode(&userResource)
+	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		panic(err)
 	}
 
-	user := userResource.User
 	// Generate a new ID
 	objID := bson.NewObjectId()
 	// Transfer this ID to user
@@ -93,7 +86,7 @@ func createUserHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		log.Printf("Successfully created User: %s", user.Name)
 	}
-	j, err := json.Marshal(UserResource{User: user})
+	j, err := json.Marshal(user)
 	if err != nil {
 		panic(err)
 	}
@@ -101,19 +94,20 @@ func createUserHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(j)
 }
 
-func updateUserHandler(w http.ResponseWriter, r *http.Request) {
+func updatePassword(w http.ResponseWriter, r *http.Request) {
 	// function execution log
-	fmt.Println("updateUser function executed")
+	fmt.Println("updatePassword function executed")
 	fmt.Println("TO BE IMPLEMENTED")
 }
 
-func deleteUserHandler(w http.ResponseWriter, r *http.Request) {
+func deleteAccount(w http.ResponseWriter, r *http.Request) {
 	// function execution log
-	fmt.Println("deleteUser function executed")
+	fmt.Println("deleteAccount function executed")
 	fmt.Println("TO BE IMPLEMENTED")
 }
 
 func main() {
+
 	// function execution log
 	log.Println("Main function executed")
 
@@ -129,11 +123,12 @@ func main() {
 	collection = session.DB("counterBurger").C("users")
 
 	r := mux.NewRouter()
-	r.HandleFunc("/api/ping", pingHandler).Methods("GET")
-	r.HandleFunc("/api/users", getUsersHandler).Methods("GET")
-	r.HandleFunc("/api/users/{id}", getUserHandler).Methods("GET")
-	r.HandleFunc("/api/users", createUserHandler).Methods("POST")
-	r.HandleFunc("/api/users", updateUserHandler).Methods("PUT")
-	r.HandleFunc("/api/users", deleteUserHandler).Methods("DELETE")
-	log.Fatal(http.ListenAndServe(":3000", r))
+
+	r.HandleFunc("/api/ping", ping).Methods("GET")
+	r.HandleFunc("/api/users", getusers).Methods("GET")
+	r.HandleFunc("/api/users/{id}", login).Methods("GET")
+	r.HandleFunc("/api/users", signup).Methods("POST")
+	r.HandleFunc("/api/users", updatePassword).Methods("PUT")
+	r.HandleFunc("/api/users", deleteAccount).Methods("DELETE")
+	log.Fatal(http.ListenAndServe(":5000", r))
 }
