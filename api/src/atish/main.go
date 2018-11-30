@@ -74,8 +74,8 @@ func NewServer() *negroni.Negroni {
 
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/restraunt", restrauntHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/menu", menuHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/restraunts", restrauntHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/menus", menuHandler(formatter)).Methods("GET")
 	// mx.HandleFunc("/order", gumballNewOrderHandler(formatter)).Methods("POST")
 	// mx.HandleFunc("/order/{id}", gumballOrderStatusHandler(formatter)).Methods("GET")
 	// mx.HandleFunc("/order", gumballOrderStatusHandler(formatter)).Methods("GET")
