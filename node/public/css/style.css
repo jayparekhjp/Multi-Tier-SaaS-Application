@@ -719,3 +719,10 @@ a:hover {
 .top-nav-collapse{
     background: #cc050c;
 }
+
+#Logo_custom{
+    color: #fff !important; 
+    font-size: 36px !important; 
+    padding: 30px 18px !important; 
+    display: inline-block !important;
+}

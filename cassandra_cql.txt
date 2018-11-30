@@ -76,7 +76,7 @@ VALUES(
 
 INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
 VALUES(
-	'2',
+	'1',
 	'Fries',
 	5.99,
 	'2'
@@ -101,6 +101,51 @@ VALUES(
 INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
 VALUES(
 	'1',
+	'Fries-5',
+	7.99,
+	'5'
+);
+
+
+
+
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+VALUES(
+	'2',
+	'Burger',
+	9.59,
+	'1'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+VALUES(
+	'2',
+	'Fries',
+	5.99,
+	'2'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+VALUES(
+	'2',
+	'Fries',
+	5.99,
+	'3'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+VALUES(
+	'2',
+	'Fries-3',
+	5.99,
+	'4'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+VALUES(
+	'2',
 	'Fries-5',
 	7.99,
 	'5'
