@@ -147,6 +147,14 @@ VALUES(
 	'4'
 );
 
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+VALUES(
+	'1',
+	'Fries-5',
+	7.99,
+	'5'
+);
+
 SELECT restraunt_name,toJson(menu) from cmpe281.restraunts;
 
 

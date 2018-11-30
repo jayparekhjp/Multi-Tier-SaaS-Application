@@ -135,21 +135,20 @@ func menuHandler(formatter *render.Render) http.HandlerFunc {
 		var item_id string
 		var price float32
 		var name string
+		array := []map[string]interface{}{}
 		if err := Session.Query("SELECT item_id,name,price,restraunt_id FROM menu WHERE restraunt_id = ? ALLOW FILTERING",res_id).Consistency(gocql.One).Scan(&item_id,&name,&price,&restraunt_id); err != nil {
-			log.Fatal(err)
+			formatter.JSON(w, http.StatusOK, array)
+			return
 		}
 		iter := Session.Query("SELECT item_id,name,price,restraunt_id FROM menu WHERE restraunt_id = ? ALLOW FILTERING",res_id).Iter()
-		// var restraunt_array []menuResponse
-		// var data menuResponse
-		array := []map[string]interface{}{}
+
 		ret := &map[string]interface{}{
 			"restraunt_id":     &restraunt_id,
 			"item_id": &item_id,
 			"price": &price,
 			"name": &name,
 		}
-		// var data = make(map[string]restrauntResponse)
-		for iter.Scan(&item_id,&name,&price,&restraunt_id) {
+		/*for iter.Scan(&item_id,&name,&price,&restraunt_id) {
 			ret = &map[string]interface{}{
 				"restraunt_id":     &restraunt_id,
 				"item_id": &item_id,
@@ -157,7 +156,41 @@ func menuHandler(formatter *render.Render) http.HandlerFunc {
 				"name": &name,
 			}
 			array = append(array,*ret)
-			fmt.Println("%+v", *ret)
+			fmt.Println("%+v", array)
+		}*/
+		/*if ok := iter.MapScan(*ret); !ok {
+			// log.Fatal("select:", iter.Close())
+			formatter.JSON(w, http.StatusOK, array)
+			return
+		} else {
+			for{
+				ret = &map[string]interface{}{
+					"restraunt_id":     &restraunt_id,
+					"item_id": &item_id,
+					"price": &price,
+					"name": &name,
+				}
+				if !iter.MapScan(*ret) {
+					break
+				}
+				array = append(array,*ret)
+				// fmt.Println("%+v", array)
+				fmt.Println("Size = ", iter.NumRows())
+			}
+		}*/
+		for{
+			ret = &map[string]interface{}{
+				"restraunt_id":     &restraunt_id,
+				"item_id": &item_id,
+				"price": &price,
+				"name": &name,
+			}
+			if !iter.MapScan(*ret) {
+				break
+			}
+			array = append(array,*ret)
+			// fmt.Println("%+v", array)
+			fmt.Println("Size = ", iter.NumRows())
 		}
 
 		// fmt.Printf("%+v", restraunt_array)
