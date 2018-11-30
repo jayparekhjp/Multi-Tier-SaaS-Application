@@ -98,30 +98,34 @@ func restrauntHandler(formatter *render.Render) http.HandlerFunc {
 		var phone_number string
 		var opening_hours string
 		var restraunt_id string
+		array := []map[string]interface{}{}
 		if err := Session.Query("SELECT restraunt_id,restraunt_name,restraunt_address,phone_number,opening_hours FROM restraunts WHERE zip_code = ? ALLOW FILTERING",zip).Consistency(gocql.One).Scan(&restraunt_id,&restraunt_address,&restraunt_name,&phone_number,&opening_hours); err != nil {
-			log.Fatal(err)
+			formatter.JSON(w, http.StatusOK, array)
+			return
 		}
 		iter := Session.Query("SELECT restraunt_id,restraunt_name,restraunt_address,phone_number,opening_hours FROM restraunts WHERE zip_code = ? ALLOW FILTERING",zip).Iter()
-		var restraunt_array []restrauntResponse
-		var data restrauntResponse
-		// var data = make(map[string]restrauntResponse)
-		for iter.Scan(&restraunt_id,&restraunt_address,&restraunt_name,&phone_number,&opening_hours) {
-			data = restrauntResponse{
-				restraunt_id : restraunt_id,    
-				name :         restraunt_name,
-				address :      restraunt_address,
-				phone :        phone_number,
-				open_hours :   opening_hours,
-			}
-			restraunt_array = append(restraunt_array, data)
-
+		ret := &map[string]interface{}{
+			"restraunt_id":     &restraunt_id,
+			"restraunt_name": &restraunt_name,
+			"restraunt_address": &restraunt_address,
+			"phone_number": &phone_number,
+			"opening_hours" : &opening_hours,
 		}
+		for{
+			ret = &map[string]interface{}{
+				"restraunt_id":     &restraunt_id,
+				"restraunt_name": &restraunt_name,
+				"restraunt_address": &restraunt_address,
+				"phone_number": &phone_number,
+				"opening_hours" : &opening_hours,
+			}
 
-		fmt.Printf("%+v", restraunt_array)
-		w.Header().Set("Content-Type", "application/json")
-		// var final,_ = json.Marshal(restraunt_array)
-		// fmt.Println(string(final))
-		formatter.JSON(w, http.StatusOK, restraunt_array)
+			if !iter.MapScan(*ret) {
+				break
+			}
+			array = append(array,*ret)
+		}
+		formatter.JSON(w, http.StatusOK, array)
 	}
 }
 
@@ -147,6 +151,18 @@ func menuHandler(formatter *render.Render) http.HandlerFunc {
 			"item_id": &item_id,
 			"price": &price,
 			"name": &name,
+		}
+		for{
+			ret = &map[string]interface{}{
+				"restraunt_id":     &restraunt_id,
+				"item_id": &item_id,
+				"price": &price,
+				"name": &name,
+			}
+			if !iter.MapScan(*ret) {
+				break
+			}
+			array = append(array,*ret)
 		}
 		/*for iter.Scan(&item_id,&name,&price,&restraunt_id) {
 			ret = &map[string]interface{}{
@@ -178,20 +194,6 @@ func menuHandler(formatter *render.Render) http.HandlerFunc {
 				fmt.Println("Size = ", iter.NumRows())
 			}
 		}*/
-		for{
-			ret = &map[string]interface{}{
-				"restraunt_id":     &restraunt_id,
-				"item_id": &item_id,
-				"price": &price,
-				"name": &name,
-			}
-			if !iter.MapScan(*ret) {
-				break
-			}
-			array = append(array,*ret)
-			// fmt.Println("%+v", array)
-			fmt.Println("Size = ", iter.NumRows())
-		}
 
 		// fmt.Printf("%+v", restraunt_array)
 		// var final,_ = json.Marshal(restraunt_array)
