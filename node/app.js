@@ -6,9 +6,11 @@ var app = express();
 app.set('view engine', 'ejs');
 
 var request = require('request');
+var Cookies = require('cookies')
 var http = require('http');
 var cookie = require('cookie');
 var Client = require('node-rest-client').Client;
+var keys = ['keyboard cat']
 
 
 app.use(express.static(__dirname + '/public'));
@@ -45,40 +47,48 @@ app.get('/login', function (req, res) {
    res.sendFile( __dirname + "/views/" + "login.html" );  
 })  
  
-app.get('/restraunts', function (req, res) {
+/*app.get('/restraunts', function (req, res) {
     var cookies = parseCookies(req);  
    var name = cookies.username;
    console.log(name);
    res.render('search',{
     name : name
    });
-})  
+})  */
 
-app.post('/search', function (req, res) {
+app.get('/restraunts', function (req, res) {
   var client = new Client();
   var pin = req.body.pin;
   var args = {
       parameters: { "pin": pin } // request headers
   };
   client.get("http://demo8655652.mockable.io/restraunts",args, function (data, response) {
-      // parsed response body as js object
-      // var data = JSON.parse(data);
       console.log(data);
-      console.log(data["restraunts"][0]["name"]);
       res.render('search',{
         data:data["restraunts"]
       });
   });
-   // console.log(req.body.pin);
+});
 
-})  
-/* route to handle login and registration */
-// app.post('/api/register',registerController.register);
-// app.post('/api/authenticate',authenticateController.authenticate);
- 
-// console.log(authenticateController);
-// app.post('/controllers/register-controller', registerController.register);
-// app.post('/controllers/authenticate-controller', authenticateController.authenticate);
+
+app.get('/menu', function (req, res) {
+  var client = new Client();
+  var res_id = req.query.id;
+  var args = {
+      parameters: { "restraunt_id": res_id } // request headers
+  };
+  var cookies = new Cookies(req, res, { keys: keys })
+  cookies.set('restraunt_id', res_id, { signed: false })
+
+  client.get("http://demo8655652.mockable.io/menu",args, function (data, response) {
+      console.log(data[0]['name']);
+      res.render('menu',{
+        data:data
+      });
+  });
+
+});
+
 app.listen(port, function () {
   console.log("Server is running on "+ port +" port");
 });
