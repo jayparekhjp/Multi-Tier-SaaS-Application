@@ -25,7 +25,7 @@ CREATE table cmpe281.menu(
 );
 
 
-INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code,)
+INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code)
 VALUES(
 	'1',
 	'9am-5pm',
