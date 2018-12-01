@@ -5,19 +5,32 @@
 	<link rel="stylesheet" type="text/css" href="./css/header.css">
 </head>
 <body>
-	<div class="header">
-		<div style="display:inline-block;vertical-align:top;">
-	    	<a href="#default" class="logo"><img src="../images/burger_logo.png"></a>
-		</div>
-		<div style="display:inline-block;">
-		    <div style="margin-top: 35px;"><b>Burgers</b></div>
-		</div>
-	  <div class="header-right">
-	    <a class="active" href="#home">Home</a>
-	    <a href="#contact">Contact</a>
-	    <a href="#about">About</a>
-	    <a href="/login">Login</a>
-	  </div>
-	</div>
+	<div id="HeaderBar" role="banner">
+      <div id="TopBar">
+         <span id="Logo">
+         <a href="/home/"><span class="sr-only">The Counter Parent Site</span></a>
+         </span>
+         <div id="LoginRegisterLink" class="hidden">
+            New to The Counter? 
+            <a href="/user/register?url=%2Fvendor%2Fsearch%3FStreetAddress%3D95112%26mode%3DOrder">Create an account!</a>
+         </div>
+         <a class="pull-right" href="/user/login?url=%2Fvendor%2Fsearch%3FStreetAddress%3D95112%26mode%3DOrder" id="loginLink">Login</a>
+         <div class="custom-header-links pull-right ">
+            <!-- -->
+         </div>
+         <div class="clear"></div>
+      </div>
+      <div id="NavBar">
+         <ul role="navigation" aria-label="primary">
+            <li id="Home"><a href="/"><span>Home</span></a></li>
+            <li id="Browse" class="active"><a href="/vendor/search"><span>View Restraunts</span></a></li>
+            <li id="Register"><a href="/user/register?url=%2Fvendor%2Fsearch%3FStreetAddress%3D95112%26mode%3DOrder"><span>Create Account</span></a></li>
+            <li id="HowItWorks"><a href="/help"><span>How It Works</span></a></li>
+            <li id="FAQ"><a href="/faq"><span>FAQ</span></a></li>
+            <li id="BasketNavItem">
+            </li>
+         </ul>
+      </div>
+   </div>
 </body>
 </html>

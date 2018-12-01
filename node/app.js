@@ -14,6 +14,8 @@ var keys = ['keyboard cat']
 
 
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({ extended: true })); 
+
 
 // var authenticateController=require('./controllers/authenticate-controller');
 // var registerController=require('./controllers/register-controller');
@@ -38,7 +40,7 @@ app.get('/', function (req, res) {
     var cookies = parseCookies(req);  
    var name = cookies.username;
    console.log(name);
-   res.render('index',{
+   res.render('home',{
     name : name
    });
 })  
@@ -58,14 +60,15 @@ app.get('/login', function (req, res) {
 
 app.get('/restraunts', function (req, res) {
   var client = new Client();
-  var pin = req.body.pin;
+  var pin = req.query.pin;
   var args = {
-      parameters: { "pin": pin } // request headers
+      parameters: { "zip": pin } // request headers
   };
-  client.get("http://demo8655652.mockable.io/restraunts",args, function (data, response) {
+  console.log(pin)
+  client.get("http://localhost:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
       console.log(data);
       res.render('search',{
-        data:data["restraunts"]
+        data:data
       });
   });
 });
@@ -80,8 +83,8 @@ app.get('/menu', function (req, res) {
   var cookies = new Cookies(req, res, { keys: keys })
   cookies.set('restraunt_id', res_id, { signed: false })
 
-  client.get("http://demo8655652.mockable.io/menu",args, function (data, response) {
-      console.log(data[0]['name']);
+  client.get("http://localhost:3000/menus",args, function (data, response) {
+      // console.log(data[0]['name']);
       res.render('menu',{
         data:data
       });
