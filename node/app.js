@@ -31,23 +31,20 @@ function parseCookies (request) {
     return list;
 }
 
-app.use(bodyParser.urlencoded({extended:true}));
+//app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/', function (req, res) {
-    var cookies = parseCookies(req);  
+   var cookies = parseCookies(req);  
    var name = cookies.username;
    console.log(name);
-   res.render('home',{
-    name : name
+   res.render('login',{
+    name : 'hello'
    });
 })  
  
-app.get('/login', function (req, res) {  
-   res.sendFile( __dirname + "/views/" + "login.html" );  
-})  
  
 /*app.get('/restraunts', function (req, res) {
     var cookies = parseCookies(req);  
