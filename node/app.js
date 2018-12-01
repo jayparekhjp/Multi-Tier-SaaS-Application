@@ -65,7 +65,7 @@ app.get('/restraunts', function (req, res) {
       parameters: { "zip": pin } // request headers
   };
   console.log(pin)
-  client.get("http://localhost:3000/restraunts",args, function (data, response) {
+  client.get("http://localhost:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
       console.log(data);
       res.render('search',{
         data:data
