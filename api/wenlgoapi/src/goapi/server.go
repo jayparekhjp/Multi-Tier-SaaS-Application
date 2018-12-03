@@ -66,7 +66,7 @@ func burgerNewOrderHandler(formatter *render.Render) http.HandlerFunc{
 	return func(w http.ResponseWriter, req *http.Request){
 		var ord Order
 		err := json.NewDecoder(req.Body).Decode(&ord)
-		
+
 		session, err := mgo.Dial(mongodb_server)
 		if err != nil{
 			panic(err)
@@ -87,22 +87,11 @@ func burgerNewOrderHandler(formatter *render.Render) http.HandlerFunc{
 		//fmt.Println("Burger orders:", result )
 		formatter.JSON(w, http.StatusOK, ord)
 	}
-}	
+}
 
 
 
-// func cartDisplay(formatter *render.Render) http.HandlerFunc {
-// 	return func(w http.ResponseWriter, req *http.Request) {	
-// 		var result []Item
-// 		var item Item
-// 		err := json.NewDecoder(req.Body).Decode(&item)
-// 		err = c.Find(bson.M{"id":item.ID}).All(&result)
-// 		if err != nil {
-// 			log.Fatal(err)
-// 		}
-// 		formatter.JSON(w, http.StatusOK, result)
-// 	}
-// }
+
 //*********************************** search user orders *********************
 
 func userOdersHandler(formatter *render.Render) http.HandlerFunc{
@@ -128,53 +117,3 @@ func userOdersHandler(formatter *render.Render) http.HandlerFunc{
 		formatter.JSON(w, http.StatusOK, result)
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-  	-- Gumball MongoDB Collection (Create Document) --
-
-    db.gumball.insert(
-	    { 
-	      Id: 1,
-	      CountGumballs: NumberInt(202),
-	      ModelNumber: 'M102988',
-	      SerialNumber: '1234998871109' 
-	    }
-	) ;
-
-    -- Gumball MongoDB Collection - Find Gumball Document --
-
-    db.gumball.find( { Id: 1 } ) ;
-
-    {
-        "_id" : ObjectId("54741c01fa0bd1f1cdf71312"),
-        "Id" : 1,
-        "CountGumballs" : 202,
-        "ModelNumber" : "M102988",
-        "SerialNumber" : "1234998871109"
-    }
-
-    -- Gumball MongoDB Collection - Update Gumball Document --
-
-    db.gumball.update( 
-        { Dd: 1 }, 
-        { $set : { CountGumballs : NumberInt(10) } },
-        { multi : false } 
-    )
-
-    -- Gumball Delete Documents
-
-    db.gumball.remove({})
-
- */
