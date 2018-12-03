@@ -1,7 +1,6 @@
 # fa18-281-slack-overflow
 
-
-## Project Functionality Distribusion
+## Work Distribution
 
 |Team Member Name|Functionality|
 |-|-|
