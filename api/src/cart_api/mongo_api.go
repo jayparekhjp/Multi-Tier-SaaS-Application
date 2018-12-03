@@ -14,7 +14,8 @@ import (
 )
 
 type Item struct {
-	ID        bson.ObjectId `bson:"_id" json:"id"`
+	ID	  		string 			`json:"id"`
+	CartId	  bson.ObjectId `bson:"cart_id" json:"cid"`
 	TimeStamp time.Time     `json:"timestamp"`
 	RestuarantName string   `json:"res"`
 	ItemName       string   `json:"iname"`
@@ -58,17 +59,14 @@ func main() {
 
 // API Routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
-	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/itemDisplay", cartDisplay(formatter)).Methods("GET")
+	mx.HandleFunc("/api/cart/ping", pingHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/api/cart/itemDisplay", cartDisplay(formatter)).Methods("GET")
 	//mx.HandleFunc("/gumball", gumballUpdateHandler(formatter)).Methods("PUT")
-	mx.HandleFunc("/itemSave", cartSave(formatter)).Methods("POST")
-	mx.HandleFunc("/itemSave1", signup(formatter)).Methods("POST")
-	mx.HandleFunc("/item1", gumballNewOrderHandler1(formatter)).Methods("POST")
+	mx.HandleFunc("/api/cart/itemSave", cartSave(formatter)).Methods("POST")
 	//mx.HandleFunc("/order/{id}", gumballOrderStatusHandler(formatter)).Methods("GET")
 
 }
 
-// Helper Functions
 
 // API Ping Handler
 func pingHandler(formatter *render.Render) http.HandlerFunc {
@@ -77,18 +75,14 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
-func signup(formatter *render.Render) http.HandlerFunc {
+func cartSave(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		var item Item
 		err := json.NewDecoder(req.Body).Decode(&item)
-
-		// Generate a new ID
-		objID := bson.NewObjectId()
-		// Transfer this ID to user
-		item.ID = objID
-		// Give TimeStamp to user
+		cartID := bson.NewObjectId()
+		item.CartId = cartID
+		
 		item.TimeStamp = time.Now()
-		// Insert user into collection
 		err = c.Insert(&item)
 		if err != nil {
 			panic(err)
@@ -107,21 +101,22 @@ func signup(formatter *render.Render) http.HandlerFunc {
 }
 
 
-func gumballNewOrderHandler1(formatter *render.Render) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-			var ord = "patel"
-			formatter.JSON(w, http.StatusOK, ord)
-		}
-	}
-
 func cartDisplay(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {	
-		var result[] bson.M
-		err := c.Find(bson.M{}).All(&result)
+		var result []Item
+		var item Item
+		err := json.NewDecoder(req.Body).Decode(&item)
+		err = c.Find(bson.M{"uid":item.ID}).All(&result)
 		if err != nil {
 			log.Fatal(err)
 		}
-		//fmt.Println("Burger orders:", result )
+		/*	for i := range result {
+				if result[i].ID == item.ID {
+					resu[i] = result[i]
+				}
+			}
+		*/
+		//fmt.Println("Burger orders:", resu )
 		formatter.JSON(w, http.StatusOK, result)
 	}
 }
