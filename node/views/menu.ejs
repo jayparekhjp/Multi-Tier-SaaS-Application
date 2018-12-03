@@ -1,13 +1,4 @@
 
-
-
-
-<!--Template Name: foodfries
-File Name: home.html
-Author Name: ThemeVault
-Author URI: http://www.themevault.net/
-License URI: http://www.themevault.net/license/-->
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -65,7 +56,7 @@ License URI: http://www.themevault.net/license/-->
                                       <tr class="vendor" data-hasdispatch="false">
                                          <td>
                                             <a class="order-action" href="https://order.thecounter.com/menu/">
-                                            <strong><%= data.name %></strong>
+                                            <strong><!--<%= data.name %>--></strong>
                                             </a>
                                             <div class="streetaddress">
                                             </div>
@@ -73,13 +64,13 @@ License URI: http://www.themevault.net/license/-->
                                          
 
                                          <td>
-                                            <%= data.price %><br>
+                                            <!--<%= data.price %><br>-->
                                             <br>
                                          </td>
 
                                          <td>
                                             <!-- <a href="/menu?id=<%= data.item_id %>" class="btn btn-default">Add to cart</a> -->
-                                            <button class="vendor-action order-action add-cart" type="button" id="add_cart" name="<%= data.name %>" price= "<%= data.price %>">Add to cart</button>
+                                            <button class="vendor-action order-action add-cart" type="button" id="add_cart">Add to cart</button>
                                          </td>
                                       </tr>
                                    <% }); %>
