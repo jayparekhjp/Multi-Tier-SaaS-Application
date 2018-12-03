@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            img{
+                display: inline-block;
+                margin: 15px;
+                float: left;
+                height: 60px;
+                width: auto;
+             
+            }
+            form{
+                align:center;
+            }
+            font{
+                color:black;
+                font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                font-weight:bold;
+            }
+            .payment{
+                padding:5px;
+                margin-left: 42.5%;      
+            }
+            .payment1{
+                padding:5px;
+                margin-left: 38%;
+            }
+            button{
+                margin-top: 10px;
+            }
+            .a{
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body style="background-image:url('images/burger5.png');background-repeat:no-repeat;background-size:cover;">
+            <div>
+            <div style="margin-left: 0%">
+            <img src="images/logo1.png"></div>
+            <div class="payment1">
+            <h1><font>COUNTER BURGER</font></h1>
+            <h2><pre><font>             PAYMENT</font></pre></h2>
+            </div>
+            </div>
+       <hr>
+        <div class="payment">
+            <form action="http://localhost:3002/orders" method="post">
+                <div class="a">
+                    <font>Card Holder's Name:</font><br>
+                    <input type="text" name="cardHolder">
+                </div>
+                <div class="a">
+                        <font>Card Number:</font><br>
+                    <input type="text" name="cardNumber">
+                </div>
+                <div class="a">
+                        <font>Expiry Month:</font><br>
+                    <input type="text" name="month">
+                </div>
+                <div class="a">
+                        <font>Expiry Year:</font><br>
+                    <input type="text" name="year">
+                </div>
+                <div class="a">
+                        <font>CVV:</font><br>
+                    <input type="text" name="cvv">
+                </div>
+                <pre>    <button type="submit">Submit Payment</button></pre>
+            </form>
+        </div>
+    </body>
+</html>
