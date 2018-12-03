@@ -15,7 +15,6 @@ import (
 
 type Item struct {
 	ID	  		string 			`json:"id"`
-	CartId	  bson.ObjectId `bson:"cart_id" json:"cid"`
 	TimeStamp time.Time     `json:"timestamp"`
 	RestuarantName string   `json:"res"`
 	ItemName       string   `json:"iname"`
@@ -61,10 +60,8 @@ func main() {
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/api/cart/ping", pingHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/api/cart/itemDisplay", cartDisplay(formatter)).Methods("GET")
-	//mx.HandleFunc("/gumball", gumballUpdateHandler(formatter)).Methods("PUT")
 	mx.HandleFunc("/api/cart/itemSave", cartSave(formatter)).Methods("POST")
-	//mx.HandleFunc("/order/{id}", gumballOrderStatusHandler(formatter)).Methods("GET")
-
+	mx.HandleFunc("/api/cart/itemDelete", cartDelete(formatter)).Methods("DELETE")
 }
 
 
@@ -78,16 +75,13 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 func cartSave(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		var item Item
-		err := json.NewDecoder(req.Body).Decode(&item)
-		cartID := bson.NewObjectId()
-		item.CartId = cartID
-		
+		err := json.NewDecoder(req.Body).Decode(&item)		
 		item.TimeStamp = time.Now()
 		err = c.Insert(&item)
 		if err != nil {
 			panic(err)
 		} else {
-			log.Printf("Successfully created User:")
+			log.Printf("inserted to cart")
 		}
 		j, err := json.Marshal(item)
 		if err != nil {
@@ -95,28 +89,39 @@ func cartSave(formatter *render.Render) http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(j)
-		formatter.JSON(w, http.StatusOK, "Welcome to Counter Burger")
+		formatter.JSON(w, http.StatusOK, "saved to cart")
 		return
 	}
 }
-
 
 func cartDisplay(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {	
 		var result []Item
 		var item Item
 		err := json.NewDecoder(req.Body).Decode(&item)
-		err = c.Find(bson.M{"uid":item.ID}).All(&result)
+		err = c.Find(bson.M{"id":item.ID}).All(&result)
 		if err != nil {
 			log.Fatal(err)
 		}
-		/*	for i := range result {
-				if result[i].ID == item.ID {
-					resu[i] = result[i]
-				}
-			}
-		*/
-		//fmt.Println("Burger orders:", resu )
 		formatter.JSON(w, http.StatusOK, result)
+	}
+}
+
+func cartDelete(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {	
+		var item Item
+		var result []Item
+		err := json.NewDecoder(req.Body).Decode(&item)
+		err = c.Find(bson.M{"id":item.ID}).All(&result)
+		if err != nil {
+			log.Fatal(err)
+		}
+			for i := range result {
+				i=i+1-1
+		err = c.Remove(bson.M{"id":item.ID})
+		if err != nil {
+			log.Fatal(err)
+			}
+		}
 	}
 }
