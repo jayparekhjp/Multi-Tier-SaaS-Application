@@ -14,7 +14,7 @@ var keys = ['keyboard cat']
 
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // var authenticateController=require('./controllers/authenticate-controller');
@@ -37,17 +37,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/', function (req, res) {
-   var cookies = parseCookies(req);  
+   var cookies = parseCookies(req);
    var name = cookies.username;
    console.log(name);
    res.render('login',{
     name : 'hello'
    });
-})  
- 
- 
+})
+
+
 /*app.get('/restraunts', function (req, res) {
-    var cookies = parseCookies(req);  
+    var cookies = parseCookies(req);
    var name = cookies.username;
    console.log(name);
    res.render('search',{
@@ -89,8 +89,21 @@ app.get('/menu', function (req, res) {
 
 });
 
+app.get('/list', function (req, res) {
+  var client = new Client();
+  var uid = req.query.UserId;
+  var args = {
+      parameters: { "UserId": uid } // request headers
+  };
+  console.log(uid)
+  client.get("http://localhost:3000/list",args, function (data, response) { // CHANGE to broadcsat address for docker
+      console.log(data);
+      res.render('list',{
+        data:data
+      });
+  });
+});
+
 app.listen(port, function () {
   console.log("Server is running on "+ port +" port");
 });
-
-
