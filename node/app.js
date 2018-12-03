@@ -6,6 +6,9 @@ var app = express();
 app.set('view engine', 'ejs');
 app.set('views','./views');
 
+var Client = require('node-rest-client').Client;
+var client = new Client();
+
 var request = require('request');
 var http = require('http');
 var cookie = require('cookie');
@@ -41,9 +44,22 @@ app.get('/', function (req, res) {
 })  
  
 app.get('/login', function (req, res) {  
-   res.sendFile( __dirname + "/views/" + "login.html" );  
+   res.render('/login');  
 })  
  
+
+// Mock Users login
+// client.registerMethod("jsonMethod", "http://demo7713207.mockable.io/api/users", "GET");
+
+// Mock Users signup
+// client.registerMethod("jsonMethod", "http://demo7713207.mockable.io/api/users", "POST");
+
+client.registerMethod("jsonMethod", "http://localhost:3000/api/ping", "GET");
+ 
+client.methods.jsonMethod(function (data, response) {
+    console.log(data);
+});
+
 /* route to handle login and registration */
 // app.post('/api/register',registerController.register);
 // app.post('/api/authenticate',authenticateController.authenticate);

@@ -1,0 +1,13 @@
+<% include partials/header %>
+<div class="container">
+    <div class="loginForm">
+        <h1>Login</h1>
+        <p>Please enter your credentials.</p>
+    </div>
+    <form action="http://localhost:5000/users/loginSubmit" method="get" id="login">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <button type="submit" name="loginButton">Login</button>
+    </form>
+</div>
+<% include partials/footer %>
