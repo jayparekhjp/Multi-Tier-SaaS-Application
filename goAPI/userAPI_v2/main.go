@@ -44,10 +44,11 @@ type User struct {
 	ID        bson.ObjectId `bson:"_id" json:"id"`
 	Username  string        `bson:"username" json:"username"`
 	Name      string        `json:"name"`
-	Password  string        `json:"password"`
-	TimeStamp time.Time     `json:"timestamp"`
+	Email     string        `json:"email"`
 	Contact   string        `json:"contact"`
 	Address   string        `json:"address"`
+	Password  string        `json:"password"`
+	TimeStamp time.Time     `json:"timestamp"`
 }
 
 // initRoutes for setting the API endpoint routes
@@ -123,12 +124,12 @@ func signup(formatter *render.Render) http.HandlerFunc {
 			} else {
 				log.Printf("Successfully created User: %s", user.Name)
 			}
-			j, err := json.Marshal(user)
-			if err != nil {
-				panic(err)
-			}
+			// j, err := json.Marshal(user)
+			// if err != nil {
+			// 	panic(err)
+			// }
 			w.Header().Set("Content-Type", "application/json")
-			w.Write(j)
+			// w.Write(j)
 			formatter.JSON(w, http.StatusOK, "Welcome to Counter Burger")
 			return
 		}

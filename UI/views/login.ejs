@@ -4,7 +4,7 @@
         <h1>Login</h1>
         <p>Please enter your credentials.</p>
     </div>
-    <form action="http://localhost:5000/users/loginSubmit" method="get" id="login">
+    <form method="POST" action="/users/loginSubmit">
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="password" placeholder="Password">
         <button type="submit" name="loginButton">Login</button>

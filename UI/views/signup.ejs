@@ -1,7 +1,29 @@
 <% include partials/header %>
     <h1>Sign Up</h1>
-    <form>
-        <label>Name</label>
-        <input
-    </form>
+    <div class="container">
+            <form method="POST" action="/users/signupSubmit">
+                    <label>Name</label><br>
+                    <input type="text" name="name">
+                    <br>
+                    <label>Username</label><br>
+                    <input type="text" name="username">
+                    <br>
+                    <label>Email</label><br>
+                    <input type="text" name="email">
+                    <br>
+                    <label>Contact Number</label><br>
+                    <input type="text" name="contact">
+                    <br>
+                    <label>Address</label><br>
+                    <input type="text" name="address">
+                    <br>
+                    <label>Password</label><br>
+                    <input type="password" name="password">
+                    <br>
+                    <label>Confirm Password</label><br>
+                    <input type="password" name="confirmPassword">
+                    <br><br>
+                    <input type="submit" value="Signup">
+                </form>
+    </div>
 <% include partials/footer %>

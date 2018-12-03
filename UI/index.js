@@ -16,9 +16,10 @@ app.set('views', path.join(__dirname, './views'));
 
 
 // User API routes and functions
-client.registerMethod("pingUserAPI", "http://localhost:3000/api/ping", "GET");
-client.registerMethod("login", "http://localhost:3000/api/users/login", "GET");
+// client.registerMethod("pingUserAPI", "http://localhost:3000/api/ping", "GET");
+// client.registerMethod("login", "http://localhost:3000/api/users/login/", "GET");
 client.registerMethod("admin", "http://localhost:3000/api/users", "GET");
+client.registerMethod("signup", "http://localhost:3000/api/users/signup", "POSt");
 
 app.get('/',function(req,res){
     console.log('Home Page Called.');
@@ -27,7 +28,8 @@ app.get('/',function(req,res){
 
 app.get('/users/ping',function(req,res){
     console.log('Ping Called');
-    client.methods.pingUserAPI(function (data, response) {
+    client.get("http://localhost:3000/api/ping", function (data, response) {
+    // client.methods.pingUserAPI(function (data, response) {
         console.log(data);
         res.send(data);
     });
@@ -39,13 +41,18 @@ app.get('/users/login',function(req,res){
     });
 });
 
-app.get('/users/loginSubmit',function(req,res){
-    // client.methods.login(function (data, response) {
-    //     console.log(data);
-    //     res.send(data);
-    // });
-    res.send(res.body);
-    console.log(res.body);
+app.post('/users/loginSubmit',function(req,res){
+    var existingUser = {
+        username: req.body.username,
+        password: req.body.password
+    }
+    console.log(existingUser);
+    // client.methods.login(existingUser, function (data, response) {
+    client.get("http://localhost:3000/api/users/login/", function (data, response) {
+        console.log(data);
+        res.send(data);
+    });
+    console.log(req.body.username);
 });
 
 // Dummy user data
@@ -69,11 +76,40 @@ app.get('/admin/login',function(req,res){
 });
 
 app.get('/users/signup',function(req,res){
-    res.send('SignUp Page Under Development.');
+    res.render('signup', {
+        title: 'Signup | Counter Burger'
+    });
 });
 
 app.post('/users/signupSubmit',function(req,res){
-    res.send('SignUp Page Under Development.');
+    // if req.body.password != req.body.confirmPassword (
+    //     res.send('Password and Confirm Password needs to be same.')
+    // )
+    // var newUser = {
+    //     username: req.body.username,
+    //     name: req.body.name,
+    //     email: req.body.email,
+    //     contact: req.body.contact,
+    //     address: req.body.address,
+    //     password: req.body.password
+    // }
+    var args = {
+        data: { username: req.body.username,
+            name: req.body.name,
+            email: req.body.email,
+            contact: req.body.contact,
+            address: req.body.address,
+            password: req.body.password 
+        },
+        headers: { "Content-Type": "application/json" }
+    };
+    console.log(args);
+    var message;
+    client.post("http://localhost:3000/api/users/signup", args, function (data, response) {
+        // parsed response body as js object
+        console.log(data);
+        res.send(data);
+    });
 });
 
 app.put('/users/changePassword',function(req,res){
