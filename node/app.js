@@ -4,6 +4,7 @@ const port = 8012;
 // var connection = require('./config');
 var app = express();
 app.set('view engine', 'ejs');
+app.set('views','./views');
 
 var request = require('request');
 var http = require('http');
