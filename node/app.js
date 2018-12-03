@@ -10,11 +10,16 @@ var Client = require('node-rest-client').Client;
 var client = new Client();
 
 var request = require('request');
+var Cookies = require('cookies')
 var http = require('http');
 var cookie = require('cookie');
+var Client = require('node-rest-client').Client;
+var keys = ['keyboard cat']
 
 
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({ extended: true })); 
+
 
 // var authenticateController=require('./controllers/authenticate-controller');
 // var registerController=require('./controllers/register-controller');
@@ -30,43 +35,64 @@ function parseCookies (request) {
     return list;
 }
 
-
-app.use(bodyParser.urlencoded({extended:true}));
+//app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.get('/', function (req, res) {
-    var cookies = parseCookies(req);  
+   var cookies = parseCookies(req);  
    var name = cookies.username;
    console.log(name);
-   res.render('index',{
-    name : name
+   res.render('login',{
+    name : 'hello'
    });
 })  
  
-app.get('/login', function (req, res) {  
-   res.render('/login');  
-})  
  
+/*app.get('/restraunts', function (req, res) {
+    var cookies = parseCookies(req);  
+   var name = cookies.username;
+   console.log(name);
+   res.render('search',{
+    name : name
+   });
+})  */
 
-// Mock Users login
-// client.registerMethod("jsonMethod", "http://demo7713207.mockable.io/api/users", "GET");
-
-// Mock Users signup
-// client.registerMethod("jsonMethod", "http://demo7713207.mockable.io/api/users", "POST");
-
-client.registerMethod("jsonMethod", "http://localhost:3000/api/ping", "GET");
- 
-client.methods.jsonMethod(function (data, response) {
-    console.log(data);
+app.get('/restraunts', function (req, res) {
+  var client = new Client();
+  var pin = req.query.pin;
+  var args = {
+      parameters: { "zip": pin } // request headers
+  };
+  console.log(pin)
+  client.get("http://localhost:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
+      console.log(data);
+      res.render('search',{
+        data:data
+      });
+  });
 });
 
-/* route to handle login and registration */
-// app.post('/api/register',registerController.register);
-// app.post('/api/authenticate',authenticateController.authenticate);
- 
-// console.log(authenticateController);
-// app.post('/controllers/register-controller', registerController.register);
-// app.post('/controllers/authenticate-controller', authenticateController.authenticate);
+
+app.get('/menu', function (req, res) {
+  var client = new Client();
+  var res_id = req.query.id;
+  var args = {
+      parameters: { "restraunt_id": res_id } // request headers
+  };
+  var cookies = new Cookies(req, res, { keys: keys })
+  cookies.set('restraunt_id', res_id, { signed: false })
+
+  client.get("http://localhost:3000/menus",args, function (data, response) {
+      // console.log(data[0]['name']);
+      res.render('menu',{
+        data:data
+      });
+  });
+
+});
+
 app.listen(port, function () {
   console.log("Server is running on "+ port +" port");
 });

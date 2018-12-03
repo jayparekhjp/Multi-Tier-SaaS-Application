@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/landing.css">
+	<script> 
+	$(function(){
+	  $("#header").load("header.ejs"); 
+	  // $("#footer").load("footer.html"); 
+	});
+	</script> 
+</head>
+<body>
+		<% include header %>
+	<div class="main-content">
+			<div class="centered">
+				<u>
+					<ol><h2>1. Find your location.</h2> In goes your zip, out comes our restaurant</ol>
+					<ol><h2>2. Place you order.</h2>Be creative</ol>
+					<ol><h2>3. Grab the keys.</h2> Come and get it!</ol>
+				</u>
+
+			</div>
+			<!-- <img src="../images/landing_page.png" style="visibility: hidden;" /> -->
+	</div>
+	<!-- <h1><%= name %></h1> -->
+	<!-- Hello -->
+</body>
+</html>

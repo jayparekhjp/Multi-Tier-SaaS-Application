@@ -51,6 +51,10 @@ type User struct {
 	TimeStamp time.Time     `json:"timestamp"`
 }
 
+type Message struct {
+	Message		string	
+}
+
 // initRoutes for setting the API endpoint routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/api/ping", ping(formatter)).Methods("GET")
@@ -108,6 +112,7 @@ func signup(formatter *render.Render) http.HandlerFunc {
 		// testUser.Username = user.Username
 		err = collection.Find(bson.M{"username": user.Username}).One(&testUser)
 		if testUser.Username != "" {
+			var message := { message : 'Username taken. Please try different username.' }
 			formatter.JSON(w, http.StatusOK, "Username taken. Please try different username.")
 			return
 		} else {
@@ -131,6 +136,7 @@ func signup(formatter *render.Render) http.HandlerFunc {
 			w.Header().Set("Content-Type", "application/json")
 			// w.Write(j)
 			formatter.JSON(w, http.StatusOK, "Welcome to Counter Burger")
+			formatter.JSON(w, http.StatusOK, user.Username)
 			return
 		}
 	}
