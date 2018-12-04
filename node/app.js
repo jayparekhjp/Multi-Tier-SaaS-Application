@@ -20,7 +20,6 @@ var keys = ['keyboard cat']
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true })); 
 
-
 // var authenticateController=require('./controllers/authenticate-controller');
 // var registerController=require('./controllers/register-controller');
 function parseCookies (request) {
@@ -60,9 +59,7 @@ app.get('/users/ping',function(req,res){
 });
 
 app.get('/login',function(req,res){
-    res.render('login', {
-        title: 'Login | Counter Burger'
-    });
+    res.render('login');
 });
 
 app.get('/login2',function(req,res){
@@ -77,8 +74,8 @@ app.post('/users/loginSubmit',function(req,res){
         },
         headers: { "Content-Type": "application/json" }
     };
-    console.log(args);
-    client.post("http://localhost:3000/api/users/login", args, function (data, response) {
+    // console.log(args);
+    client.post("http://demo7713207.mockable.io/api/users/login", args, function (data, response) {
         console.log(data);
         // res.send(data);
         if (data){
@@ -154,7 +151,14 @@ app.get('/restraunts', function (req, res) {
   var args = {
       parameters: { "zip": pin } // request headers
   };
-  console.log(pin)
+  // console.log(pin)
+  var cookies = new Cookies(req, res, { keys: keys })
+  // var userid = cookies.get('userid');
+  var userid = cookies.get('userid', { signed: true })
+  console.log(userid);
+  if(userid === undefined){
+    res.redirect('/login');
+  }
   client.get("http://localhost:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
       console.log(data);
       res.render('search',{
@@ -172,11 +176,13 @@ app.get('/menu', function (req, res) {
   };
   var cookies = new Cookies(req, res, { keys: keys })
   cookies.set('restraunt_id', res_id, { signed: false })
-
+  var userid = cookies.get('userid', { signed: true })
+  // console.log(userid)
   client.get("http://localhost:3000/menus",args, function (data, response) {
-      // console.log(data[0]['name']);
+      console.log(userid);
       res.render('menu',{
-        data:data
+        data:data,
+        userid:userid
       });
   });
 
