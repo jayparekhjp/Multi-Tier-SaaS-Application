@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js"
   },
-  "author": "atish",
+  "author": "slackOverflow",
   "license": "ISC",
   "dependencies": {
     "bourbon": "^5.1.0",

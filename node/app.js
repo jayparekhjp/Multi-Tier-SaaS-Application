@@ -4,6 +4,10 @@ const port = 8012;
 // var connection = require('./config');
 var app = express();
 app.set('view engine', 'ejs');
+app.set('views','./views');
+
+var Client = require('node-rest-client').Client;
+var client = new Client();
 
 var request = require('request');
 var Cookies = require('cookies')
@@ -31,23 +35,20 @@ function parseCookies (request) {
     return list;
 }
 
-app.use(bodyParser.urlencoded({extended:true}));
+//app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/', function (req, res) {
-    var cookies = parseCookies(req);  
+   var cookies = parseCookies(req);  
    var name = cookies.username;
    console.log(name);
    res.render('home',{
-    name : name
+    name : 'hello'
    });
 })  
  
-app.get('/login', function (req, res) {  
-   res.sendFile( __dirname + "/views/" + "login.html" );  
-})  
  
 /*app.get('/restraunts', function (req, res) {
     var cookies = parseCookies(req);  
