@@ -44,7 +44,7 @@ app.get('/', function (req, res) {
    var cookies = parseCookies(req);  
    var name = cookies.username;
    console.log(name);
-   res.render('login',{
+   res.render('home',{
     name : 'hello'
    });
 })  
@@ -59,10 +59,14 @@ app.get('/users/ping',function(req,res){
     });
 });
 
-app.get('/users/login',function(req,res){
+app.get('/login',function(req,res){
     res.render('login', {
         title: 'Login | Counter Burger'
     });
+});
+
+app.get('/login2',function(req,res){
+    res.render('login2');
 });
 
 app.post('/users/loginSubmit',function(req,res){
@@ -80,7 +84,7 @@ app.post('/users/loginSubmit',function(req,res){
         if (data){
             var cookies = new Cookies(req, res, { keys: keys})
             cookies.set('userid', data, {signed: true})
-            res.send('Welcome Back');
+            res.redirect('/restraunts');
         }
     });
     // console.log(req.body.username);
@@ -121,7 +125,7 @@ app.post('/users/signupSubmit',function(req,res){
         }else if (data){
             var cookies = new Cookies(req, res, { keys: keys})
             cookies.set('userid', data, {signed: true})
-            res.send('Welcome NewUser');
+            res.redirect('/');
         }
     });
 });
