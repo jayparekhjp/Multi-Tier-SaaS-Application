@@ -2,6 +2,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var Client = require('node-rest-client').Client;
+var cookieParser = require('cookie-parser')
+var Cookies = require('cookies');
+var keys = ['keyboard cat']
 
 var client = new Client();
 var app = express();
@@ -53,6 +56,11 @@ app.post('/users/loginSubmit',function(req,res){
     client.post("http://localhost:3000/api/users/login", args, function (data, response) {
         console.log(data);
         // res.send(data);
+        if (data){
+            var cookies = new Cookies(req, res, { keys: keys})
+            cookies.set('userid', data, {signed: true})
+            res.send('Welcome Back');
+        }
     });
     // console.log(req.body.username);
 });
@@ -87,7 +95,13 @@ app.post('/users/signupSubmit',function(req,res){
     client.post("http://localhost:3000/api/users/signup", args, function (data, response) {
         // parsed response body as js object
         console.log(data);
-        res.send(data);
+        if (data == 1){
+            res.send('Username Already Taken');
+        }else if (data){
+            var cookies = new Cookies(req, res, { keys: keys})
+            cookies.set('userid', data, {signed: true})
+            res.send('Welcome NewUser');
+        }
     });
 });
 
