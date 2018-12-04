@@ -139,18 +139,21 @@ func menuHandler(formatter *render.Render) http.HandlerFunc {
 		var item_id string
 		var price float32
 		var name string
+		var restraunt_name string
 		array := []map[string]interface{}{}
-		if err := Session.Query("SELECT item_id,name,price,restraunt_id FROM menu WHERE restraunt_id = ? ALLOW FILTERING",res_id).Consistency(gocql.One).Scan(&item_id,&name,&price,&restraunt_id); err != nil {
+		if err := Session.Query("SELECT item_id,name,price,restraunt_id,restraunt_name FROM menu WHERE restraunt_id = ? ALLOW FILTERING",res_id).Consistency(gocql.One).Scan(&item_id,&name,&price,&restraunt_id,&restraunt_name); err != nil {
 			formatter.JSON(w, http.StatusOK, array)
+			// fmt.Println(err)
 			return
 		}
-		iter := Session.Query("SELECT item_id,name,price,restraunt_id FROM menu WHERE restraunt_id = ? ALLOW FILTERING",res_id).Iter()
+		iter := Session.Query("SELECT item_id,name,price,restraunt_id,restraunt_name FROM menu WHERE restraunt_id = ? ALLOW FILTERING",res_id).Iter()
 
 		ret := &map[string]interface{}{
 			"restraunt_id":     &restraunt_id,
 			"item_id": &item_id,
 			"price": &price,
 			"name": &name,
+			"restraunt_name" : &restraunt_name,
 		}
 		for{
 			ret = &map[string]interface{}{
@@ -158,6 +161,7 @@ func menuHandler(formatter *render.Render) http.HandlerFunc {
 				"item_id": &item_id,
 				"price": &price,
 				"name": &name,
+				"restraunt_name" : &restraunt_name,
 			}
 			if !iter.MapScan(*ret) {
 				break

@@ -43,6 +43,9 @@ License URI: http://www.themevault.net/license/-->
                     <div class="tv-block-heading">
                         <h5>Burger-Online</h5>
                         <h2>Restaurants</h2>
+                        <!-- <% if (data !== undefined ) { %> -->
+                          <h3><% data.restraunt_name %></h3>
+                        <!-- <% } %> -->
                     </div>
                 </div>
                <div class="Column12">
@@ -58,6 +61,7 @@ License URI: http://www.themevault.net/license/-->
                                 <tr>
                                    <th>Name</th>
                                    <th>Price</th>
+                                   <!-- <th>Restaurant Name</th> -->
                                    <th>Option</th>
                                 </tr>
                                 <% if (data !== undefined ) { %>
@@ -74,9 +78,13 @@ License URI: http://www.themevault.net/license/-->
                                             <%= data.price %><br>
                                             <br>
                                          </td>
+                                         <td id="restraunt_name">
+                                            <%= data.restraunt_name %><br>
+                                            <br>
+                                         </td>
                                          <td>
                                             <!-- <a href="/menu?id=<%= data.item_id %>" class="btn btn-default">Add to cart</a> -->
-                                            <button class="vendor-action order-action add-cart" type="button" id="add_cart" value="<%= data.item_id %>" res_id= " <%= data.restraunt_id%>">Add to cart</button>
+                                            <button class="vendor-action order-action add-cart" type="button" id="add_cart" value="<%= data.item_id %>" res_id= " <%= data.restraunt_id%>" item_name="<%= data.name %>" item_price="<%= data.price %>" restraunt_name="<% data.restraunt_name %>">Add to cart</button>
                                          </td>
                                       </tr>
                                    <% }); %>
@@ -130,6 +138,7 @@ License URI: http://www.themevault.net/license/-->
                 });
             });
         </script>
+        <script type="text/javascript" src="js/menu.js"></script>
         <script type="text/javascript" src="js/wow.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
     </body>

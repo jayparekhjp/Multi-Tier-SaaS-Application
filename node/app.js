@@ -81,7 +81,7 @@ app.get('/menu', function (req, res) {
       parameters: { "restraunt_id": res_id } // request headers
   };
   var cookies = new Cookies(req, res, { keys: keys })
-  cookies.set('restraunt_id', res_id, { signed: false })
+  cookies.set('restraunt_id', res_id, { signed: true })
 
   client.get("http://localhost:3000/menus",args, function (data, response) {
       // console.log(data[0]['name']);
