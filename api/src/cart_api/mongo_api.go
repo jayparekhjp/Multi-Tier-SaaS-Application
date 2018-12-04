@@ -17,6 +17,7 @@ import (
 type Item struct {
 	ID	  		string 			`json:"id"`
 	TimeStamp time.Time     `json:"timestamp"`
+	RestuarantId string 	`json:"rid"`
 	RestuarantName string   `json:"res"`
 	ItemName       string   `json:"iname"`
 	ItemId         int      `json:"iid"`
@@ -49,7 +50,7 @@ func main() {
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)
-	c = session.DB("counter").C("burger")
+	c = session.DB("counter").C("burger1")
 
 	server := NewServer()
 	server.Run(":3000")
@@ -132,13 +133,13 @@ func cartDelete(formatter *render.Render) http.HandlerFunc {
 		var item Item
 		var result []Item
 		err := json.NewDecoder(req.Body).Decode(&item)
-		err = c.Find(bson.M{"id":item.ID}).All(&result)
+		err = c.Find(bson.M{"id":item.ID,"restuarantid":item.RestuarantId,"itemid":item.ItemId}).All(&result)
 		if err != nil {
 			log.Fatal(err)
 		}
 			for i := range result {
 				fmt.Print(i)
-		err = c.Remove(bson.M{"id":item.ID})
+		err = c.Remove(bson.M{"id":item.ID,"restuarantid":item.RestuarantId,"itemid":item.ItemId})
 		if err != nil {
 			log.Fatal(err)
 			}
