@@ -20,7 +20,7 @@ type Item struct {
 	RestuarantId string 	`json:"rid"`
 	RestuarantName string   `json:"res"`
 	ItemName       string   `json:"iname"`
-	ItemId         int      `json:"iid"`
+	ItemId         string     `json:"iid"`
 	Price          float32      `json:"price"`
 	//Address   string        `json:"address"`
 }
@@ -64,7 +64,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/api/cart/itemDisplay", cartDisplay(formatter)).Methods("GET")
 	mx.HandleFunc("/api/cart/itemSave", cartSave(formatter)).Methods("POST")
 	mx.HandleFunc("/api/cart/cartDelete", cartDelete(formatter)).Methods("DELETE")
-	mx.HandleFunc("/api/cart/itemDelete", itemDelete(formatter)).Methods("DELETE")
+	
 }
 
 
@@ -109,24 +109,24 @@ func cartDisplay(formatter *render.Render) http.HandlerFunc {
 		formatter.JSON(w, http.StatusOK, result)
 	}
 }
-func itemDelete(formatter *render.Render) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {	
-		var item Item
-		var result []Item
-		err := json.NewDecoder(req.Body).Decode(&item)
-		err = c.Find(bson.M{"itemid":item.ItemId}).All(&result)
-		if err != nil {
-			log.Fatal(err)
-		}
-		for i := range result {
-			fmt.Print(i)
-		err = c.Remove(bson.M{"itemid":item.ItemId})
-		if err != nil {
-			log.Fatal(err)
+
+/*	func sendatish(formatter *render.Render) http.HandlerFunc {
+		return func(w http.ResponseWriter, req *http.Request) {	
+			var item Item
+			var result []Item
+			var
+			err := json.NewDecoder(req.Body).Decode(&item)
+			err = c.Find(bson.M{"id":item.ID,"restuarantid":item.RestuarantId}).All(&result)
+			if err != nil {
+				log.Fatal(err)
+			}
+				for i := range result {
+					
+			formatter.JSON(w, http.StatusOK, result)
 			}
 		}
 	}
-}
+*/
 
 func cartDelete(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {	
