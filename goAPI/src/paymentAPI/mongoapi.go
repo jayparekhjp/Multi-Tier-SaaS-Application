@@ -30,10 +30,31 @@ type Cart struct {
 	Items		string			`json:"items"`
 	RestaurantName	string		`json:"res"`
 	Price		float32			`json:"price"`
+	//SubTotal  	float32			`json:"subT"`
 	UserId		int				`json:"uid"`
 	CartId		int				`json:"cid"`
 	
 }
+
+type Summary struct {
+	// ID			bson.ObjectId   `bson:"_id" json:"id"`
+	// TimeStamp 	time.Time       `json:"timestamp"`
+	Items		string			`json:"items"`
+	//RestaurantName	string		`json:"res"`
+	Price		float32			`json:"price"`
+	SubTotal  	float32			`json:"subT"`
+	UserId		int				`json:"uid"`
+	//CartId		int				`json:"cid"`
+	
+}
+
+type Order struct {
+	Price		float32			`json:"TotalPrice"`
+	UserId		int				`json:"Userid"`
+	OrderId		int				`json:"Orderid"`
+	
+}
+
 
 func NewServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
@@ -50,16 +71,17 @@ func main() {
 
 	
 	server := NewServer()
-	server.Run(":3002")
+	server.Run(":3003")
 }
 
 
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/card", cardHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/cart", cartHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/card", getcardHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/cart", getcartHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/orders", postCard(formatter)).Methods("POST")
 	mx.HandleFunc("/cart", postCart(formatter)).Methods("POST")
+	//mx.HandleFunc("/order", getOrder(formatter)).Methods("GET")
 }
 
 
@@ -72,7 +94,7 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 }
 
 
-func cardHandler(formatter *render.Render) http.HandlerFunc {
+func getcardHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		session, err := mgo.Dial("localhost:27017")
         if err != nil {
@@ -94,7 +116,7 @@ func cardHandler(formatter *render.Render) http.HandlerFunc {
 }
 
 
-func cartHandler(formatter *render.Render) http.HandlerFunc {
+func getcartHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		session, err := mgo.Dial("localhost:27017")
         if err != nil {
@@ -183,3 +205,5 @@ func postCart(formatter *render.Render) http.HandlerFunc {
 		return
 	}
 }
+
+

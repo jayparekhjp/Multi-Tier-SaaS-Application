@@ -93,6 +93,35 @@ app.get('/menu', function (req, res) {
 
 });
 
+app.get('/summary', function (req, res) {
+    var client = new Client();
+    
+    client.get("http://localhost:3002/cart", function (data, response) {
+        // console.log(data[0]['name']);
+        res.render('summary',{
+          data:data
+        });
+    });
+});
+
+
+app.get('/payment', function (req,res) {
+    //var client = new Client();
+    //client.post("http://localhost:3002/orders", function (data, response) {
+        //console.log(data[0]['name']);
+        res.render('payment');
+    });
+
+
+app.post('/order', function (req, res) {
+    var client = new Client();
+        
+     client.post("http://localhost:3002/orders", function (data, response) {
+      // console.log(data[0]['name']);
+    });
+});
+    
+
 app.listen(port, function () {
   console.log("Server is running on "+ port +" port");
 });
