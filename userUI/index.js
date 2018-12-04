@@ -2,6 +2,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var Client = require('node-rest-client').Client;
+var cookieParser = require('cookie-parser')
+var Cookies = require('cookies');
+var keys = ['keyboard cat']
 
 var client = new Client();
 var app = express();
@@ -19,7 +22,7 @@ app.set('views', path.join(__dirname, './views'));
 // client.registerMethod("pingUserAPI", "http://localhost:3000/api/ping", "GET");
 // client.registerMethod("login", "http://localhost:3000/api/users/login/", "GET");
 client.registerMethod("admin", "http://localhost:3000/api/users", "GET");
-client.registerMethod("signup", "http://localhost:3000/api/users/signup", "POSt");
+client.registerMethod("signup", "http://localhost:3000/api/users/signup", "POST");
 
 app.get('/',function(req,res){
     console.log('Home Page Called.');
@@ -42,33 +45,29 @@ app.get('/users/login',function(req,res){
 });
 
 app.post('/users/loginSubmit',function(req,res){
-    var existingUser = {
-        username: req.body.username,
-        password: req.body.password
-    }
-    console.log(existingUser);
-    // client.methods.login(existingUser, function (data, response) {
-    client.get("http://localhost:3000/api/users/login/", function (data, response) {
+    var args = {
+        data: { 
+            username: req.body.username,
+            password: req.body.password 
+        },
+        headers: { "Content-Type": "application/json" }
+    };
+    console.log(args);
+    client.post("http://localhost:3000/api/users/login", args, function (data, response) {
         console.log(data);
-        res.send(data);
+        // res.send(data);
+        if (data){
+            var cookies = new Cookies(req, res, { keys: keys})
+            cookies.set('userid', data, {signed: true})
+            res.send('Welcome Back');
+        }
     });
-    console.log(req.body.username);
+    // console.log(req.body.username);
 });
-
-// Dummy user data
-var users = [
-    {
-        id: 1,
-        name: "jay"
-    },
-    {
-        id: 2,
-        name: "parekh",
-    }
-]
 
 app.get('/admin/login',function(req,res){
     // res.send('Admin Login Page Under Development.');
+    var users;
     res.render('admin', {
         title : 'Admin Dashboard',
         users: users
@@ -82,17 +81,6 @@ app.get('/users/signup',function(req,res){
 });
 
 app.post('/users/signupSubmit',function(req,res){
-    // if req.body.password != req.body.confirmPassword (
-    //     res.send('Password and Confirm Password needs to be same.')
-    // )
-    // var newUser = {
-    //     username: req.body.username,
-    //     name: req.body.name,
-    //     email: req.body.email,
-    //     contact: req.body.contact,
-    //     address: req.body.address,
-    //     password: req.body.password
-    // }
     var args = {
         data: { username: req.body.username,
             name: req.body.name,
@@ -104,11 +92,16 @@ app.post('/users/signupSubmit',function(req,res){
         headers: { "Content-Type": "application/json" }
     };
     console.log(args);
-    var message;
     client.post("http://localhost:3000/api/users/signup", args, function (data, response) {
         // parsed response body as js object
         console.log(data);
-        res.send(data);
+        if (data == 1){
+            res.send('Username Already Taken');
+        }else if (data){
+            var cookies = new Cookies(req, res, { keys: keys})
+            cookies.set('userid', data, {signed: true})
+            res.send('Welcome NewUser');
+        }
     });
 });
 

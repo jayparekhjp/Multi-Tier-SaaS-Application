@@ -51,18 +51,15 @@ type User struct {
 	TimeStamp time.Time     `json:"timestamp"`
 }
 
-type Message struct {
-	Message		string	
-}
-
 // initRoutes for setting the API endpoint routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/api/ping", ping(formatter)).Methods("GET")
 	mx.HandleFunc("/api/users", getAllUsers(formatter)).Methods("GET")
 	mx.HandleFunc("/api/users/signup", signup(formatter)).Methods("POST")
-	mx.HandleFunc("/api/users/login", login(formatter)).Methods("GET")
+	mx.HandleFunc("/api/users/login", login(formatter)).Methods("POST")
 	mx.HandleFunc("/api/users/{id}", updatePassword(formatter)).Methods("PUT")
 	mx.HandleFunc("/api/users/{id}", deleteAccount(formatter)).Methods("DELETE")
+	mx.HandleFunc("/api/users/{id}", getName(formatter)).Methods("GET")
 }
 
 // ping function for checking the status of the API
@@ -112,8 +109,8 @@ func signup(formatter *render.Render) http.HandlerFunc {
 		// testUser.Username = user.Username
 		err = collection.Find(bson.M{"username": user.Username}).One(&testUser)
 		if testUser.Username != "" {
-			var message := { message : 'Username taken. Please try different username.' }
-			formatter.JSON(w, http.StatusOK, "Username taken. Please try different username.")
+			// flag=1 if username already taken
+			formatter.JSON(w, http.StatusOK, 1)
 			return
 		} else {
 			// Generate a new ID
@@ -135,8 +132,8 @@ func signup(formatter *render.Render) http.HandlerFunc {
 			// }
 			w.Header().Set("Content-Type", "application/json")
 			// w.Write(j)
-			formatter.JSON(w, http.StatusOK, "Welcome to Counter Burger")
-			formatter.JSON(w, http.StatusOK, user.Username)
+			// formatter.JSON(w, http.StatusOK, "Welcome to Counter Burger")
+			formatter.JSON(w, http.StatusOK, user.ID)
 			return
 		}
 	}
@@ -159,6 +156,21 @@ func login(formatter *render.Render) http.HandlerFunc {
 		if err != (nil) {
 			panic(err)
 		}
+	}
+}
+
+// getName function for getting name via userid
+func getName(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		params := mux.Vars(req)
+		var user User
+		err := collection.Find(bson.M{"id": params["id"]}).One(&user)
+		if err != (nil) {
+			panic(err)
+		}
+		log.Println(user.Username)
+		formatter.JSON(w, http.StatusOK, user.Username)
+		return
 	}
 }
 
