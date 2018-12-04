@@ -1,0 +1,104 @@
+
+
+
+
+<!--Template Name: foodfries
+File Name: home.html
+Author Name: ThemeVault
+Author URI: http://www.themevault.net/
+License URI: http://www.themevault.net/license/-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="./images/favicon.png"/>
+        <title>FoodFries</title>
+         <script src="js/custom.js"></script>
+        <link rel="shortcut icon" type="image/x-icon" href="https://olocdn.global.ssl.fastly.net/img/thecounter/favicon.ico?6579"/>
+         <link rel="stylesheet" type="text/css" media="screen" href="https://olocdn.global.ssl.fastly.net/css/thecounter/site-6579.css" />
+         <link rel="stylesheet" type="text/css" href="./css/search.css">
+         <script type="text/javascript" language="javascript" src="https://olocdn.global.ssl.fastly.net/js/jquery-1.12.4.min.js"></script> 
+         <script>window.jQuery || document.write('<script src="/Scripts/jquery-1.12.4.min.js">\x3C/script>')</script>
+    </head>
+    <body>
+         <div class="bgjay">
+        <section class="tv-paddingT100 tv-bgbanner" id="menu">
+            <div class="container">
+               <br>
+               <br><br><br>               <br><br><br>
+                <div class="row">
+                    <div class="tv-block-heading">
+                        <h5>Burger-Online</h5>
+                        <h2>Restaurants</h2>
+                    </div>
+                </div>
+               <div class="Column12">
+                 <div id="ContentWrapper">
+                    <div id="VendorSearchResults">
+                       <div>
+                          <div id="locationFilters" class="clearfix">
+                             <div id="location-attribute-filters">
+                             </div>
+                          </div>
+                          <table id="VendorList">
+                             <tbody>
+                                <tr></tr>
+                                
+                                <tr>
+                                   <th>Name</th>
+                                   <th>Price</th>
+                                   <th>Restuarant Name</th>
+                                   <th>Option</th>                                
+                                 </tr>
+                                <% if (data !== undefined ) { %>
+                                 <% data.forEach(function(data){%>
+                                      <tr class="vendor" data-vendorid="" data-hasdispatch="false">
+                                         <td>
+                                             <%= data.iname %>
+                           
+                                            <div class="streetaddress">
+                                            </div>
+                                         </td>
+                                         <td>
+                                          <%= data.price %><br><br>
+                                            <br>
+                                         </td>
+                                         <td>
+                                          <%= data.res %><br>
+                                          <br>
+                                       </td>
+                                       <td>
+                                          <form method="POST" action="/deleteitem">
+                                             <input type="hidden" name="itemid" value="<%= data.iid %>" id="itemid">
+                                             <input type="hidden" name="userid" value="<%= data.id %>" id="userid">
+                                             <input type="hidden" name="resid" value="<%= data.rid %>" id="resid">
+                                             <input type="submit" value="delete" id="delete">
+                                          </form>
+                                          <br>
+                                       </td>
+                                      </tr>
+                                   <% }); %>
+                                <% } %>
+                                <tr>
+                                 <td>
+                                    <form>
+                                          <input type="submit" name="payment" value="payment" id="payment">
+                                       </form>
+                                 </td>
+                                </tr>
+                             </tbody>
+                          </table>
+                       </div>
+                    </div>
+                    
+                 </div>
+               </div>
+            </div>
+        </section>
+        </div>
+
+    </body>
+</html>
