@@ -44,7 +44,7 @@ app.get('/', function (req, res) {
    var cookies = parseCookies(req);  
    var name = cookies.username;
    console.log(name);
-   res.render('login',{
+   res.render('home',{
     name : 'hello'
    });
 })  
