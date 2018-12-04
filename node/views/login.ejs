@@ -1,27 +1,30 @@
-<!DOCTYPE html>
 <html>
     <head>
-        <title>Counter Burger|Login</title>
+        <title>Login | Counter Burger</title>
     </head>
     <body>
-        <div>
-            <div>
-                <div>
-                    <div>
+        <div class="container">
+            <div class="login-form">
+                <div class="main-div">
+                    <div class="panel">
                         <h2>Login</h2>
-                        <p>Please enter your username and password</p>
+                        <p>Please provide your credentials.</p>
                     </div>
-                    <form action="http://localhost:3000/login" method="post">
-                        <div>
-                            <input type="text" name="username" placeholder="Username"><br>
+                    <form action="http://127.0.0.1:3000/login" method="post" id="Login">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="username" placeholder="Username">
                         </div>
-                        <div>
-                            <input type="password" name="password" placeholder="Password"><br><br>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" placeholder="Password">
                         </div>
-                    <button type="submit">Login</button>        
+                    <button type="submit" class="btn btn-primary">Login</button>        
                     </form>         
                 </div>
             </div>
         </div>
     </body>
 </html>
+
+
+
+
