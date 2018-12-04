@@ -66,6 +66,10 @@ app.get('/login2',function(req,res){
     res.render('login2');
 });
 
+app.get('/signup2',function(req,res){
+    res.render('signup2');
+});
+
 app.post('/users/loginSubmit',function(req,res){
     var args = {
         data: { 
