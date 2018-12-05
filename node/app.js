@@ -91,14 +91,35 @@ app.get('/menu', function (req, res) {
 
 app.get('/list', function (req, res) {
   var client = new Client();
-  var uid = req.query.UserId;
+  var uid = req.body.UserId;
   var args = {
-      parameters: { "UserId": uid } // request headers
-  };
-  console.log(uid)
+        data: { "UserId": "3496",//req.body.UserId after calling api
+        "OrderId": "",
+        "TotalPrice":"" },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+  console.log(args)
   client.get("http://localhost:3000/list",args, function (data, response) { // CHANGE to broadcsat address for docker
       console.log(data);
       res.render('list',{
+        data:data
+      });
+  });
+});
+
+app.get('/insertAfterPayment', function (req, res) {
+  var client = new Client();
+  //var uid = req.body.UserId;
+  var args = {
+        data: { "UserId": "3496",
+        "OrderId": "asdf",
+        "TotalPrice":"8.8" },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+  console.log(args)
+  client.post("http://localhost:3000/insert",args, function (data, response) { // CHANGE to broadcsat address for docker
+      console.log(data);
+      res.render('insertAfterPayment',{
         data:data
       });
   });
