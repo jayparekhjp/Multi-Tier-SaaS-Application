@@ -1,33 +1,80 @@
-<html>
+<!--Template Name: foodfries
+File Name: home.html
+Author Name: ThemeVault
+Author URI: http://www.themevault.net/
+License URI: http://www.themevault.net/license/-->
+
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <title>Signup | Counter Burger</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="./images/favicon.png"/>
+        <title>FoodFries</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/responsive.css" rel="stylesheet">
+        <link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="fonts/website-font/stylesheet.css" rel="stylesheet" type="text/css" />
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/counterup.min.js" type="text/javascript"></script>
+        <script src="js/waypoints.min.js" type="text/javascript"></script>
+        <script src="js/custom.js"></script>
+        <link rel="shortcut icon" type="image/x-icon" href="https://olocdn.global.ssl.fastly.net/img/thecounter/favicon.ico?6579"/>
+         <link rel="stylesheet" type="text/css" media="screen" href="https://olocdn.global.ssl.fastly.net/css/thecounter/site-6579.css" />
+         <link rel="stylesheet" type="text/css" href="./css/search.css">
+         <script type="text/javascript" language="javascript" src="https://olocdn.global.ssl.fastly.net/js/jquery-1.12.4.min.js"></script> 
+         <script>window.jQuery || document.write('<script src="/Scripts/jquery-1.12.4.min.js">\x3C/script>')</script>
     </head>
     <body>
-        <div class="container">
-            <form method="POST" action="/users/signupSubmit">
-                <label>Name</label><br>
-                <input type="text" name="name">
-                <br>
-                <label>Username</label><br>
-                <input type="text" name="username">
-                <br>
-                <label>Email</label><br>
-                <input type="text" name="email">
-                <br>
-                <label>Contact Number</label><br>
-                <input type="text" name="contact">
-                <br>
-                <label>Address</label><br>
-                <input type="text" name="address">
-                <br>
-                <label>Password</label><br>
-                <input type="password" name="password">
-                <br>
-                <label>Confirm Password</label><br>
-                <input type="password" name="confirmPassword">
-                <br><br>
-                <input type="submit" value="Signup">
-            </form>
-        </div>
+        <section class="tv-paddingT100 tv-bgbanner" id="menu">
+            <div class="container">
+                    <div class="tv-block-heading">
+                        <h5>Burger-Online</h5>
+                        <h2>Signup</h2>
+                        <form method="POST" action="/users/signupSubmit">
+                            <label>Name</label><br>
+                            <input type="text" name="name" placeholder="Name" required>
+                            <br>
+                            <label>Username</label><br>
+                            <input type="text" name="username" placeholder="Username" required>
+                            <br>
+                            <label>Email</label><br>
+                            <input type="text" name="email" placeholder="Email" required>
+                            <br>
+                            <label>Contact Number</label><br>
+                            <input type="text" name="contact" placeholder="Contact" required>
+                            <br>
+                            <label>Address</label><br>
+                            <input type="text" name="address" placeholder="Address">
+                            <br>
+                            <label>Password</label><br>
+                            <input type="password" name="password" placeholder="Password" required>
+                            <br>
+                            <label>Confirm Password</label><br>
+                            <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                            <br><br>
+                            <input type="submit" value="Signup">
+                        </form>
+                        <div>
+                            <form>
+                                <br>
+                                <label>Already have an account?</label>
+                                <input type="submit" value="Login">
+                            </form>
+                        </div>
+                    </div>
+               <div>
+                    
+                    </form>
+               </div>
+            </div>
+        </section>
     </body>
 </html>
