@@ -25,15 +25,14 @@ type Card struct {
 }
 
 type Cart struct {
-	ID			bson.ObjectId   `bson:"_id" json:"id"`
-	TimeStamp 	time.Time       `json:"timestamp"`
+	//ID			bson.ObjectId   `bson:"_id" json:"id"`
+	//TimeStamp 	time.Time       `json:"timestamp"`
 	Items		string			`json:"items"`
 	RestaurantName	string		`json:"res"`
 	Price		float32			`json:"price"`
 	//SubTotal  	float32			`json:"subT"`
 	UserId		int				`json:"uid"`
-	CartId		int				`json:"cid"`
-	
+	//CartId		int				`json:"cid"`
 }
 
 type Summary struct {
@@ -51,10 +50,10 @@ type Summary struct {
 type Order struct {
 	Price		float32			`json:"TotalPrice"`
 	UserId		int				`json:"Userid"`
-	OrderId		int				`json:"Orderid"`
-	
+	OrderId		int				`json:"Orderid"`	
 }
 
+var mongodb_server = "mongodb://admin:cmpe281@10.0.1.106,10.0.1.186,10.0.1.204,10.0.1.170,10.0.1.247"
 
 func NewServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
@@ -71,7 +70,7 @@ func main() {
 
 	
 	server := NewServer()
-	server.Run(":3003")
+	server.Run(":3002")
 }
 
 
@@ -96,7 +95,7 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 
 func getcardHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		session, err := mgo.Dial("localhost:27017")
+		session, err := mgo.Dial("mongodb_server:27017")
         if err != nil {
                 panic(err)
         }
@@ -118,7 +117,7 @@ func getcardHandler(formatter *render.Render) http.HandlerFunc {
 
 func getcartHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		session, err := mgo.Dial("localhost:27017")
+		session, err := mgo.Dial("mongodb_server:27017")
         if err != nil {
                 panic(err)
         }
@@ -139,7 +138,7 @@ func getcartHandler(formatter *render.Render) http.HandlerFunc {
 
 func postCard(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		session, err := mgo.Dial("localhost:27017")
+		session, err := mgo.Dial("mongodb_server:27017")
         if err != nil {
                 panic(err)
         }
@@ -168,7 +167,7 @@ func postCard(formatter *render.Render) http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(j)
-		formatter.JSON(w, http.StatusOK, "Welcome to Counter Burger")
+		formatter.JSON(w, http.StatusOK, "Payment Done!!")
 		return
 	}
 }
@@ -176,7 +175,7 @@ func postCard(formatter *render.Render) http.HandlerFunc {
 
 func postCart(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		session, err := mgo.Dial("localhost:27017")
+		session, err := mgo.Dial("mongodb_server:27017")
         if err != nil {
                 panic(err)
         }
@@ -185,9 +184,9 @@ func postCart(formatter *render.Render) http.HandlerFunc {
         c := session.DB("counterBurger").C("cart")
 		var cart Cart
 		err = json.NewDecoder(req.Body).Decode(&cart)
-		objID := bson.NewObjectId()
-		cart.ID = objID
-		cart.TimeStamp = time.Now()
+		//objID := bson.NewObjectId()
+		//cart.ID = objID
+		//cart.TimeStamp = time.Now()
 		err = c.Insert(&cart)
 		if err != nil {
 			panic(err)

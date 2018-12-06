@@ -40,63 +40,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get('/', function (req, res) {
-   var cookies = parseCookies(req);  
-   var name = cookies.username;
-   console.log(name);
-   res.render('login',{
-    name : 'hello'
-   });
-})  
- 
- 
-/*app.get('/restraunts', function (req, res) {
-    var cookies = parseCookies(req);  
-   var name = cookies.username;
-   console.log(name);
-   res.render('search',{
-    name : name
-   });
-})  */
-
-app.get('/restraunts', function (req, res) {
-  var client = new Client();
-  var pin = req.query.pin;
-  var args = {
-      parameters: { "zip": pin } // request headers
-  };
-  console.log(pin)
-  client.get("http://localhost:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
-      console.log(data);
-      res.render('search',{
-        data:data
-      });
-  });
-});
-
-
-app.get('/menu', function (req, res) {
-  var client = new Client();
-  var res_id = req.query.id;
-  var args = {
-      parameters: { "restraunt_id": res_id } // request headers
-  };
-  var cookies = new Cookies(req, res, { keys: keys })
-  cookies.set('restraunt_id', res_id, { signed: false })
-
-  client.get("http://localhost:3000/menus",args, function (data, response) {
-      // console.log(data[0]['name']);
-      res.render('menu',{
-        data:data
-      });
-  });
-
-});
-
 app.get('/summary', function (req, res) {
     var client = new Client();
-    
-    client.get("http://localhost:3002/cart", function (data, response) {
+    var args = {
+    data: {
+     "id":"2"
+     //"id":req.body.userid
+     },
+     headers: {"Content-Type":"application/json"}
+    };
+    client.get("http://34.216.22.59:3000/api/cart/itemDisplay",args, function (data, response) {
         // console.log(data[0]['name']);
         res.render('summary',{
           data:data
@@ -107,7 +60,7 @@ app.get('/summary', function (req, res) {
 
 app.get('/payment', function (req,res) {
     //var client = new Client();
-    //client.post("http://localhost:3002/orders", function (data, response) {
+    //client.post("http://18.222.209.245:3002/orders", function (data, response) {
         //console.log(data[0]['name']);
         res.render('payment');
     });
@@ -115,8 +68,9 @@ app.get('/payment', function (req,res) {
 
 app.post('/order', function (req, res) {
     var client = new Client();
-        
-     client.post("http://localhost:3002/orders", function (data, response) {
+     //client.delete()
+         
+     client.post("http://18.222.209.245:3002/orders", function (data, response) {
       // console.log(data[0]['name']);
     });
 });

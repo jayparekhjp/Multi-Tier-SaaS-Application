@@ -42,7 +42,7 @@ License URI: http://www.themevault.net/license/-->
          <script type="text/javascript" language="javascript" src="https://olocdn.global.ssl.fastly.net/js/jquery-1.12.4.min.js"></script> 
          <script>window.jQuery || document.write('<script src="/Scripts/jquery-1.12.4.min.js">\x3C/script>')</script>
     </head>
-    <body>
+    <body style="background-image:url('/images/img1.jpg');background-repeat:no-repeat;background-size:cover;">
         <section class="tv-paddingT100 tv-bgbanner" id="menu">
             <div class="container">
                 <div class="row">
@@ -67,10 +67,10 @@ License URI: http://www.themevault.net/license/-->
                  
                                </tr>
                                <% if (data !== undefined ) { %>
-                                  <% data.forEach(function(data) { %>
-                                     <tr class="vendor" data-vendorid="<% data.carts_id %>" data-hasdispatch="false">
+                                <% data.forEach(function(data){%>
+                                     <tr class="vendor" data-vendorid="" data-hasdispatch="false">
                                         <td>
-                                           <strong><%= data.items %></strong>
+                                           <%= data.iname %>
                                            </a>
                                            <div class="streetaddress">
                                            </div>
@@ -86,10 +86,12 @@ License URI: http://www.themevault.net/license/-->
 
                                <tr>
                                 <td>Restaurant</td>
+                                <td> <%= data[0].res %> </td>
                                </tr>
                                <tr>
-                                   <td>Sub-Total</td>
-                               </tr>
+                                   <td>Total</td>
+
+                               <!--</tr>
                                <tr>
                                    <td>Tax</td>
                                </tr>
@@ -98,11 +100,13 @@ License URI: http://www.themevault.net/license/-->
                                    <td>Total</td>
                                </tr>
 
-                               <tr>
+                               <tr> -->
+                                   <tr></tr>
                                    <td>
                                      <!-- <a href="/menu?id=<%= data.item_id %>" class="btn btn-default">Add to cart</a> -->
                                     <a href="/payment"> <button class="vendor-action order-action add-cart" type="button" id="add_cart"  value="<%= data.item_id %>" res_id= " <%= data.restraunt_id%>">Make Payment</button></a>
                                   </td>
+                                </tr>
                                  </tr>
                             </tbody>
                          </table>
