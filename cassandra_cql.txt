@@ -21,6 +21,7 @@ CREATE table cmpe281.menu(
 	restraunt_id text,
 	name text,
 	price float,
+	restraunt_name text,
 	item_id text PRIMARY KEY
 );
 

@@ -20,9 +20,9 @@ var keys = ['keyboard cat']
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true })); 
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// var authenticateController=require('./controllers/authenticate-controller');
-// var registerController=require('./controllers/register-controller');
 function parseCookies (request) {
     var list = {},
         rc = request.headers.cookie;
@@ -35,10 +35,85 @@ function parseCookies (request) {
     return list;
 }
 
+
+app.get('/viewcart', function (req, res) {
+    var client = new Client();
+    var args = {
+        data: { "id": cookies.get('userid', { signed: true }) },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+    client.get("http://34.216.22.59:3000/api/cart/itemDisplay",args, function (data, response) {
+        res.render('cart',{
+          data:data
+        });
+    });
+});
+
+/*app.post('/additem', function (req, res) {
+    var client = new Client();
+    var args = {
+        data: { 
+            id : req.body.userid,
+            iid : req.body.itemid,
+            rid : req.body.resid,
+            res : req.body.res,
+            iname : req.body.iname,
+            price:parseFloat(req.body.price)
+        },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+    client.post("http://34.216.22.59:3000/api/cart/itemSave",args, function (data, response) {
+                res.redirect('')
+    }) 
+    }
+);
+*/
+app.post('/deleteitem',function(req,res){
+    var args = {
+      data: { 
+          id : req.body.userid,
+          iid : req.body.itemid,
+          rid : req.body.resid 
+      },
+      headers: { "Content-Type": "application/json" }
+  };
+  console.log(args);
+  client.delete("http://34.216.22.59:3000/api/cart/cartDelete", args, function (data, response) {
+      
+          res.redirect('/viewcart');
+      }
+  );
+});
+
+
 //app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+app.post('/summary', function (req, res) {
+    var client = new Client();
+    var args = {
+    data: {
+     "id":cookies.get('userid', { signed: true })
+     },
+     headers: {"Content-Type":"application/json"}
+    };
+    client.get("http://34.216.22.59:3000/api/cart/itemDisplay",args, function (data, response) {
+        // console.log(data[0]['name']);
+        res.render('summary',{
+          data:data
+        });
+    });
+});
+
+
+app.get('/payment', function (req,res) {
+//var client = new Client();
+//client.post("http://18.222.209.245:3002/orders", function (data, response) {
+    //console.log(data[0]['name']);
+    res.render('payment');
+});
 
 app.get('/', function (req, res) {
    var cookies = parseCookies(req);  
@@ -157,7 +232,14 @@ app.get('/restraunts', function (req, res) {
   var args = {
       parameters: { "zip": pin } // request headers
   };
-  console.log(pin)
+  // console.log(pin)
+  var cookies = new Cookies(req, res, { keys: keys })
+  // var userid = cookies.get('userid');
+  var userid = cookies.get('userid', { signed: true })
+  console.log(userid);
+  if(userid === undefined){
+    res.redirect('/login');
+  }
   client.get("http://localhost:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
       console.log(data);
       res.render('search',{
@@ -175,15 +257,25 @@ app.get('/menu', function (req, res) {
   };
   var cookies = new Cookies(req, res, { keys: keys })
   cookies.set('restraunt_id', res_id, { signed: false })
-
+  var userid = cookies.get('userid', { signed: true })
   client.get("http://localhost:3000/menus",args, function (data, response) {
-      // console.log(data[0]['name']);
+      console.log(userid);
       res.render('menu',{
-        data:data
-      });
-  });
-
+        data:data,
+        userid:userid
+        });
+    });
 });
+
+app.post('/order', function (req, res) {
+    var client = new Client();
+     //client.delete()
+         
+     client.post("http://18.222.209.245:3002/orders", function (data, response) {
+      // console.log(data[0]['name']);
+    });
+});
+    
 
 app.listen(port, function () {
   console.log("Server is running on "+ port +" port");
