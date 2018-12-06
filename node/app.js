@@ -39,7 +39,7 @@ function parseCookies (request) {
 app.get('/viewcart', function (req, res) {
     var client = new Client();
     var args = {
-        data: { "id": "2" },
+        data: { "id": cookies.get('userid', { signed: true }) },
         headers: {"Content-Type":"application/json"}// request headers
     };
     client.get("http://34.216.22.59:3000/api/cart/itemDisplay",args, function (data, response) {
@@ -91,12 +91,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get('/summary', function (req, res) {
+app.post('/summary', function (req, res) {
     var client = new Client();
     var args = {
     data: {
-     "id":"2"
-     //"id":req.body.userid
+     "id":cookies.get('userid', { signed: true })
      },
      headers: {"Content-Type":"application/json"}
     };
@@ -119,7 +118,6 @@ app.get('/payment', function (req,res) {
 app.get('/', function (req, res) {
    var cookies = parseCookies(req);  
    var name = cookies.username;
-   console.log(name);
    res.render('home',{
     name : 'hello'
    });
@@ -139,12 +137,12 @@ app.get('/login',function(req,res){
     res.render('login');
 });
 
-app.get('/login2',function(req,res){
-    res.render('login2');
+app.get('/login-test',function(req,res){
+    res.render('login-test');
 });
 
-app.get('/signup2',function(req,res){
-    res.render('signup2');
+app.get('/signup-test',function(req,res){
+    res.render('signup-test');
 });
 
 app.post('/users/loginSubmit',function(req,res){
@@ -155,11 +153,13 @@ app.post('/users/loginSubmit',function(req,res){
         },
         headers: { "Content-Type": "application/json" }
     };
-    // console.log(args);
+    console.log(args);
     client.post("http://13.56.115.80:3000/api/users/login", args, function (data, response) {
         console.log(data);
         // res.send(data);
-        if (data){
+        if (data == "Password Incorrect"){
+            res.redirect('/login');
+        }else if (data){    
             var cookies = new Cookies(req, res, { keys: keys})
             cookies.set('userid', data, {signed: true})
             res.redirect('/restraunts');
@@ -168,7 +168,16 @@ app.post('/users/loginSubmit',function(req,res){
     // console.log(req.body.username);
 });
 
-app.get('/users/signup',function(req,res){
+// app.get('/admin/login',function(req,res){
+//     // res.send('Admin Login Page Under Development.');
+//     var users;
+//     res.render('admin', {
+//         title : 'Admin Dashboard',
+//         users: users
+//     });
+// });
+
+app.get('/signup',function(req,res){
     res.render('signup', {
         title: 'Signup | Counter Burger'
     });
@@ -186,7 +195,7 @@ app.post('/users/signupSubmit',function(req,res){
         headers: { "Content-Type": "application/json" }
     };
     console.log(args);
-    client.post("http://http://13.56.115.80:3000/api/users/signup", args, function (data, response) {
+    client.post("http://13.56.115.80:3000/api/users/signup", args, function (data, response) {
         // parsed response body as js object
         console.log(data);
         if (data == 1){
@@ -271,4 +280,3 @@ app.post('/order', function (req, res) {
 app.listen(port, function () {
   console.log("Server is running on "+ port +" port");
 });
-
