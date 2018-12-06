@@ -149,7 +149,13 @@ a:hover {
 .tv-block-heading h5, .tv-chef-details h4, .tv-counter-box > h2, .tv-service-details h3, .tv-blog-details h3    {
     font-family: playballregular;
 }
+.tv-block-heading1 h5, .tv-chef-details h4, .tv-counter-box > h2, .tv-service-details h3, .tv-blog-details h3    {
+    font-family: playballregular;
+}
 .tv-block-heading, .tv-chef-details, .tv-about-content p, .nav-tabs, .tv-counter-lists, .tv-chef-content, .tv-online-restu > p, .tv-footer-social-icons{
+    text-align: center;
+}
+.tv-block-heading1, .tv-chef-details, .tv-about-content p, .nav-tabs, .tv-counter-lists, .tv-chef-content, .tv-online-restu > p, .tv-footer-social-icons{
     text-align: center;
 }
 .tv-paddingT100{
@@ -357,7 +363,22 @@ a:hover {
     font-style: italic;
     font-weight: 600;
 }
+.tv-block-heading1 h5 {
+    color: #fdb913;
+    font-family: playballregular;
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 600;
+}
 .tv-block-heading h2 {
+    color: #282828;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 0;
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+.tv-block-heading1 h2 {
     color: #282828;
     font-size: 36px;
     font-weight: 700;
@@ -621,7 +642,13 @@ a:hover {
 .tv-online-restu .tv-block-heading{
     margin-bottom: 0;
 }
+.tv-online-restu .tv-block-heading1{
+    margin-bottom: 0;
+}
 .tv-online-restu .tv-block-heading h2 {
+    color: #fff;
+}
+.tv-online-restu .tv-block-heading1 h2 {
     color: #fff;
 }
 .tv-contact-menu .form-control {
