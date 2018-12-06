@@ -39,21 +39,35 @@ License URI: http://www.themevault.net/license/-->
     <body>
         <section class="tv-paddingT100 tv-bgbanner" id="menu">
             <div class="container">
-                <div >
                     <div class="tv-block-heading">
                         <h5>Burger-Online</h5>
-                        <h2>Login</h2>
+                        <h2>Signup</h2>
+                        <form method="POST" action="/users/signupSubmit">
+                            <label>Name</label>
+                            <input type="text" name="name" placeholder="Name">
+                            <br>
+                            <label>Username</label>
+                            <input align="right" type="text" name="username" placeholder="Username">
+                            <br>
+                            <label>Email</label>
+                            <input align="right" type="text" name="email" placeholder="Email">
+                            <br>
+                            <label>Contact Number</label>
+                            <input type="text" name="contact" placeholder="Contact">
+                            <br>
+                            <label>Address</label>
+                            <input type="text" name="address" placeholder="Address">
+                            <br>
+                            <label>Password</label>
+                            <input type="password" name="password" placeholder="Password">
+                            <br>
+                            <label>Confirm Password</label>
+                            <input type="password" name="confirmPassword" placeholder="Confirm Password">
+                            <br>
+                            <input type="submit" value="Signup">
                     </div>
-                </div>
                <div>
-                    <form method="POST"  align=center action="/users/loginSubmit">
-                        <label>Username:</label>
-                        <input type="text" name="username" placeholder="Username">
-                        <br><br>
-                        <label>Password:</label>
-                        <input type="password" name="password" placeholder="Password">
-                        <br><br>
-                        <button type="submit" name="loginButton">Login</button>
+                    
                     </form>
                </div>
             </div>

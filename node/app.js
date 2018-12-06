@@ -51,7 +51,7 @@ app.get('/', function (req, res) {
 // Jay Parekh-Users ----------------------------------------------------------------------------------------------------
 app.get('/users/ping',function(req,res){
     console.log('Ping Called');
-    client.get("http://localhost:3000/api/ping", function (data, response) {
+    client.get("http://13.56.115.80:3000/api/ping", function (data, response) {
     // client.methods.pingUserAPI(function (data, response) {
         console.log(data);
         res.send(data);
@@ -66,6 +66,10 @@ app.get('/login2',function(req,res){
     res.render('login2');
 });
 
+app.get('/signup2',function(req,res){
+    res.render('signup2');
+});
+
 app.post('/users/loginSubmit',function(req,res){
     var args = {
         data: { 
@@ -75,7 +79,7 @@ app.post('/users/loginSubmit',function(req,res){
         headers: { "Content-Type": "application/json" }
     };
     // console.log(args);
-    client.post("http://demo7713207.mockable.io/api/users/login", args, function (data, response) {
+    client.post("http://http://13.56.115.80:3000/api/users/login", args, function (data, response) {
         console.log(data);
         // res.send(data);
         if (data){
@@ -114,7 +118,7 @@ app.post('/users/signupSubmit',function(req,res){
         headers: { "Content-Type": "application/json" }
     };
     console.log(args);
-    client.post("http://localhost:3000/api/users/signup", args, function (data, response) {
+    client.post("http://http://13.56.115.80:3000/api/users/signup", args, function (data, response) {
         // parsed response body as js object
         console.log(data);
         if (data == 1){
