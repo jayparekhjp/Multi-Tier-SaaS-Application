@@ -96,7 +96,6 @@ func cartSave(formatter *render.Render) http.HandlerFunc {
 		return
 	}
 }
-
 func cartDisplay(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {	
 		var result []Item
