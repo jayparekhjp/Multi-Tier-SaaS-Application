@@ -310,6 +310,12 @@ a:hover {
     padding: 30px 18px;
     display: inline-block;
 }
+.navbar-default .navbar-nav-red > li > a{
+    color: #cc050c;
+    font-size: 15px;
+    padding: 30px 18px;
+    display: inline-block;
+}
 .navbar-default .navbar-nav > li > a::before, .nav-tabs a::before{
     background-color: #fdb913;
     content: "";

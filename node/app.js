@@ -59,18 +59,16 @@ app.get('/users/ping',function(req,res){
 });
 
 app.get('/login',function(req,res){
-    res.render('login', {
-        title: 'Login | Counter Burger'
-    });
+    res.render('login');
 });
 
-// app.get('/login-test',function(req,res){
-//     res.render('login-test');
-// });
+app.get('/login-test',function(req,res){
+    res.render('login-test');
+});
 
-// app.get('/signup-test',function(req,res){
-//     res.render('signup-test');
-// });
+app.get('/signup-test',function(req,res){
+    res.render('signup-test');
+});
 
 app.post('/users/loginSubmit',function(req,res){
     var args = {
