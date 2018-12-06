@@ -71,6 +71,7 @@ License URI: http://www.themevault.net/license/-->
                                           <br>
                                        </td>
                                        <td>
+                                            
                                           <form method="POST" action="/deleteitem">
                                              <input type="hidden" name="itemid" value="<%= data.iid %>" id="itemid">
                                              <input type="hidden" name="userid" value="<%= data.id %>" id="userid">
@@ -85,7 +86,8 @@ License URI: http://www.themevault.net/license/-->
                                 <tr>
                                  <td>
                                     <form>
-                                          <input type="submit" name="payment" value="payment" id="payment">
+                                          <input type="hidden" name="userid" value="<%= data.id %>" id="userid">
+                                          <input type="submit" name="payment" value="Proceed to checkout" id="payment">
                                        </form>
                                  </td>
                                 </tr>
