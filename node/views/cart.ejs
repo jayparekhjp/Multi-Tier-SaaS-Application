@@ -1,3 +1,13 @@
+
+
+
+
+<!--Template Name: foodfries
+File Name: home.html
+Author Name: ThemeVault
+Author URI: http://www.themevault.net/
+License URI: http://www.themevault.net/license/-->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -38,8 +48,10 @@
                                 <tr></tr>
                                 
                                 <tr>
-                                   <th>Items</th>
-                                   <th>Price</th> 
+                                   <th>Name</th>
+                                   <th>Price</th>
+                                   <th>Restuarant Name</th>
+                                   <th>Option</th>                                
                                  </tr>
                                 <% if (data !== undefined ) { %>
                                  <% data.forEach(function(data){%>
@@ -59,6 +71,7 @@
                                           <br>
                                        </td>
                                        <td>
+                                            
                                           <form method="POST" action="/deleteitem">
                                              <input type="hidden" name="itemid" value="<%= data.iid %>" id="itemid">
                                              <input type="hidden" name="userid" value="<%= data.id %>" id="userid">
@@ -73,7 +86,8 @@
                                 <tr>
                                  <td>
                                     <form>
-                                          <input type="submit" name="payment" value="payment" id="payment">
+                                          <input type="hidden" name="userid" value="<%= data.id %>" id="userid">
+                                          <input type="submit" name="payment" value="Proceed to checkout" id="payment">
                                        </form>
                                  </td>
                                 </tr>

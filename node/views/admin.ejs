@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Admin Dashboard | Counter Burger</title>
+    </head>
+    <body>
+        <div class="container">
+                <h2>Users List</h2>
+                <ul>
+                <% users.forEach(function(user){ %>
+                    <li><%= user.id %>    <%= user.name %></li>
+                <%})%>
+                </ul>
+        </div>
+    </body>
+</html>
