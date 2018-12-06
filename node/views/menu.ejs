@@ -37,6 +37,7 @@ License URI: http://www.themevault.net/license/-->
          <script>window.jQuery || document.write('<script src="/Scripts/jquery-1.12.4.min.js">\x3C/script>')</script>
     </head>
     <body>
+        <div style="display: none;" id="userid" data-info="<%= userid %>"></div>
         <section class="tv-paddingT100 tv-bgbanner" id="menu">
             <div class="container">
                 <div class="row">
@@ -63,6 +64,7 @@ License URI: http://www.themevault.net/license/-->
                                    <th>Price</th>
                                    <!-- <th>Restaurant Name</th> -->
                                    <th>Option</th>
+                                   <th>Quantity</th>
                                 </tr>
                                 <% if (data !== undefined ) { %>
                                    <% data.forEach(function(data) { %>
@@ -86,6 +88,9 @@ License URI: http://www.themevault.net/license/-->
                                             <!-- <a href="/menu?id=<%= data.item_id %>" class="btn btn-default">Add to cart</a> -->
                                             <button class="vendor-action order-action add-cart" type="button" id="add_cart" value="<%= data.item_id %>" res_id= " <%= data.restraunt_id%>" item_name="<%= data.name %>" item_price="<%= data.price %>" restraunt_name="<% data.restraunt_name %>">Add to cart</button>
                                          </td>
+                                         <td>
+                                           <p id="count" item_id="<%= data.item_id%>" res_id="<%= data.restraunt_id%>">x 0</p>
+                                         </td>
                                       </tr>
                                    <% }); %>
                                 <% } %>
@@ -108,14 +113,14 @@ License URI: http://www.themevault.net/license/-->
                     </div>
                    </ul>
                    <div class="clearfix"></div>
-                   <div id="BasketTotals" class="clearfix">
+                   <!-- <div id="BasketTotals" class="clearfix">
                       <dl class="summary">
                          <dt role="heading" aria-level="3">SUB TOTAL</dt>
                          <dd class="money">
                             $<span id="bSubTotal">0.00</span>
                          </dd>
                       </dl>
-                   </div>
+                   </div> -->
                    <script type="text/html" id="tax-row-tmpl">
                       <dl class="summary taxRow">
                           <dt role="heading" aria-level="3"></dt>
@@ -131,15 +136,13 @@ License URI: http://www.themevault.net/license/-->
             <i class="fa fa-caret-up" aria-hidden="true"></i>
         </a>
         <script>
-            jQuery(document).ready(function ($) {
-                $('.counter').counterUp({
-                    delay: 10,
-                    time: 1000
-                });
-            });
         </script>
         <script type="text/javascript" src="js/menu.js"></script>
         <script type="text/javascript" src="js/wow.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript">
+
+        </script>
     </body>
 </html>
