@@ -79,7 +79,7 @@ app.post('/users/loginSubmit',function(req,res){
         headers: { "Content-Type": "application/json" }
     };
     // console.log(args);
-    client.post("http://http://13.56.115.80:3000/api/users/login", args, function (data, response) {
+    client.post("http://13.56.115.80:3000/api/users/login", args, function (data, response) {
         console.log(data);
         // res.send(data);
         if (data){
@@ -179,14 +179,8 @@ app.get('/menu', function (req, res) {
       parameters: { "restraunt_id": res_id } // request headers
   };
   var cookies = new Cookies(req, res, { keys: keys })
-<<<<<<< HEAD
-  cookies.set('restraunt_id', res_id, { signed: true })
-
-=======
   cookies.set('restraunt_id', res_id, { signed: false })
   var userid = cookies.get('userid', { signed: true })
-  // console.log(userid)
->>>>>>> master
   client.get("http://localhost:3000/menus",args, function (data, response) {
       console.log(userid);
       res.render('menu',{
