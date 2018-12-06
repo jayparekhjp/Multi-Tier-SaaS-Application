@@ -30,15 +30,34 @@ app.get('/viewcart', function (req, res) {
         data: { "id": "2" },
         headers: {"Content-Type":"application/json"}// request headers
     };
-    client.get("http://localhost:3000/api/cart/itemDisplay",args, function (data, response) {
+    client.get("http://34.216.22.59:3000/api/cart/itemDisplay",args, function (data, response) {
         res.render('cart',{
           data:data
         });
     });
 });
 
+/*app.post('/additem', function (req, res) {
+    var client = new Client();
+    var args = {
+        data: { 
+            id : req.body.userid,
+            iid : req.body.itemid,
+            rid : req.body.resid,
+            res : req.body.res,
+            iname : req.body.iname,
+            price:parseFloat(req.body.price)
+        },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+    client.post("http://34.216.22.59:3000/api/cart/itemSave",args, function (data, response) {
+                res.redirect('')
+    }) 
+    }
+);
+*/
 app.post('/deleteitem',function(req,res){
-  var args = {
+    var args = {
       data: { 
           id : req.body.userid,
           iid : req.body.itemid,
@@ -47,7 +66,7 @@ app.post('/deleteitem',function(req,res){
       headers: { "Content-Type": "application/json" }
   };
   console.log(args);
-  client.delete("http://localhost:3000/api/cart/cartDelete", args, function (data, response) {
+  client.delete("http://34.216.22.59:3000/api/cart/cartDelete", args, function (data, response) {
       
           res.redirect('/viewcart');
       }
@@ -55,23 +74,6 @@ app.post('/deleteitem',function(req,res){
 });
 
 
-app.get('/payment', function (req,res) {
-    //var client = new Client();
-    //client.post("http://localhost:3002/orders", function (data, response) {
-        //console.log(data[0]['name']);
-        res.render('payment');
-    });
-
-
-app.post('/order', function (req, res) {
-    var client = new Client();
-    var args = {
-        headers: { "Content-Type": "application/json" }
-    };    
-     client.post("http://localhost:3002/orders",args, function (data, response) {
-      // console.log(data[0]['name']);
-    });
-});
     
 app.listen(port, function () {
   console.log("Server is running on "+ port +" port");
