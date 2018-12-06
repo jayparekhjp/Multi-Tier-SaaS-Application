@@ -231,7 +231,7 @@ app.get('/restraunts', function (req, res) {
   if(userid === undefined){
     res.redirect('/login');
   }
-  client.get("http://localhost:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
+  client.get("http://GOAPI-1977895044.us-west-1.elb.amazonaws.com:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
       console.log(data);
       res.render('search',{
         data:data
@@ -249,7 +249,7 @@ app.get('/menu', function (req, res) {
   var cookies = new Cookies(req, res, { keys: keys })
   cookies.set('restraunt_id', res_id, { signed: false })
   var userid = cookies.get('userid', { signed: true })
-  client.get("http://localhost:3000/menus",args, function (data, response) {
+  client.get("http://GOAPI-1977895044.us-west-1.elb.amazonaws.com:3000/menus",args, function (data, response) {
       console.log(userid);
       res.render('menu',{
         data:data,
