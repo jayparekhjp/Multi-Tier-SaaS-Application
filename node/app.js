@@ -23,6 +23,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+function parseCookies (request) {
+    var list = {},
+        rc = request.headers.cookie;
+
+    rc && rc.split(';').forEach(function( cookie ) {
+        var parts = cookie.split('=');
+        list[parts.shift().trim()] = decodeURI(parts.join('='));
+    });
+
+    return list;
+}
+
 
 app.get('/viewcart', function (req, res) {
     var client = new Client();
@@ -144,7 +156,7 @@ app.post('/users/loginSubmit',function(req,res){
         headers: { "Content-Type": "application/json" }
     };
     // console.log(args);
-    client.post("http://http://13.56.115.80:3000/api/users/login", args, function (data, response) {
+    client.post("http://13.56.115.80:3000/api/users/login", args, function (data, response) {
         console.log(data);
         // res.send(data);
         if (data){
@@ -237,8 +249,7 @@ app.get('/menu', function (req, res) {
   var cookies = new Cookies(req, res, { keys: keys })
   cookies.set('restraunt_id', res_id, { signed: false })
   var userid = cookies.get('userid', { signed: true })
-  // console.log(userid)
-    client.get("http://localhost:3000/menus",args, function (data, response) {
+  client.get("http://localhost:3000/menus",args, function (data, response) {
       console.log(userid);
       res.render('menu',{
         data:data,

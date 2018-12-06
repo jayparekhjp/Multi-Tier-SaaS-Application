@@ -31,55 +31,30 @@ $(document).ready(function(){
    var item_id = this.value;
    var restraunt_id = this.getAttribute("res_id");
    var item_name = this.getAttribute("item_name");
-   var item_price = this.getAttribute("item_price");
+   var item_price = parseFloat(this.getAttribute("item_price"));
    var restraunt_name = $("#restraunt_name").text();
+   var userid = $("#userid").get(0).getAttribute('data-info');
+
    var res_name = restraunt_name.trim();
    console.log("res_id:"+this.getAttribute("res_id"))
    console.log("item_id:"+this.value)
    console.log("THIS WORKS")
    $.ajax({
      type: 'POST',
-     url: 'http://demo8655652.mockable.io/cart',
-     data: { 
-      restraunt_id: restraunt_id, 
-      item_id: item_id,
-      item_name : item_name,
-      item_price : item_price,
-      restraunt_name : res_name 
-     },
+     url: 'http://34.216.22.59:3000/api/cart/itemSave',
+     data: JSON.stringify({ 
+      rid: restraunt_id, 
+      iid: item_id,
+      iname : item_name,
+      price : item_price,
+      res : res_name,
+      id : userid 
+     }),
      dataType: "json",
  
      crossDomain: true,
      success: function (msg) {
-        // console.log(msg[0])
-        var element;
-        $('#add-remove').empty()
-        msg.forEach(function(value) {
-           //do something with values
-           console.log(value);
-           element = '<li><span class="quantity">1x</span>'+
-                '<span class="product">'+value.item_name+'</span>'+
-                // '<span class="money">$'+value.price+'</span>'+
-                '<div class="controls"><span aria-hidden="true">[<!-- </span> <a href="javascript:OLO.Order.edit(672716372);">edit</a><span aria-hidden="true"> |'+  
-                '--></span>'+
-                   // '<a href="javascript:OLO.Order.delete(672716372);" data-value='+value.item_id+'>remove</a> <span aria-hidden="true">]</span>'+
-                '</div>'+
-                '<div class="options"></div></li>';
- 
-         $("#bSubTotal").html(value.total)
-         $("#add-remove").append(element);
-        console.log(element);
-       });
-        /*var element = '<li><span class="quantity">1x</span>'+
-                '<span class="product">Shishito Peppers</span>'+
-                '<span class="money">$6.50</span>'+
-                '<div class="controls"><span aria-hidden="true">[<!-- </span> <a href="javascript:OLO.Order.edit(672716372);">edit</a><span aria-hidden="true"> |'+  
-                '--></span>'+
-                   '<a href="javascript:OLO.Order.delete(672716372);">remove</a> <span aria-hidden="true">]</span>'+
-                '</div>'+
-                '<div class="options"></div></li>';*/
-        // $("#BasketProducts").append(element);
- 
+        console.log(msg)
      },
      error: function (request, status, error) {
  
