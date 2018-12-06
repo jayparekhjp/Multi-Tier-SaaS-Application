@@ -1,0 +1,23 @@
+<% include header %>
+<html>
+    <head>
+        <title>Login | Counter Burger</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="loginForm">
+                <h1>Login</h1>
+                <p>Please enter your credentials.</p>
+            </div>
+            <form method="POST" action="/users/loginSubmit">
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit" name="loginButton">Login</button>
+            </form>
+        </div>
+        <div>
+            <h3>Don't have an account yet?</h3>
+            <a href="/signup"></a>
+        </div>
+    </body>
+</html>    

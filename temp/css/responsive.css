@@ -1,0 +1,244 @@
+/*
+Template Name: foodfries
+File Name: responsive.css
+Author Name: ThemeVault
+Author URI: http://www.themevault.net/
+License URI: http://www.themevault.net/license/
+*/
+@media (max-width: 1199px){
+    .tv-service-details h3, .tv-blog-details h3{
+        margin-bottom: 8px;
+    }
+    .tv-site-btn, .tv-site-btn2{
+        padding: 10px 35px;
+    }
+}
+@media (max-width: 991px){
+    #home-slider .caption h1 {
+        font-size: 40px;
+    }
+    #about-us .tv-row-flex, #services .tv-row-flex, #blog .tv-row-flex, #contact .tv-row-flex{
+        display: inline;
+    }
+    .tv-about-image img {
+        width: auto;
+    }
+    .tv-block-heading h2 {
+        font-size: 32px;
+    }
+    .tv-block-heading h5{
+        font-size: 28px;
+    }
+    .tv-paddingT100 {
+        padding-top: 80px;
+    }
+    .tv-block-heading {
+        margin-bottom: 80px;
+    }
+    .tv-about-image, .tv-service-image, .tv-blog-image, #blog .tv-whitebgclr{
+        margin-top: 20px;
+        text-align: center;
+    }
+    .tv-menu-item-name .tv-menu-item-price {
+        float: none;
+        font-size: 15px;
+        margin-top: 10px;
+    }
+    .tv-menu-item-name h4 {
+        font-size: 14px;
+    }
+    .tv-service-details {
+        left: auto;
+        position: relative;
+        right: auto;
+        text-align: center;
+        top: auto;
+        transform: inherit;
+    }
+    .tv-service-image img, .tv-blog-image img {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .tv-counter-image {
+        display: none;
+    }
+    .tv-chef-content {
+        border: 2px solid transparent;
+        margin-top: 20px;
+    }
+    .tv-chef-image img {
+        width: auto;
+    }
+}
+@media (max-width: 767px){
+    .navbar-default .navbar-toggle .icon-bar {
+        background-color: #fff;
+    }
+    .navbar-default .navbar-toggle {
+        border-color: #fdb913;
+    }
+    .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+        background-color: #fdb913;
+    }
+    .navbar-collapse{
+        box-shadow: none;
+        border:none;
+    }
+    .navbar-nav {
+        background: #cc050c;
+        text-align: center;
+    }
+    #home-slider .caption h1 {
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+    .navbar-default .navbar-nav > li > a {
+        font-size: 15px;
+        padding: 15px 18px;
+    }
+    .navbar-default{
+        padding: 5px 0 25px;
+    }
+    #home-slider .caption{
+        top:60%;
+    }
+    #home-slider .fa-angle-down {
+        bottom: 20px;
+    }
+    .tv-site-btn, .tv-site-btn2{
+        font-size: 12px;
+    }
+    .tv-about-image img {
+        width: 100%;
+    }
+}
+@media (max-width: 500px){
+    #home-slider .caption h1 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+    #home-slider .caption > p {
+        font-size: 14px;
+    }
+    .tv-site-btn, .tv-site-btn2{
+        margin-top: 25px;
+    }
+    #home-slider .caption {
+        top: 70%;
+    }
+    .tv-block-heading h2 {
+        font-size: 26px;
+    }
+    .tv-block-heading h5 {
+        font-size: 24px;
+    }
+    .tv-paddingT100 {
+        padding-top: 60px;
+    }
+    .tv-block-heading {
+        margin-bottom: 60px;
+    }
+    .nav-tabs > li > a{
+        margin-right: 0;
+        padding: 10px !important;
+    }
+    .width-100{
+        width: 100%;
+    }
+    .tv-counter-banner{
+        min-height: 700px;
+    }
+    #team .tv-counter-banner{
+        min-height: 550px;
+    }
+    .tv-client-info h4 img {
+        display: block;
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    .tv-counter-box > h2 {
+        font-size: 32px;
+    }
+    .tv-counter-details h2 {
+        font-size: 26px;
+    }
+    .tv-counter-details > h4 {
+        font-size: 14px;
+    }
+    .tv-counter-details {
+        margin-bottom: 20px;
+    }
+}
+@media (max-width: 400px){
+    .width-100perc{
+        width:100%;
+    }
+    #home-slider .caption {
+        top: 60%;
+    }
+    .navbar-brand {
+        display: inline-block;
+        float: left;
+        font-size: 18px;
+        height: 50px;
+        line-height: 20px;
+        padding: 15px;
+        width: 150px;
+    }
+    .navbar-brand > img{
+        width: auto;
+        display: inline;
+    }
+    .tv-block-heading h2 {
+        font-size: 24px;
+    }
+    .tv-block-heading h5 {
+        font-size: 22px;
+    }
+    .tv-menu-item-name h4, .tv-menu-item-name, .tv-contact-details, .tv-contact-details h2{
+        text-align: center;
+        float: none;
+    }
+    .tv-client-list {
+        padding: 10px;
+    }
+    .tv-client-info > p {
+        font-size: 14px;
+        margin: 15px 0;
+    }
+    .tv-contact-details > p {
+        font-size: 13px;
+    }
+    .tv-contact-details h3 {
+        font-size: 20px;
+    }
+    .tv-online-restu > p {
+        margin: 20px 0 30px;
+    }
+    .tv-footer-about p {
+        font-size: 14px;
+        line-height: 24px;
+    }
+    .tv-footer-address p, .tv-footer-address a {
+        font-size: 14px;
+    }
+    .tv-footer-social-icons a {
+        height: 35px;
+        line-height: 35px;
+        width: 35px;
+    }
+    .tv-chef-name > h4 {
+        font-size: 16px;
+    }
+    .tv-service-details h3, .tv-blog-details h3 {
+        font-size: 20px;
+    }
+    .tv-counter-box .row {
+        margin-top: 30px;
+    }
+    .tv-footer-about img {
+        width: 40%;
+    }
+}
