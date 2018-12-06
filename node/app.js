@@ -39,7 +39,7 @@ function parseCookies (request) {
 app.get('/viewcart', function (req, res) {
     var client = new Client();
     var args = {
-        data: { "id": "2" },
+        data: { "id": cookies.get('userid', { signed: true }) },
         headers: {"Content-Type":"application/json"}// request headers
     };
     client.get("http://34.216.22.59:3000/api/cart/itemDisplay",args, function (data, response) {
@@ -91,12 +91,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get('/summary', function (req, res) {
+app.post('/summary', function (req, res) {
     var client = new Client();
     var args = {
     data: {
-     "id":"2"
-     //"id":req.body.userid
+     "id":cookies.get('userid', { signed: true })
      },
      headers: {"Content-Type":"application/json"}
     };
