@@ -22,8 +22,8 @@ var (
 )
 
 // MongoDB connections
-// var mongoServer = "mongodb://admin:cmpe281@10.0.1.115,10.0.1.165,10.0.1.175,10.0.1.107,10.0.1.211"
-var mongoServer = "localhost:27017"
+var mongoServer = "mongodb://admin:cmpe281@10.0.1.115,10.0.1.165,10.0.1.175,10.0.1.107,10.0.1.211"
+//var mongoServer = "localhost:27017"
 var mongoDatabase = "counterBurger"
 var mongoCollection = "users"
 
