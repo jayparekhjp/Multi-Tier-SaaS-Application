@@ -40,7 +40,8 @@
    console.log("THIS WORKS")*/
    $.ajax({
      type: 'POST',
-     url: 'http://34.219.121.214:3000/api/cart/itemSave',
+     // url: 'http://localhost:3000/api/cart/itemSave',
+     url: 'http://demo8655652.mockable.io/count',
      data: JSON.stringify({ 
       rid: restraunt_id, 
       iid: item_id,
@@ -53,7 +54,26 @@
  
      crossDomain: true,
      success: function (msg) {
-        console.log(msg)
+      // console.log(msg)
+        var myMap = new Map();
+        for (var i = msg.length - 1; i >= 0; i--) {
+          if(myMap.has(msg[i]['iid'])){
+            var count = myMap.get(msg[i]['iid'])
+            myMap.set(msg[i]['iid'],count+1)
+          }else{
+            myMap.set(msg[i]['iid'],1)
+          }
+        }
+        myMap.forEach(function(value,key) {
+           /*if($('p[item_id='+value.item_id+']').get(0) !== undefined){
+             $('p[item_id='+value.item_id+']').get(0).innerHTML = 'x '+value.count;
+           }*/
+           if($('p[item_id='+key+']').get(0) !== undefined){
+             $('p[item_id='+key+']').get(0).innerHTML = 'x '+value;
+           }
+           console.log(key+"=>"+value)
+         });
+        console.log(myMap)
      },
      error: function (request, status, error) {
  
