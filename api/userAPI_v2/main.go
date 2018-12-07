@@ -65,7 +65,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 // ping function for checking the status of the API
 func ping(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		formatter.JSON(w, http.StatusOK, struct{ Test string }{"API version 3.0 alive!"})
+		formatter.JSON(w, http.StatusOK, struct{ Test string }{"User API alive!"})
 	}
 }
 
@@ -110,8 +110,7 @@ func signup(formatter *render.Render) http.HandlerFunc {
 		err = collection.Find(bson.M{"username": user.Username}).One(&testUser)
 		if testUser.Username != "" {
 			// flag=1 if username already taken
-			formatter.JSON(w, http.StatusOK, 1)
-			return
+			formatter.JSON(w, http.StatusOK,  struct{ Test string }{"Username Empty"})
 		} else {
 			// Generate a new ID
 			objID := bson.NewObjectId()
@@ -137,7 +136,7 @@ func signup(formatter *render.Render) http.HandlerFunc {
 			return
 		}
 	}
-}
+} 
 
 // login function for getting into the system
 func login(formatter *render.Render) http.HandlerFunc {
