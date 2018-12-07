@@ -24,6 +24,10 @@ type Item struct {
 	Price          float32      `json:"price"`
 	//Address   string        `json:"address"`
 }
+type Send struct {
+	ItemId         string     `json:"iid"`
+	Count 			int  	  `json:"count"`
+}
 
 var (
 	session    *mgo.Session
@@ -64,7 +68,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/api/cart/itemDisplay", cartDisplay(formatter)).Methods("GET")
 	mx.HandleFunc("/api/cart/itemSave", cartSave(formatter)).Methods("POST")
 	mx.HandleFunc("/api/cart/cartDelete", cartDelete(formatter)).Methods("DELETE")
-	
+	mx.HandleFunc("/atish", sendAtish(formatter)).Methods("GET")
 }
 
 
@@ -78,6 +82,7 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 func cartSave(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		var item Item
+		
 		err := json.NewDecoder(req.Body).Decode(&item)		
 		item.TimeStamp = time.Now()
 		err = c.Insert(&item)
@@ -109,23 +114,35 @@ func cartDisplay(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
-/*	func sendatish(formatter *render.Render) http.HandlerFunc {
+func sendAtish(formatter *render.Render) http.HandlerFunc {
 		return func(w http.ResponseWriter, req *http.Request) {	
 			var item Item
 			var result []Item
-			var
 			err := json.NewDecoder(req.Body).Decode(&item)
-			err = c.Find(bson.M{"id":item.ID,"restuarantid":item.RestuarantId}).All(&result)
+			err = c.Find(bson.M{"id":"2" ,"restuarantid":"2"}).All(&result)
 			if err != nil {
 				log.Fatal(err)
 			}
-				for i := range result {
-					
-			formatter.JSON(w, http.StatusOK, result)
+
+			m := make(map[string]int)
+
+			for i := range result {
+				_ , ok := m[result[i].ItemId]
+				if ok {
+					m[result[i].ItemId] = m[result[i].ItemId] + 1
+
+				}else{
+					m[result[i].ItemId]=1
+				}		
 			}
+			j, err := json.Marshal(m)
+	
+			fmt.Println(m)
+		//	w.Header().Set("Content-Type", "application/json")
+		//	w.Write(j)
+		//	formatter.JSON(w, http.StatusOK, j)
 		}
-	}
-*/
+}	
 
 func cartDelete(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {	
