@@ -108,10 +108,10 @@ func signup(formatter *render.Render) http.HandlerFunc {
 		// Check if the username already exists
 		// testUser.Username = user.Username
 		err = collection.Find(bson.M{"username": user.Username}).One(&testUser)
-		if testUser.Username != "" {
-			// flag=1 if username already taken
-			formatter.JSON(w, http.StatusOK, 1)
-			return
+		// if testUser.Username != "" {
+		// 	// flag=1 if username already taken
+		// 	formatter.JSON(w, http.StatusOK, 1)
+		// 	return
 		} else {
 			// Generate a new ID
 			objID := bson.NewObjectId()
@@ -137,7 +137,7 @@ func signup(formatter *render.Render) http.HandlerFunc {
 			return
 		}
 	}
-}
+}cd 
 
 // login function for getting into the system
 func login(formatter *render.Render) http.HandlerFunc {
