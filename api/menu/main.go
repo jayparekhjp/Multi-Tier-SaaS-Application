@@ -62,8 +62,8 @@ func NewServer() *negroni.Negroni {
 	n.UseHandler(mx)
 	var err error
 
-	// cluster := gocql.NewCluster("127.0.0.1")
-	cluster := gocql.NewCluster("10.0.1.195","10.0.1.66","10.0.1.57","10.0.1.56","10.0.1.187")
+	cluster := gocql.NewCluster("127.0.0.1")
+	// cluster := gocql.NewCluster("10.0.1.195","10.0.1.66","10.0.1.57","10.0.1.56","10.0.1.187")
 	cluster.Keyspace = "cmpe281"
 	Session, err = cluster.CreateSession()
 	if err != nil {

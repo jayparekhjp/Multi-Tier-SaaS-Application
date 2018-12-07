@@ -35,12 +35,12 @@
    var userid = $("#userid").get(0).getAttribute('data-info');
 
    var res_name = restraunt_name.trim();
-   console.log("res_id:"+this.getAttribute("res_id"))
+   /*console.log("res_id:"+this.getAttribute("res_id"))
    console.log("item_id:"+this.value)
-   console.log("THIS WORKS")
+   console.log("THIS WORKS")*/
    $.ajax({
      type: 'POST',
-     url: 'http://34.216.22.59:3000/api/cart/itemSave',
+     url: 'http://34.219.121.214:3000/api/cart/itemSave',
      data: JSON.stringify({ 
       rid: restraunt_id, 
       iid: item_id,

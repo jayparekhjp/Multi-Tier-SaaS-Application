@@ -70,7 +70,7 @@ License URI: http://www.themevault.net/license/-->
                 </div>
                 <div id="ContentWrapper">
                   <form  method="GET" role="form" action="/restraunts">
-                     <input type="text" id="pin" aria-label="Enter zip code or city and state" class="StreetAddress" name="pin" placeholder="Enter zip code">
+                     <input type="text" id="pin" aria-label="Enter zip code or city and state" class="StreetAddress" name="pin" placeholder="Enter zip code" required>
                      <!-- <input type="button" name="btnAddLocation" id="btnAddLocation" value="GO"> -->
                      <button type="submit">GO</button>
                   </form>
@@ -88,8 +88,11 @@ License URI: http://www.themevault.net/license/-->
                                  <th>Option</th>
                               </tr>
                               <% if (data !== undefined ) { %>
+                                 <% if (data.length === 0 ) { %> 
+                                    <h2>Please enter zip code</h2>
+                                 <% } %>
                                  <% data.forEach(function(data) { %>
-                                    <tr class="   vendor" data-vendorid="10295" data-hasdispatch="false">
+                                    <tr class="vendor" data-hasdispatch="false">
                                        <td>
                                           <a class="order-action" href="">
                                           <strong><%= data.restraunt_name %></strong>

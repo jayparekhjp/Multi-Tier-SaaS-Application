@@ -38,11 +38,12 @@ function parseCookies (request) {
 
 app.get('/viewcart', function (req, res) {
     var client = new Client();
+    var cookies = new Cookies(req, res, { keys: keys })
     var args = {
         data: { "id": cookies.get('userid', { signed: true }) },
         headers: {"Content-Type":"application/json"}// request headers
     };
-    client.get("http://34.216.22.59:3000/api/cart/itemDisplay",args, function (data, response) {
+    client.get("http://34.219.121.214:3000/api/cart/itemDisplay",args, function (data, response) {
         res.render('cart',{
           data:data
         });
@@ -62,7 +63,7 @@ app.get('/viewcart', function (req, res) {
         },
         headers: {"Content-Type":"application/json"}// request headers
     };
-    client.post("http://34.216.22.59:3000/api/cart/itemSave",args, function (data, response) {
+    client.post("http://34.219.121.214:3000/api/cart/itemSave",args, function (data, response) {
                 res.redirect('')
     }) 
     }
@@ -78,7 +79,7 @@ app.post('/deleteitem',function(req,res){
       headers: { "Content-Type": "application/json" }
   };
   console.log(args);
-  client.delete("http://34.216.22.59:3000/api/cart/cartDelete", args, function (data, response) {
+  client.delete("http://34.219.121.214:3000/api/cart/cartDelete", args, function (data, response) {
       
           res.redirect('/viewcart');
       }
@@ -93,13 +94,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/summary', function (req, res) {
     var client = new Client();
+    var cookies = new Cookies(req, res, { keys: keys })
     var args = {
     data: {
      "id":cookies.get('userid', { signed: true })
      },
      headers: {"Content-Type":"application/json"}
     };
-    client.get("http://34.216.22.59:3000/api/cart/itemDisplay",args, function (data, response) {
+    client.get("http://34.219.121.214:3000/api/cart/itemDisplay",args, function (data, response) {
         // console.log(data[0]['name']);
         res.render('summary',{
           data:data
@@ -134,7 +136,13 @@ app.get('/users/ping',function(req,res){
 });
 
 app.get('/login',function(req,res){
-    res.render('login');
+    var cookies = new Cookies(req, res, { keys: keys })
+    var userid = cookies.get('userid', { signed: true })
+    if(userid !== undefined){
+      res.redirect('/restraunts');
+    }else{
+      res.render('login');
+    }
 });
 
 app.get('/login-test',function(req,res){
@@ -217,15 +225,6 @@ app.delete('/users/deleteUser',function(req,res){
 }); 
 // Jay Parekh - Users ---------------------------------------------------------------------------------------------------
 
-/*app.get('/restraunts', function (req, res) {
-    var cookies = parseCookies(req);  
-   var name = cookies.username;
-   console.log(name);
-   res.render('search',{
-    name : name
-   });
-})  */
-
 app.get('/restraunts', function (req, res) {
   var client = new Client();
   var pin = req.query.pin;
@@ -234,9 +233,7 @@ app.get('/restraunts', function (req, res) {
   };
   // console.log(pin)
   var cookies = new Cookies(req, res, { keys: keys })
-  // var userid = cookies.get('userid');
   var userid = cookies.get('userid', { signed: true })
-  console.log(userid);
   if(userid === undefined){
     res.redirect('/login');
   }
@@ -257,6 +254,7 @@ app.get('/menu', function (req, res) {
   };
   var cookies = new Cookies(req, res, { keys: keys })
   cookies.set('restraunt_id', res_id, { signed: false })
+  // cookies.set('userid', 1, {signed: true})
   var userid = cookies.get('userid', { signed: true })
   client.get("http://GOAPI-1977895044.us-west-1.elb.amazonaws.com:3000/menus",args, function (data, response) {
       console.log(userid);
