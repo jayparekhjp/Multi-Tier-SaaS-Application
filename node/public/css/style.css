@@ -367,7 +367,7 @@ a:hover {
     display: flex;
 }
 .tv-bgbanner{
-    background: rgba(0, 0, 0, 0) url("../images/bgbanner.jpg") no-repeat scroll center top / cover ;
+    background: rgba(0, 0, 0, 0) url("../images/burger11.jpg") no-repeat scroll center top / cover ;
     min-height: 650px;
     background-attachment: fixed;
 }

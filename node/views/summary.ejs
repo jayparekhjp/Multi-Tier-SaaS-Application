@@ -66,7 +66,9 @@ License URI: http://www.themevault.net/license/-->
                                   <th>Price</th>
                  
                                </tr>
+                               
                                <% if (data !== undefined ) { %>
+                                <% var temp = 0;%>
                                 <% data.forEach(function(data){%>
                                      <tr class="vendor" data-vendorid="" data-hasdispatch="false">
                                         <td>
@@ -77,20 +79,29 @@ License URI: http://www.themevault.net/license/-->
                                         </td>
                                         <td>
                                            <%= data.price %><br>
+                                           <% temp = temp + data.price %>
                                            <br>
                                         </td>
                                      </tr>
                                    
                                   <% }); %>
                                <% } %>
-
+                                
                                <tr>
                                 <td>Restaurant</td>
                                 <td> <%= data[0].res %> </td>
                                </tr>
                                <tr>
                                    <td>Total</td>
+                                    <td> <%= temp %></td>
 
+                                    <tr>
+                                    <form method="POST" action="/payment">
+                                        <input type="hidden" name="id" value="<%= userid %>" id="id">
+                                        <input type="hidden" name="total" value="<%= temp %>" id="total">
+                                        <input type="submit" value="payment">
+                                     </form>
+                                     </tr>
                                <!--</tr>
                                <tr>
                                    <td>Tax</td>
@@ -102,10 +113,7 @@ License URI: http://www.themevault.net/license/-->
 
                                <tr> -->
                                    <tr></tr>
-                                   <td>
-                                     <!-- <a href="/menu?id=<%= data.item_id %>" class="btn btn-default">Add to cart</a> -->
-                                    <a href="/payment"> <button class="vendor-action order-action add-cart" type="button" id="add_cart"  value="<%= data.item_id %>" res_id= " <%= data.restraunt_id%>">Make Payment</button></a>
-                                  </td>
+                                  
                                 </tr>
                                  </tr>
                             </tbody>

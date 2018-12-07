@@ -15,13 +15,15 @@ import (
 
 
 type Card struct {
-	ID			bson.ObjectId   `bson:"_id" json:"id"`
+	ID			string			`json:id`
+	OrderID		bson.ObjectId  `json:"orderid"`
 	TimeStamp 	time.Time       `json:"timestamp"`
 	Name 		string			`json:"name"`
 	Number 		string			`json:"number"`
 	CVV 		string			`json:"cvv"`
 	Month 	    string     		`json:"month"`
 	Year	    string			`json:"year"`
+	Total       string           `json:"total"`
 }
 
 type Cart struct {
@@ -53,7 +55,7 @@ type Order struct {
 	OrderId		int				`json:"Orderid"`	
 }
 
-var mongodb_server = "mongodb://admin:cmpe281@10.0.1.106,10.0.1.186,10.0.1.204,10.0.1.170,10.0.1.247"
+var mongodb_server = "mongodb://admin:yesha@10.0.1.106,10.0.1.186,10.0.1.204,10.0.1.170,10.0.1.247"
 
 func NewServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
@@ -80,11 +82,8 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/cart", getcartHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/orders", postCard(formatter)).Methods("POST")
 	mx.HandleFunc("/cart", postCart(formatter)).Methods("POST")
-	//mx.HandleFunc("/order", getOrder(formatter)).Methods("GET")
+	//mx.HandleFunc("/details", getDetails(formatter)).Methods("GET")
 }
-
-
-
 
 func pingHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
@@ -141,7 +140,8 @@ func postCard(formatter *render.Render) http.HandlerFunc {
 		session, err := mgo.Dial("mongodb_server:27017")
         if err != nil {
                 panic(err)
-        }
+		}
+		
         defer session.Close()
         session.SetMode(mgo.Monotonic, true)
         c := session.DB("counterBurger").C("card")
@@ -151,7 +151,7 @@ func postCard(formatter *render.Render) http.HandlerFunc {
 
 		objID := bson.NewObjectId()
 
-		card.ID = objID
+		card.OrderID = objID
 
 		card.TimeStamp = time.Now()
 
@@ -205,4 +205,24 @@ func postCart(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
+/*func getDetails(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {	
+		session, err := mgo.Dial("mongodb_server:27017")
+        if err != nil {
+                panic(err)
+        }
+        defer session.Close()
+        session.SetMode(mgo.Monotonic, true)
+		c := session.DB("counterBurger").C("card")
+		
+		var result []Card
+		var card Card
+		err = json.NewDecoder(req.Body).Decode(&card)
+		err = c.Find("id":card.ID).Select(bson.M{"orderid": 1, "total": 1}).All(&result)
+		if err != nil {
+			log.Fatal(err)
+		}
+		formatter.JSON(w, http.StatusOK, result)
+	}
+}*/
 
