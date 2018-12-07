@@ -184,28 +184,32 @@ app.get('/signup',function(req,res){
 });
 
 app.post('/users/signupSubmit',function(req,res){
-    var args = {
-        data: { username: req.body.username,
-            name: req.body.name,
-            email: req.body.email,
-            contact: req.body.contact,
-            address: req.body.address,
-            password: req.body.password 
-        },
-        headers: { "Content-Type": "application/json" }
-    };
-    console.log(args);
-    client.post("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/users/signup", args, function (data, response) {
-        // parsed response body as js object
-        console.log(data);
-        if (data == 1){
-            res.send('Username Already Taken');
-        }else if (data){
-            var cookies = new Cookies(req, res, { keys: keys})
-            cookies.set('userid', data, {signed: true})
-            res.redirect('/');
-        }
-    });
+    console.log(req.confirmPassword);
+    if (req.password == req.confirmPassword){
+        var args = {
+            data: { username: req.body.username,
+                name: req.body.name,
+                email: req.body.email,
+                contact: req.body.contact,
+                address: req.body.address,
+                password: req.body.password 
+            },
+            headers: { "Content-Type": "application/json" }
+        };
+        console.log(args);
+        client.post("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/users/signup", args, function (data, response) {
+            // parsed response body as js object
+            console.log(data);
+            if (data){
+                var cookies = new Cookies(req, res, { keys: keys})
+                cookies.set('userid', data, {signed: true})
+                res.redirect('/');
+            }
+        });
+    }
+    else {
+        res.redirect('signup');
+    }
 });
 
 app.put('/users/changePassword',function(req,res){
