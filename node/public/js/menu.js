@@ -1,5 +1,4 @@
-$(document).ready(function(){
-   // console.log("THISSSSSSSSSSSSSSSs")
+/*$(document).ready(function(){
      var userid = $("#userid").get(0).getAttribute('data-info');
      var restraunt_id = $('#count').get(0).getAttribute('res_id');
      $.ajax({
@@ -26,7 +25,7 @@ $(document).ready(function(){
        }
     });
  });
- 
+ */
  $(".add-cart").on("click",function(){
    var item_id = this.value;
    var restraunt_id = this.getAttribute("res_id");
@@ -63,4 +62,7 @@ $(document).ready(function(){
   });
  });
  
+ $("#checkout").on("click",function(){
+  window.location.href = "/viewcart"
+ });
  

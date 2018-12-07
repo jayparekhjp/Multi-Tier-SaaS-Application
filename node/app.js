@@ -37,6 +37,7 @@ function parseCookies (request) {
 
 
 app.get('/viewcart', function (req, res) {
+    var cookies = new Cookies(req, res, { keys: keys})
     var client = new Client();
     var args = {
         data: { "id": cookies.get('userid', { signed: true }) },
@@ -91,12 +92,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get('/summary', function (req, res) {
+app.post('/summary', function (req, res) {
     var client = new Client();
     var args = {
     data: {
-     "id":"2"
-     //cookies.get('userid', { signed: true })
+     "id":cookies.get('userid', { signed: true })
      },
      headers: {"Content-Type":"application/json"}
     };
@@ -285,3 +285,4 @@ app.post('/order', function (req, res) {
 app.listen(port, function () {
   console.log("Server is running on "+ port +" port");
 });
+
