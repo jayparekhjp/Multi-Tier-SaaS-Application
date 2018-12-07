@@ -138,11 +138,11 @@ app.get('/users/ping',function(req,res){
 app.get('/login',function(req,res){
     var cookies = new Cookies(req, res, { keys: keys })
     var userid = cookies.get('userid', { signed: true })
-    if(userid !== undefined){
+    /*if(userid !== undefined){
       res.redirect('/restraunts');
     }else{
       res.render('login');
-    }
+    }*/
 });
 
 app.get('/login-test',function(req,res){
@@ -267,6 +267,42 @@ app.get('/menu', function (req, res) {
         userid:userid
         });
     });
+});
+
+app.get('/list', function (req, res) {
+  var client = new Client();
+  var uid = req.body.UserId;
+  var args = {
+        data: { "UserId": "3496",//req.body.UserId after calling api
+        "OrderId": "",
+        "TotalPrice":"" },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+  console.log(args)
+  client.get("http://localhost:3000/list",args, function (data, response) { // CHANGE to broadcsat address for docker
+      console.log(data);
+      res.render('list',{
+        data:data
+      });
+  });
+});
+
+app.get('/insertAfterPayment', function (req, res) {
+  var client = new Client();
+  //var uid = req.body.UserId;
+  var args = {
+        data: { "UserId": "3496",
+        "OrderId": "asdf",
+        "TotalPrice":"8.8" },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+  console.log(args)
+  client.post("http://localhost:3000/insert",args, function (data, response) { // CHANGE to broadcsat address for docker
+      console.log(data);
+      res.render('insertAfterPayment',{
+        data:data
+      });
+  });
 });
 
 app.post('/order', function (req, res) {
