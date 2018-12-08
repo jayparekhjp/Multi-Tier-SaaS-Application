@@ -43,7 +43,7 @@ app.get('/viewcart', function (req, res) {
         data: { "id": cookies.get('userid', { signed: true }) },
         headers: {"Content-Type":"application/json"}// request headers
     };
-    client.get("http://34.219.121.214:3000/api/cart/itemDisplay",args, function (data, response) {
+    client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
         res.render('cart',{
           data:data
         });
@@ -79,7 +79,7 @@ app.post('/deleteitem',function(req,res){
       headers: { "Content-Type": "application/json" }
   };
   console.log(args);
-  client.delete("http://34.219.121.214:3000/api/cart/cartDelete", args, function (data, response) {
+  client.delete("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/cartDelete", args, function (data, response) {
       
           res.redirect('/viewcart');
       }
@@ -101,7 +101,7 @@ app.post('/summary', function (req, res) {
      },
      headers: {"Content-Type":"application/json"}
     };
-    client.get("http://34.219.121.214:3000/api/cart/itemDisplay",args, function (data, response) {
+    client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
         // console.log(data[0]['name']);
         res.render('summary',{
           data:data
