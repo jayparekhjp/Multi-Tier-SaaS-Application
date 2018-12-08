@@ -32,6 +32,9 @@ var (
 	session *mgo.Session
 	c       *mgo.Collection
 )
+
+//var mongodb_server = "localhost:27017"
+
 var mongodb_server = "mongodb://admin:cmpe281@10.0.1.13,10.0.1.64,10.0.1.174,10.0.1.112,10.0.1.115"
 
 // NewServer configures and returns a Server.
@@ -65,6 +68,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/api/cart/itemDisplay", cartDisplay(formatter)).Methods("GET")
 	mx.HandleFunc("/api/cart/itemSave", cartSave(formatter)).Methods("POST")
 	mx.HandleFunc("/api/cart/cartDelete", cartDelete(formatter)).Methods("DELETE")
+	mx.HandleFunc("/api/cart/cartDeleteAfter", cartDeleteAfter(formatter)).Methods("DELETE")
 	mx.HandleFunc("/atish", sendAtish(formatter)).Methods("GET")
 }
 
@@ -135,6 +139,25 @@ func cartDelete(formatter *render.Render) http.HandlerFunc {
 		for i := range result {
 			fmt.Print(i)
 			err = c.Remove(bson.M{"id": item.ID, "restuarantid": item.RestuarantId, "itemid": item.ItemId})
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+	}
+}
+
+func cartDeleteAfter(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		var item Item
+		var result []Item
+		err := json.NewDecoder(req.Body).Decode(&item)
+		err = c.Find(bson.M{"id": item.ID, "restuarantid": item.RestuarantId}).All(&result)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for i := range result {
+			fmt.Print(i)
+			err = c.Remove(bson.M{"id": item.ID, "restuarantid": item.RestuarantId})
 			if err != nil {
 				log.Fatal(err)
 			}
