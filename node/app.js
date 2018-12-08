@@ -304,8 +304,21 @@ app.get('/list', function (req, res) {
 });
 
 app.get('/logout', function (req, res) {
+  var cookies = new Cookies(req, res, { keys: keys })
+  var userid = cookies.get('userid', { signed: true })
+  var restraunt_id = cookies.get('restraunt_id', { signed: true })
+  var args = {
+      data: { 
+      "id": userid,
+      "rid": restraunt_id
+    },
+    headers: {"Content-Type":"application/json"}
+  };
   res.clearCookie("userid");
-  res.redirect('/login');
+  // client.delete("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDeleteAfter",args, function (data, response) { 
+    // res.render('login');
+  // });
+  res.redirect("/login")
 })
 
 

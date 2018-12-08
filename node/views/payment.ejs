@@ -92,28 +92,28 @@
       <form method="POST" action="/order">
          <div class="a">
             <font>Card Holder's Name:</font><br>
-            <input type="text" name="name">
+            <input type="text" name="name" required>
          </div>
          <div class="a">
             <font>Card Number:</font><br>
-            <input type="text" name="cardnumber">
+            <input type="text" name="cardnumber" required>
          </div>
          <div class="a">
             <font>Expiry Month:</font><br>
-            <input type="text" name="month">
+            <input type="text" name="month" required>
          </div>
          <div class="a">
             <font>Expiry Year:</font><br>
-            <input type="text" name="year">
+            <input type="text" name="year" required>
          </div>
          <div class="a">
             <font>CVV:</font><br>
-            <input type="text" name="cvv">
+            <input type="text" name="cvv" required>
          </div>
          <div>
             <input type="hidden" value="<%userid%>" name="userid" id="userid" >
             <input type="hidden" value="<%total%>" name="total" id="total" >
-            <input type="submit" value="make payment" >
+            <input type="submit" value="make payment" id="deletecart">
          </div>
       </form>
    </body>
