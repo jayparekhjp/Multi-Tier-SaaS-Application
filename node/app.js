@@ -85,12 +85,8 @@ app.post('/deleteitem',function(req,res){
       headers: { "Content-Type": "application/json" }
   };
   console.log(args);
-<<<<<<< HEAD
-  client.delete("http://52.38.53.215:3000/api/cart/cartDelete", args, function (data, response) {
-=======
+
   client.delete("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/cartDelete", args, function (data, response) {
->>>>>>> 98aa27c52067d4e9d12d4f920fbc9bdf344add94
-      
           res.redirect('/viewcart');
       }
   );
@@ -111,13 +107,7 @@ app.post('/summary', function (req, res) {
      },
      headers: {"Content-Type":"application/json"}
     };
-<<<<<<< HEAD
-    var cookies = new Cookies(req, res, { keys: keys})
-    var userid = cookies.get('userid', { signed: true })
-    client.get("http://52.38.53.215:3000/api/cart/itemDisplay",args, function (data, response) {
-=======
     client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
->>>>>>> 98aa27c52067d4e9d12d4f920fbc9bdf344add94
         // console.log(data[0]['name']);
         res.render('summary',{
           data:data
