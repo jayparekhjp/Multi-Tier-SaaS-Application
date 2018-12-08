@@ -1,6 +1,6 @@
 # fa18-281-slack-overflow
 
-Project Demo : [demo] (https://slack-overflow-cmpe281.herokuapp.com/)
+Project Demo : [demo] (https://slack-overflow-cmpe281.herokuapp.com/)  
 View our presentation here: [presentation] (https://prezi.com/p/lkkal8inqsep/)
 
 ## Architecture diagram
