@@ -52,27 +52,20 @@ License URI: http://www.themevault.net/license/-->
                           <table id="VendorList">
                              <tbody>
                                 <tr>
-                                   <th>User ID</th>
-                                   <th>Total Price</th>
                                    <th>Order ID</th>
+                                   <th>Total Price</th>
                                 </tr>
                                 <% if (data !== undefined && data !== null ) { %>
                                    <% data.forEach(function(data) { %>
                                       <tr class="vendor" data-vendorid="<% data.UserId %>" data-hasdispatch="false">
                                          <td>
-                                            <strong><%= data.UserId %></strong>
-                                            <div class="streetaddress">
-                                            </div>
+                                          <%= data.orderid %><br>
+                                          <br>
                                          </td>
                                          <td>
-                                            <%= data.TotalPrice %><br>
+                                            <%= data.total %><br>
                                             <br>
                                          </td>
-
-                                       <td>
-                                          <%= data.OrderId %><br>
-                                          <br>
-                                       </td>
 
                                       </tr>
                                    <% }); %>
