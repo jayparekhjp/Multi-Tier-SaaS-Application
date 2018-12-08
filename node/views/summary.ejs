@@ -96,11 +96,6 @@ License URI: http://www.themevault.net/license/-->
                                     <td> <%= temp %></td>
 
                                     <tr>
-                                    <form method="POST" action="/payment">
-                                        <input type="hidden" name="id" value="<%= data.id %>" id="id">
-                                        <input type="hidden" name="total" value="<%= temp %>" id="total">
-                                        <input type="submit" value="payment">
-                                     </form>
                                      </tr>
                                <!--</tr>
                                <tr>
@@ -123,6 +118,11 @@ License URI: http://www.themevault.net/license/-->
                     <ul>
                     </ul>
                  </div>
+                 <form method="POST" action="/payment" class="payment">
+                    <input type="hidden" name="id" value="<%= data.id %>" id="id">
+                    <input type="hidden" name="total" value="<%= temp %>" id="total">
+                    <input type="submit" value="payment">
+                 </form>
                </div>
                
         </section>
