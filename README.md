@@ -1,4 +1,5 @@
 # fa18-281-slack-overflow
+
 ## Architecture diagram
 <img src=https://github.com/nguyensjsu/fa18-281-slack-overflow/blob/master/Architecture.png>
 
@@ -13,26 +14,28 @@
 
 
 ## Technologies Used:
-AWS Web Services
-Heroku (Frond-end deployment)
-Docker
-Cassandra
-GoLang
-Node.js
-Cassandra
-MongoDB
-session and cookie
+*AWS Web Services
+*Heroku (Frond-end deployment)
+*Docker
+*Cassandra
+*GoLang
+*Node.js
+*MongoDB
 
-## Go api Functionality
-  Users:
-  Create the registration and login functions for users, and allow the userId to be passed through all the requests sent by a certain user via session. The user information is stored in all the database.
-  Menu:
+## Go API Functionality
+Users:
+  Create the registration and login functions for users, and allow the userId to be passed through all the requests sent by a certain user via session. The user information is stored in all the database.<br>
+  
+Menu:
   Restaurants in different locations have varied menus. For online orders, users can view menu via typing Zip code of the restaurants.  
-  Cart:
+  
+Cart:
   While viewing items in a menu, users can add items with a specific count and add to the cart for this restaurant. The cart information is stored in the counter database.  
-  Payment:
+  
+Payment:
   When users checking out items in shopping carts, they can make payment by typing user's payment information and then make a payment. After clicking the button 'make payment', the order history will be passed to the next goapi.
-  Orders:
+  
+Orders:
   After a user make a payment, the order history is kept in the buigerOrder database. At the same page, users can view his own order history by clicking on "List all your order history".
 
 ## node.js
@@ -41,26 +44,37 @@ The app.js is designed to send requests to goapis and render or redirect pages t
 ## ejs pages
 admin.ejs:
 List all the user information and only available for admin user
+
 cart.ejs:
 Show the cart for a certain user
+
 header.ejs:
 Gives an overview of how the website works and shows the users the navigation bar to home page, restaurants page and description page
+
 home.ejs:
 Home page of our website
+
 insertAfterPayment.ejs:
-Shows the most recent payment of the user.
+Shows the most recent payment of the user
+
 list.ejs:
-Shows all the payment history of the user.
+Shows all the payment history of the user
+
 loin.ejs:
 Login page
+
 menu.ejs:
-List menus for restaurants which have different zip code.
+List menus for restaurants which have different zip code
+
 payment.ejs:
 For users to make a payment
+
 search.ejs:
-For users to search and view more information of restuarants.
+For users to search and view more information of restuarants
+
 signup.ejs:
 Sign up page
+
 summary.ejs:
 For users to view the summary of the items in the cart
 
