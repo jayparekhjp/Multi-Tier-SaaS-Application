@@ -136,13 +136,13 @@ app.get('/users/ping',function(req,res){
 });
 
 app.get('/login',function(req,res){
-    var cookies = new Cookies(req, res, { keys: keys })
-    var userid = cookies.get('userid', { signed: true })
-    if(userid !== undefined){
-      res.redirect('/restraunts');
-    }else{
+    // var cookies = new Cookies(req, res, { keys: keys })
+    // var userid = cookies.get('userid', { signed: true })
+    // if(userid !== undefined){
+    //   res.redirect('/restraunts');
+    // }else{
       res.render('login');
-    }
+    // }
 });
 
 app.get('/login-test',function(req,res){
@@ -192,8 +192,7 @@ app.get('/signup',function(req,res){
 });
 
 app.post('/users/signupSubmit',function(req,res){
-    console.log(req.confirmPassword);
-    if (req.password == req.confirmPassword){
+    // if (req.password == req.confirmPassword){
         var args = {
             data: { username: req.body.username,
                 name: req.body.name,
@@ -206,18 +205,19 @@ app.post('/users/signupSubmit',function(req,res){
         };
         console.log(args);
         client.post("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/users/signup", args, function (data, response) {
+        //client.post("localhost:3000/api/users/signup", args, function (data, response) {
             // parsed response body as js object
             console.log(data);
             if (data){
                 var cookies = new Cookies(req, res, { keys: keys})
                 cookies.set('userid', data, {signed: true})
-                res.redirect('/');
+                res.redirect('/restraunts');
             }
         });
-    }
-    else {
-        res.redirect('signup');
-    }
+    // }
+    // else {
+    //     res.redirect('signup');
+    // }
 });
 
 app.put('/users/changePassword',function(req,res){
