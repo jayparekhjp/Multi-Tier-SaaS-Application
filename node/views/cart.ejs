@@ -53,7 +53,7 @@ License URI: http://www.themevault.net/license/-->
                                    <th>Restuarant Name</th>
                                    <th>Option</th>                                
                                  </tr>
-                                <% if (data !== undefined ) { %>
+                                <% if (data !== undefined && data.length !== 0 ) { %>
                                  <% data.forEach(function(data){%>
                                       <tr class="vendor" data-vendorid="" data-hasdispatch="false">
                                          <td>

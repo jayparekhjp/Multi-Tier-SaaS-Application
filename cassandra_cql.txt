@@ -1,13 +1,6 @@
 CREATE KEYSPACE cmpe281
   WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 }; //Change this in production
   
-
-CREATE type cmpe281.item(
-	name text,
-	price float,
-	item_id text
-);
-
 CREATE table cmpe281.restraunts(
 	restraunt_id text PRIMARY KEY,
 	restraunt_name text,
@@ -22,8 +15,11 @@ CREATE table cmpe281.menu(
 	name text,
 	price float,
 	restraunt_name text,
-	item_id text PRIMARY KEY
+	item_id text ,
+	PRIMARY KEY(item_id,restraunt_id)
 );
+
+---------------------------------------------------------------------------------RESTRAUNTS---------------------------------------------------------------------------------
 
 
 INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code)
@@ -36,12 +32,12 @@ VALUES(
 	95112
 );
 
-INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code,menu)
+INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code)
 VALUES(
 	'2',
 	'9am-5pm',
 	'1234567890',
-	'The Counter Cupertino',
+	'4th Street Pizza Co',
 	'20080 Stevens Creek Blvd Cupertino, CA Blaney',
 	95112
 );
@@ -51,9 +47,9 @@ VALUES(
 	'3',
 	'9am-5pm',
 	'1234567890',
-	'The Counter Fremont',
-	'3050 Olin Avenue San Jose,CA , Fremont',
-	95112
+	'Nick the greek',
+	'143 W Santa Clara St, San Jose,CA',
+	95113
 );
 
 INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code)
@@ -61,50 +57,86 @@ VALUES(
 	'4',
 	'9am-5pm',
 	'1234567890',
-	'The Counter Fremont',
-	'3050 Olin Avenue San Jose,CA , Fremont',
+	'Power Bowl',
+	'132 E San Fernando St, San Jose, CA',
 	95113
 );
 
+INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code)
+VALUES(
+	'5',
+	'9am-5pm',
+	'1234567890',
+	'Nemea Greek Taverna',
+	'132 E San Fernando St, San Jose, CA',
+	95112
+);
 
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code)
+VALUES(
+	'6',
+	'9am-5pm',
+	'1234567890',
+	'The City Fish',
+	'132 E San Fernando St, San Jose, CA',
+	95114
+);
+INSERT INTO cmpe281.restraunts(restraunt_id,opening_hours,phone_number,restraunt_name,restraunt_address,zip_code)
+VALUES(
+	'7',
+	'9am-5pm',
+	'1234567890',
+	'M Asian Fusion Restaurant',
+	'132 E San Fernando St, San Jose, CA',
+	95114
+);
+--------------------------------------------------------------Restraunt-end-here----------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------Menu---------------------------------------------------------------------------------
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
 VALUES(
 	'1',
 	'Burger',
 	9.59,
-	'1'
+	'1',
+	'The Counter Santana Row'
 );
 
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
 VALUES(
 	'1',
 	'Fries',
 	5.99,
-	'2'
+	'2',
+	'The Counter Santana Row'
 );
 
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
 VALUES(
 	'1',
-	'Fries',
+	'Appetizer',
 	5.99,
-	'3'
+	'3',
+	'The Counter Santana Row'
 );
 
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
 VALUES(
 	'1',
-	'Fries-3',
+	'Salad',
 	5.99,
-	'4'
+	'4',
+	'The Counter Santana Row'
 );
 
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
 VALUES(
 	'1',
-	'Fries-5',
+	'Desert',
 	7.99,
-	'5'
+	'5',
+	'The Counter Santana Row'
 );
 
 
@@ -112,47 +144,399 @@ VALUES(
 
 
 
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+
+
+
+
+
+
+
+
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
 VALUES(
 	'2',
-	'Burger',
+	'Pasta',
+	7.99,
+	'5',
+	'4th Street Pizza Co'
+);
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'2',
+	'Ham-Burger',
 	9.59,
-	'1'
+	'1',
+	'4th Street Pizza Co'
 );
 
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
 VALUES(
 	'2',
-	'Fries',
+	'Hot dog',
 	5.99,
 	'2'
+	'4th Street Pizza Co'
 );
 
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
 VALUES(
 	'2',
-	'Fries',
-	5.99,
-	'3'
-);
-
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
-VALUES(
-	'2',
-	'Fries-3',
-	5.99,
-	'4'
-);
-
-INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id)
-VALUES(
-	'2',
-	'Fries-5',
+	'Greek pizza',
 	7.99,
-	'5'
+	'3',
+	'4th Street Pizza Co'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'2',
+	'New-york style pizza',
+	8.99,
+	'4',
+	'4th Street Pizza Co'
 );
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'3',
+	'Beef Pita',
+	7.99,
+	'5',
+	'Nick the greek'
+);
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'3',
+	'Falafel Pita',
+	9.59,
+	'1',
+	'Nick the greek'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'3',
+	'Baklava',
+	5.99,
+	'2'
+	'Nick the greek'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'3',
+	'Greek salad',
+	7.99,
+	'3',
+	'Nick the greek'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'3',
+	'French fries',
+	8.99,
+	'4',
+	'Nick the greek'
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'4',
+	'Pancakes',
+	7.99,
+	'5',
+	'Power Bowl'
+);
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'4',
+	'Mixfruit Punch',
+	9.59,
+	'1',
+	'Power Bowl'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'4',
+	'Orange Pancakes',
+	5.99,
+	'2'
+	'Power Bowl'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'4',
+	'Greek salad',
+	7.99,
+	'3',
+	'Power Bowl'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'4',
+	'French fries',
+	8.99,
+	'4',
+	'Power Bowl'
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'5',
+	'Pancakes',
+	7.99,
+	'5',
+	'Nemea Greek Taverna'
+);
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'5',
+	'Mixfruit Punch',
+	9.59,
+	'1',
+	'Nemea Greek Taverna'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'5',
+	'Orange Pancakes',
+	5.99,
+	'2'
+	'Nemea Greek Taverna'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'5',
+	'Greek salad',
+	7.99,
+	'3',
+	'Nemea Greek Taverna'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'5',
+	'French fries',
+	8.99,
+	'4',
+	'Nemea Greek Taverna'
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'6',
+	'Beef Pita',
+	7.99,
+	'5',
+	'The City Fish'
+);
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'6',
+	'Falafel Pita',
+	9.59,
+	'1',
+	'The City Fish'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'6',
+	'Baklava',
+	5.99,
+	'2'
+	'The City Fish'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'6',
+	'Greek salad',
+	7.99,
+	'3',
+	'The City Fish'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'6',
+	'French fries',
+	8.99,
+	'4',
+	'The City Fish'
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'7',
+	'Egg rolls',
+	7.99,
+	'5',
+	'M Asian Fusion Restaurant'
+);
+
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'7',
+	'Speical Pho',
+	9.59,
+	'1',
+	'M Asian Fusion Restaurant'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'7',
+	'Bean Thread Soup',
+	5.99,
+	'2'
+	'M Asian Fusion Restaurant'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'7',
+	'Vietnamese Noodle Egg Roll Salad',
+	7.99,
+	'3',
+	'M Asian Fusion Restaurant'
+);
+
+INSERT INTO cmpe281.menu(restraunt_id,name,price,item_id,restraunt_name)
+VALUES(
+	'7',
+	'Regular Fried Rice',
+	8.99,
+	'4',
+	'M Asian Fusion Restaurant'
+);
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------Menu-end-here--------------------------------------------------------------------------------
 
 ========================================================================================================================================================
 

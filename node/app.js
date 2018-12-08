@@ -39,11 +39,13 @@ function parseCookies (request) {
 app.get('/viewcart', function (req, res) {
     var cookies = new Cookies(req, res, { keys: keys})
     var client = new Client();
+    var cookies = new Cookies(req, res, { keys: keys })
     var args = {
         data: { "id": cookies.get('userid', { signed: true })  },
         headers: {"Content-Type":"application/json"}// request headers
     };
-    client.get("http://52.38.53.215:3000/api/cart/itemDisplay",args, function (data, response) {
+
+    client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
         res.render('cart',{
           data:data
         });
@@ -63,7 +65,7 @@ app.get('/viewcart', function (req, res) {
         },
         headers: {"Content-Type":"application/json"}// request headers
     };
-    client.post("http://34.216.22.59:3000/api/cart/itemSave",args, function (data, response) {
+    client.post("http://34.219.121.214:3000/api/cart/itemSave",args, function (data, response) {
                 res.redirect('')
     }) 
     }
@@ -79,7 +81,11 @@ app.post('/deleteitem',function(req,res){
       headers: { "Content-Type": "application/json" }
   };
   console.log(args);
+<<<<<<< HEAD
   client.delete("http://52.38.53.215:3000/api/cart/cartDelete", args, function (data, response) {
+=======
+  client.delete("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/cartDelete", args, function (data, response) {
+>>>>>>> 98aa27c52067d4e9d12d4f920fbc9bdf344add94
       
           res.redirect('/viewcart');
       }
@@ -94,15 +100,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/summary', function (req, res) {
     var client = new Client();
+    var cookies = new Cookies(req, res, { keys: keys })
     var args = {
     data: {
      "id":cookies.get('userid', { signed: true })
      },
      headers: {"Content-Type":"application/json"}
     };
+<<<<<<< HEAD
     var cookies = new Cookies(req, res, { keys: keys})
     var userid = cookies.get('userid', { signed: true })
     client.get("http://52.38.53.215:3000/api/cart/itemDisplay",args, function (data, response) {
+=======
+    client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
+>>>>>>> 98aa27c52067d4e9d12d4f920fbc9bdf344add94
         // console.log(data[0]['name']);
         res.render('summary',{
           data:data
@@ -138,7 +149,13 @@ app.get('/users/ping',function(req,res){
 });
 
 app.get('/login',function(req,res){
-    res.render('login');
+    var cookies = new Cookies(req, res, { keys: keys })
+    var userid = cookies.get('userid', { signed: true })
+    if(userid !== undefined){
+      res.redirect('/restraunts');
+    }else{
+      res.render('login');
+    }
 });
 
 app.get('/login-test',function(req,res){
@@ -188,28 +205,32 @@ app.get('/signup',function(req,res){
 });
 
 app.post('/users/signupSubmit',function(req,res){
-    var args = {
-        data: { username: req.body.username,
-            name: req.body.name,
-            email: req.body.email,
-            contact: req.body.contact,
-            address: req.body.address,
-            password: req.body.password 
-        },
-        headers: { "Content-Type": "application/json" }
-    };
-    console.log(args);
-    client.post("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/users/signup", args, function (data, response) {
-        // parsed response body as js object
-        console.log(data);
-        if (data == 1){
-            res.send('Username Already Taken');
-        }else if (data){
-            var cookies = new Cookies(req, res, { keys: keys})
-            cookies.set('userid', data, {signed: true})
-            res.redirect('/');
-        }
-    });
+    // if (req.password == req.confirmPassword){
+        var args = {
+            data: { username: req.body.username,
+                name: req.body.name,
+                email: req.body.email,
+                contact: req.body.contact,
+                address: req.body.address,
+                password: req.body.password 
+            },
+            headers: { "Content-Type": "application/json" }
+        };
+        console.log(args);
+        client.post("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/users/signup", args, function (data, response) {
+        //client.post("localhost:3000/api/users/signup", args, function (data, response) {
+            // parsed response body as js object
+            console.log(data);
+            if (data){
+                var cookies = new Cookies(req, res, { keys: keys})
+                cookies.set('userid', data, {signed: true})
+                res.redirect('/restraunts');
+            }
+        });
+    // }
+    // else {
+    //     res.redirect('signup');
+    // }
 });
 
 app.put('/users/changePassword',function(req,res){
@@ -221,15 +242,6 @@ app.delete('/users/deleteUser',function(req,res){
 }); 
 // Jay Parekh - Users ---------------------------------------------------------------------------------------------------
 
-/*app.get('/restraunts', function (req, res) {
-    var cookies = parseCookies(req);  
-   var name = cookies.username;
-   console.log(name);
-   res.render('search',{
-    name : name
-   });
-})  */
-
 app.get('/restraunts', function (req, res) {
   var client = new Client();
   var pin = req.query.pin;
@@ -238,9 +250,7 @@ app.get('/restraunts', function (req, res) {
   };
   // console.log(pin)
   var cookies = new Cookies(req, res, { keys: keys })
-  // var userid = cookies.get('userid');
   var userid = cookies.get('userid', { signed: true })
-  console.log(userid);
   if(userid === undefined){
     res.redirect('/login');
   }
@@ -261,6 +271,7 @@ app.get('/menu', function (req, res) {
   };
   var cookies = new Cookies(req, res, { keys: keys })
   cookies.set('restraunt_id', res_id, { signed: false })
+  // cookies.set('userid', 1, {signed: true})
   var userid = cookies.get('userid', { signed: true })
   client.get("http://GOAPI-1977895044.us-west-1.elb.amazonaws.com:3000/menus",args, function (data, response) {
       console.log(userid);
@@ -269,6 +280,42 @@ app.get('/menu', function (req, res) {
         userid:userid
         });
     });
+});
+
+app.get('/list', function (req, res) {
+  var client = new Client();
+  var uid = req.body.UserId;
+  var args = {
+        data: { "UserId": "3496",//req.body.UserId after calling api
+        "OrderId": "",
+        "TotalPrice":"" },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+  console.log(args)
+  client.get("http://localhost:3000/list",args, function (data, response) { // CHANGE to broadcsat address for docker
+      console.log(data);
+      res.render('list',{
+        data:data
+      });
+  });
+});
+
+app.get('/insertAfterPayment', function (req, res) {
+  var client = new Client();
+  //var uid = req.body.UserId;
+  var args = {
+        data: { "UserId": "3496",
+        "OrderId": "asdf",
+        "TotalPrice":"8.8" },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+  console.log(args)
+  client.post("http://localhost:3000/insert",args, function (data, response) { // CHANGE to broadcsat address for docker
+      console.log(data);
+      res.render('insertAfterPayment',{
+        data:data
+      });
+  });
 });
 
 app.post('/order', function (req, res) {
