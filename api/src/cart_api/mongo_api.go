@@ -32,10 +32,7 @@ var (
 	session *mgo.Session
 	c       *mgo.Collection
 )
-
 var mongodb_server = "mongodb://admin:cmpe281@10.0.1.13,10.0.1.64,10.0.1.174,10.0.1.112,10.0.1.115"
-var mongodb_database = "counter"
-var mongodb_collection = "burger"
 
 // NewServer configures and returns a Server.
 func NewServer() *negroni.Negroni {
@@ -56,7 +53,7 @@ func main() {
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)
-	c = session.DB(mongodb_database).C(mongodb_collection)
+	c = session.DB("counter").C("burger1")
 
 	server := NewServer()
 	server.Run(":3000")
@@ -81,6 +78,7 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 func cartSave(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		var item Item
+		var result []Send
 		err := json.NewDecoder(req.Body).Decode(&item)
 		item.TimeStamp = time.Now()
 		err = c.Insert(&item)
@@ -89,23 +87,35 @@ func cartSave(formatter *render.Render) http.HandlerFunc {
 		} else {
 			log.Printf("inserted to cart")
 		}
-		j, err := json.Marshal(item)
+		err = c.Find(bson.M{"id": item.ID, "restuarantid": item.RestuarantId}).Select(bson.M{"itemid": 1}).All(&result)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(j)
-		formatter.JSON(w, http.StatusOK, "saved to cart")
+		formatter.JSON(w, http.StatusOK, result)
 		return
 	}
 }
-
 func cartDisplay(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		var result []Item
 		var item Item
 		err := json.NewDecoder(req.Body).Decode(&item)
 		err = c.Find(bson.M{"id": item.ID}).All(&result)
+		if err != nil {
+			log.Fatal(err)
+		}
+		formatter.JSON(w, http.StatusOK, result)
+	}
+}
+
+func sendAtish(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		var item Item
+		var result []Send
+
+		err := json.NewDecoder(req.Body).Decode(&item)
+
+		err = c.Find(bson.M{"id": item.ID, "restuarantid": item.RestuarantId}).Select(bson.M{"itemid": 1}).All(&result)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -129,27 +139,5 @@ func cartDelete(formatter *render.Render) http.HandlerFunc {
 				log.Fatal(err)
 			}
 		}
-	}
-}
-func sendAtish(formatter *render.Render) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		var item Item
-		var result []Send
-
-		err := json.NewDecoder(req.Body).Decode(&item)
-		/*result := &map[string]interface{}{
-			"res" : &res,
-			"id" : &id,
-			"iid" : &iid,
-			"rid" : &rid,
-			"iname" : &iname,
-			"price" : &price,
-		}*/
-
-		err = c.Find(bson.M{"id": item.ID, "restuarantid": item.RestuarantId}).Select(bson.M{"itemid": 1}).All(&result)
-		if err != nil {
-			log.Fatal(err)
-		}
-		formatter.JSON(w, http.StatusOK, result)
 	}
 }
