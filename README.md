@@ -50,34 +50,34 @@ summary.ejs: For users to view the summary of the items in the cart
 Swarm is used as container orchestration tool for managing containerized infrastructure at scale
 
 ## Weekly progress
-###Week1
+### Week1
 * Meet up with the group members and decide the topic we are going to use for the project
 * Talk to each other and specify each one's capabilities and experiences
 * Brain storm of any technology that could be implemented in our project
 * Research those technologies that more members are agreed to use for the project
 
-###Week2
+### Week2
 * Decide which website we are going to clone the business logic
 * Agreed on burger online order for our team
 * Allocate the functionality and the related database that each member should work on
 * Decide the data structure that will be used for our database and unify the data we are passing among GO APIs
 * Started coding for GO APIs
 
-###Week3
+### Week3
 * Formed the initial version of the design architecture
 * Finished the first version of our GO APIs
 * Discuss the changes that we need to make for integrating everyone's backend
 * Finish testing the backend via postman
 * Start working on the front end and the node.js that calls the GO APIs.
 
-###Week4
+### Week4
 * Dockerize the go api and try running on the aws instances where we run the database clusters
 * Front-end in Express is done.
 * Made further changes for integrating the GO APIs.
 * Improved the UI.
 * Integrated the front end.
 
-###Week5
+### Week5
 * Made modifications foe the database cluster for better architecture design
 * Finished integrating GO API.
 * Worked on the Wow factor.
