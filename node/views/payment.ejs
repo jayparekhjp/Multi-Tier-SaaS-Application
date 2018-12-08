@@ -71,14 +71,14 @@
                 </div>
                               
         <div class="payment">
-            <form >
+            <form method="POST" action="/order">
                 <div class="a">
                     <font>Card Holder's Name:</font><br>
                     <input type="text" name="name">
                 </div>
                 <div class="a">
                         <font>Card Number:</font><br>
-                    <input type="text" name="number">
+                    <input type="text" valuename="number">
                 </div>
                 <div class="a">
                         <font>Expiry Month:</font><br>
@@ -91,8 +91,12 @@
                 <div class="a">
                         <font>CVV:</font><br>
                     <input type="text" name="cvv">
+                </div>
                 <div>
-                <a href="/order">   <button type="submit">Submit Payment</button></a></div>
+                    <input type="hidden" value=<%userid%> name="userid" id="userid" >
+                    <input type="hidden" value=<%total%> name="total" id="total" >
+                <input type="submit" value="make payment" >
+                </div>
             </form>
     </body>
 </html>

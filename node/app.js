@@ -37,12 +37,14 @@ function parseCookies (request) {
 
 
 app.get('/viewcart', function (req, res) {
+    var cookies = new Cookies(req, res, { keys: keys})
     var client = new Client();
     var cookies = new Cookies(req, res, { keys: keys })
     var args = {
-        data: { "id": cookies.get('userid', { signed: true }) },
+        data: { "id": cookies.get('userid', { signed: true })  },
         headers: {"Content-Type":"application/json"}// request headers
     };
+
     client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
         if(data  === null){
           data = [];
@@ -83,7 +85,11 @@ app.post('/deleteitem',function(req,res){
       headers: { "Content-Type": "application/json" }
   };
   console.log(args);
+<<<<<<< HEAD
+  client.delete("http://52.38.53.215:3000/api/cart/cartDelete", args, function (data, response) {
+=======
   client.delete("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/cartDelete", args, function (data, response) {
+>>>>>>> 98aa27c52067d4e9d12d4f920fbc9bdf344add94
       
           res.redirect('/viewcart');
       }
@@ -105,7 +111,13 @@ app.post('/summary', function (req, res) {
      },
      headers: {"Content-Type":"application/json"}
     };
+<<<<<<< HEAD
+    var cookies = new Cookies(req, res, { keys: keys})
+    var userid = cookies.get('userid', { signed: true })
+    client.get("http://52.38.53.215:3000/api/cart/itemDisplay",args, function (data, response) {
+=======
     client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
+>>>>>>> 98aa27c52067d4e9d12d4f920fbc9bdf344add94
         // console.log(data[0]['name']);
         res.render('summary',{
           data:data
@@ -114,11 +126,12 @@ app.post('/summary', function (req, res) {
 });
 
 
-app.get('/payment', function (req,res) {
-//var client = new Client();
-//client.post("http://18.222.209.245:3002/orders", function (data, response) {
-    //console.log(data[0]['name']);
-    res.render('payment');
+app.post('/payment', function (req,res) {
+var client = new Client();
+    res.render('payment',{ 
+        userid : req.body.id,
+        total : req.body.total, 
+    });
 });
 
 app.get('/', function (req, res) {
@@ -196,8 +209,7 @@ app.get('/signup',function(req,res){
 });
 
 app.post('/users/signupSubmit',function(req,res){
-    console.log(req.confirmPassword);
-    if (req.password == req.confirmPassword){
+    // if (req.password == req.confirmPassword){
         var args = {
             data: { username: req.body.username,
                 name: req.body.name,
@@ -210,18 +222,19 @@ app.post('/users/signupSubmit',function(req,res){
         };
         console.log(args);
         client.post("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/users/signup", args, function (data, response) {
+        //client.post("localhost:3000/api/users/signup", args, function (data, response) {
             // parsed response body as js object
             console.log(data);
             if (data){
                 var cookies = new Cookies(req, res, { keys: keys})
                 cookies.set('userid', data, {signed: true})
-                res.redirect('/');
+                res.redirect('/restraunts');
             }
         });
-    }
-    else {
-        res.redirect('signup');
-    }
+    // }
+    // else {
+    //     res.redirect('signup');
+    // }
 });
 
 app.put('/users/changePassword',function(req,res){
@@ -312,13 +325,29 @@ app.get('/insertAfterPayment', function (req, res) {
 app.post('/order', function (req, res) {
     var client = new Client();
      //client.delete()
-         
-     client.post("http://18.222.209.245:3002/orders", function (data, response) {
-      // console.log(data[0]['name']);
+     var args = {
+        data: { 
+            name: req.body.username,
+            number: req.body.name,
+            month: req.body.email,
+            year: req.body.contact,
+            cvv: req.body.address,
+            total: req.body.total,
+            userid: req.body.userid
+        },
+        headers: { "Content-Type": "application/json" }
+    };
+     client.post("http://localhost:3002/orders", args, function (data, response) {
+            // console.log(data[0]['name']);
+            res.render('insertAfterPayment',{
+              data:data,
+            });
+        }); 
     });
-});
+
     
 
 app.listen(port, function () {
   console.log("Server is running on "+ port +" port");
 });
+

@@ -5,6 +5,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -23,6 +24,7 @@ var (
 
 // MongoDB connections
 var mongoServer = "mongodb://admin:cmpe281@10.0.1.115,10.0.1.165,10.0.1.175,10.0.1.107,10.0.1.211"
+
 //var mongoServer = "localhost:27017"
 var mongoDatabase = "counterBurger"
 var mongoCollection = "users"
@@ -59,7 +61,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/api/users/login", login(formatter)).Methods("POST")
 	mx.HandleFunc("/api/users/{id}", updatePassword(formatter)).Methods("PUT")
 	mx.HandleFunc("/api/users/{id}", deleteAccount(formatter)).Methods("DELETE")
-	mx.HandleFunc("/api/users/{id}", getName(formatter)).Methods("GET")
+	// mx.HandleFunc("/api/users/{id}", getName(formatter)).Methods("GET")
 }
 
 // ping function for checking the status of the API
@@ -75,7 +77,7 @@ func getAllUsers(formatter *render.Render) http.HandlerFunc {
 		var reqUser User
 		var users []User
 		err := json.NewDecoder(req.Body).Decode(&reqUser)
-		if reqUser.Username == "admin" && reqUser.Password == "cmpe281" {
+		if reqUser.Username == "sudo" && reqUser.Password == "cmpe281" {
 			formatter.JSON(w, http.StatusOK, "Welcome Master")
 			iter := collection.Find(nil).Iter()
 			result := User{}
@@ -108,35 +110,31 @@ func signup(formatter *render.Render) http.HandlerFunc {
 		// Check if the username already exists
 		// testUser.Username = user.Username
 		err = collection.Find(bson.M{"username": user.Username}).One(&testUser)
-		if testUser.Username != "" {
-			// flag=1 if username already taken
-			formatter.JSON(w, http.StatusOK,  struct{ Test string }{"Username Empty"})
+
+		// Generate a new ID
+		objID := bson.NewObjectId()
+		// Transfer this ID to user
+		user.ID = objID
+		// Give TimeStamp to user
+		user.TimeStamp = time.Now()
+		// Insert user into collection
+		err = collection.Insert(&user)
+		if err != nil {
+			panic(err)
 		} else {
-			// Generate a new ID
-			objID := bson.NewObjectId()
-			// Transfer this ID to user
-			user.ID = objID
-			// Give TimeStamp to user
-			user.TimeStamp = time.Now()
-			// Insert user into collection
-			err = collection.Insert(&user)
-			if err != nil {
-				panic(err)
-			} else {
-				log.Printf("Successfully created User: %s", user.Name)
-			}
-			// j, err := json.Marshal(user)
-			// if err != nil {
-			// 	panic(err)
-			// }
-			w.Header().Set("Content-Type", "application/json")
-			// w.Write(j)
-			// formatter.JSON(w, http.StatusOK, "Welcome to Counter Burger")
-			formatter.JSON(w, http.StatusOK, user.ID)
-			return
+			log.Printf("Successfully created User: %s", user.Name)
 		}
+		// j, err := json.Marshal(user)
+		// if err != nil {
+		// 	panic(err)
+		// }
+		w.Header().Set("Content-Type", "application/json")
+		// w.Write(j)
+		// formatter.JSON(w, http.StatusOK, "Welcome to Counter Burger")
+		formatter.JSON(w, http.StatusOK, user.ID)
+		return
 	}
-} 
+}
 
 // login function for getting into the system
 func login(formatter *render.Render) http.HandlerFunc {
@@ -145,6 +143,7 @@ func login(formatter *render.Render) http.HandlerFunc {
 		var user User
 		err := json.NewDecoder(req.Body).Decode(&reqUser)
 		err = collection.Find(bson.M{"username": reqUser.Username}).One(&user)
+		fmt.Println("hereeeee")
 		if reqUser.Password != user.Password {
 			formatter.JSON(w, http.StatusOK, "Password Incorrect")
 			return
@@ -153,25 +152,25 @@ func login(formatter *render.Render) http.HandlerFunc {
 			return
 		}
 		if err != (nil) {
-			panic(err)
+			fmt.Println(err)
 		}
 	}
 }
 
 // getName function for getting name via userid
-func getName(formatter *render.Render) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		params := mux.Vars(req)
-		var user User
-		err := collection.Find(bson.M{"id": params["id"]}).One(&user)
-		if err != (nil) {
-			panic(err)
-		}
-		log.Println(user.Username)
-		formatter.JSON(w, http.StatusOK, user.Username)
-		return
-	}
-}
+// func getName(formatter *render.Render) http.HandlerFunc {
+// 	return func(w http.ResponseWriter, req *http.Request) {
+// 		params := mux.Vars(req)
+// 		var user User
+// 		err := collection.Find(bson.M{"id": params["id"]}).One(&user)
+// 		if err != (nil) {
+// 			panic(err)
+// 		}
+// 		log.Println(user.Username)
+// 		formatter.JSON(w, http.StatusOK, user.Username)
+// 		return
+// 	}
+// }
 
 // updatePassword function for updating the password
 func updatePassword(formatter *render.Render) http.HandlerFunc {
