@@ -43,7 +43,7 @@ app.get('/viewcart', function (req, res) {
         data: { "id": cookies.get('userid', { signed: true }) },
         headers: {"Content-Type":"application/json"}// request headers
     };
-    client.get("http://34.219.121.214:3000/api/cart/itemDisplay",args, function (data, response) {
+    client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
         res.render('cart',{
           data:data
         });
@@ -79,7 +79,7 @@ app.post('/deleteitem',function(req,res){
       headers: { "Content-Type": "application/json" }
   };
   console.log(args);
-  client.delete("http://34.219.121.214:3000/api/cart/cartDelete", args, function (data, response) {
+  client.delete("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/cartDelete", args, function (data, response) {
       
           res.redirect('/viewcart');
       }
@@ -101,7 +101,7 @@ app.post('/summary', function (req, res) {
      },
      headers: {"Content-Type":"application/json"}
     };
-    client.get("http://34.219.121.214:3000/api/cart/itemDisplay",args, function (data, response) {
+    client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
         // console.log(data[0]['name']);
         res.render('summary',{
           data:data
@@ -136,13 +136,13 @@ app.get('/users/ping',function(req,res){
 });
 
 app.get('/login',function(req,res){
-    // var cookies = new Cookies(req, res, { keys: keys })
-    // var userid = cookies.get('userid', { signed: true })
-    // if(userid !== undefined){
-    //   res.redirect('/restraunts');
-    // }else{
+    var cookies = new Cookies(req, res, { keys: keys })
+    var userid = cookies.get('userid', { signed: true })
+    if(userid !== undefined){
+      res.redirect('/restraunts');
+    }else{
       res.render('login');
-    // }
+    }
 });
 
 app.get('/login-test',function(req,res){
@@ -267,6 +267,42 @@ app.get('/menu', function (req, res) {
         userid:userid
         });
     });
+});
+
+app.get('/list', function (req, res) {
+  var client = new Client();
+  var uid = req.body.UserId;
+  var args = {
+        data: { "UserId": "3496",//req.body.UserId after calling api
+        "OrderId": "",
+        "TotalPrice":"" },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+  console.log(args)
+  client.get("http://localhost:3000/list",args, function (data, response) { // CHANGE to broadcsat address for docker
+      console.log(data);
+      res.render('list',{
+        data:data
+      });
+  });
+});
+
+app.get('/insertAfterPayment', function (req, res) {
+  var client = new Client();
+  //var uid = req.body.UserId;
+  var args = {
+        data: { "UserId": "3496",
+        "OrderId": "asdf",
+        "TotalPrice":"8.8" },
+        headers: {"Content-Type":"application/json"}// request headers
+    };
+  console.log(args)
+  client.post("http://localhost:3000/insert",args, function (data, response) { // CHANGE to broadcsat address for docker
+      console.log(data);
+      res.render('insertAfterPayment',{
+        data:data
+      });
+  });
 });
 
 app.post('/order', function (req, res) {
