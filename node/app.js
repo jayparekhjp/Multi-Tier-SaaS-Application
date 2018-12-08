@@ -1,7 +1,6 @@
 var express=require("express");
 var bodyParser=require('body-parser');
 const port = 8012;
-// var connection = require('./config');
 var app = express();
 app.set('view engine', 'ejs');
 app.set('views','./views');
@@ -41,39 +40,20 @@ app.get('/viewcart', function (req, res) {
     var client = new Client();
     var args = {
         data: { "id": cookies.get('userid', { signed: true })  },
-        headers: {"Content-Type":"application/json"}// request headers
+        headers: {"Content-Type":"application/json"}
     };
 
     client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
         if(data  === null){
           data = [];
         }
-        // console.log(data)
         res.render('cart',{
           data:data
         });
     });
 });
 
-/*app.post('/additem', function (req, res) {
-    var client = new Client();
-    var args = {
-        data: { 
-            id : req.body.userid,
-            iid : req.body.itemid,
-            rid : req.body.resid,
-            res : req.body.res,
-            iname : req.body.iname,
-            price:parseFloat(req.body.price)
-        },
-        headers: {"Content-Type":"application/json"}// request headers
-    };
-    client.post("http://34.219.121.214:3000/api/cart/itemSave",args, function (data, response) {
-                res.redirect('')
-    }) 
-    }
-);
-*/
+
 app.post('/deleteitem',function(req,res){
     var args = {
       data: { 
@@ -92,36 +72,8 @@ app.post('/deleteitem',function(req,res){
 });
 
 
-//app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
-app.post('/summary', function (req, res) {
-    var client = new Client();
-    var cookies = new Cookies(req, res, { keys: keys })
-    var args = {
-    data: {
-     "id":cookies.get('userid', { signed: true })
-     },
-     headers: {"Content-Type":"application/json"}
-    };
-    client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
-        // console.log(data[0]['name']);
-        res.render('summary',{
-          data:data
-        });
-    });
-});
-
-
-app.post('/payment', function (req,res) {
-var client = new Client();
-    res.render('payment',{ 
-        userid : req.body.id,
-        total : req.body.total, 
-    });
-});
 
 app.get('/', function (req, res) {
    var cookies = parseCookies(req);  
@@ -135,7 +87,6 @@ app.get('/', function (req, res) {
 app.get('/users/ping',function(req,res){
     console.log('Ping Called');
     client.get("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/ping", function (data, response) {
-    // client.methods.pingUserAPI(function (data, response) {
         console.log(data);
         res.send(data);
     });
@@ -179,17 +130,8 @@ app.post('/users/loginSubmit',function(req,res){
             res.redirect('/restraunts');
         }
     });
-    // console.log(req.body.username);
 });
 
-// app.get('/admin/login',function(req,res){
-//     // res.send('Admin Login Page Under Development.');
-//     var users;
-//     res.render('admin', {
-//         title : 'Admin Dashboard',
-//         users: users
-//     });
-// });
 
 app.get('/signup',function(req,res){
     res.render('signup', {
@@ -211,19 +153,13 @@ app.post('/users/signupSubmit',function(req,res){
         };
         console.log(args);
         client.post("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/users/signup", args, function (data, response) {
-        //client.post("localhost:3000/api/users/signup", args, function (data, response) {
-            // parsed response body as js object
-            console.log(data);
+            // console.log(data);
             if (data){
                 var cookies = new Cookies(req, res, { keys: keys})
                 cookies.set('userid', data, {signed: true})
                 res.redirect('/restraunts');
             }
         });
-    // }
-    // else {
-    //     res.redirect('signup');
-    // }
 });
 
 app.put('/users/changePassword',function(req,res){
@@ -239,9 +175,8 @@ app.get('/restraunts', function (req, res) {
   var client = new Client();
   var pin = req.query.pin;
   var args = {
-      parameters: { "zip": pin } // request headers
+      parameters: { "zip": pin }
   };
-  // console.log(pin)
   var cookies = new Cookies(req, res, { keys: keys })
   var userid = cookies.get('userid', { signed: true })
   if(userid === undefined){
@@ -264,7 +199,6 @@ app.get('/menu', function (req, res) {
   };
   var cookies = new Cookies(req, res, { keys: keys })
   cookies.set('restraunt_id', res_id, { signed: false })
-  // cookies.set('userid', 1, {signed: true})
   var userid = cookies.get('userid', { signed: true })
   client.get("http://GOAPI-1977895044.us-west-1.elb.amazonaws.com:3000/menus",args, function (data, response) {
       console.log(userid);
@@ -275,17 +209,77 @@ app.get('/menu', function (req, res) {
     });
 });
 
+
+app.post('/summary', function (req, res) {
+    var client = new Client();
+    var cookies = new Cookies(req, res, { keys: keys })
+    var args = {
+    data: {
+     "id":cookies.get('userid', { signed: true })
+     },
+     headers: {"Content-Type":"application/json"}
+    };
+    client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
+        var amount = 0;
+        for (var i = data.length - 1; i >= 0; i--) {
+          amount+=data[i]['price']
+        }
+        cookies.set('total', amount, {signed: true})
+        res.render('summary',{
+          data:data
+        });
+    });
+});
+
+
+app.post('/payment', function (req,res) {
+var client = new Client();
+    res.render('payment',{ 
+        userid : req.body.id,
+        total : req.body.total, 
+    });
+});
+
+app.post('/order', function (req, res) {
+     var client = new Client();
+     var cookies = new Cookies(req, res, { keys: keys })
+     var userid = cookies.get('userid', { signed: true })
+     var total = cookies.get('total', { signed: true })
+     //client.delete()
+     console.log(req.body)
+     var args = {
+        data: { 
+            name: req.body.name,
+            number: req.body.cardnumber,
+            month: req.body.month,
+            year: req.body.year,
+            cvv: req.body.cvv,
+            total: total,
+            id: userid
+        },
+        headers: { "Content-Type": "application/json" }
+    };
+    client.post("http://cmpe281-1432011132.us-east-2.elb.amazonaws.com:3000/orders", args, function (data, response) {
+          console.log(data);
+          res.render('insertAfterPayment',{
+            data:data,
+            userid : userid
+          });
+    }); 
+});
+
 app.get('/list', function (req, res) {
   var client = new Client();
-  var uid = req.body.UserId;
+  var cookies = new Cookies(req, res, { keys: keys })
+  var userid = cookies.get('userid', { signed: true })
   var args = {
-        data: { "UserId": "3496",//req.body.UserId after calling api
-        "OrderId": "",
-        "TotalPrice":"" },
-        headers: {"Content-Type":"application/json"}// request headers
+        data: { 
+        "id": userid
+      },
+      headers: {"Content-Type":"application/json"}
     };
   console.log(args)
-  client.get("http://localhost:3000/list",args, function (data, response) { // CHANGE to broadcsat address for docker
+  client.get("http://cmpe281-1432011132.us-east-2.elb.amazonaws.com:3000/details",args, function (data, response) { 
       console.log(data);
       res.render('list',{
         data:data
@@ -293,48 +287,6 @@ app.get('/list', function (req, res) {
   });
 });
 
-app.get('/insertAfterPayment', function (req, res) {
-  var client = new Client();
-  //var uid = req.body.UserId;
-  var args = {
-        data: { "UserId": "3496",
-        "OrderId": "asdf",
-        "TotalPrice":"8.8" },
-        headers: {"Content-Type":"application/json"}// request headers
-    };
-  console.log(args)
-  client.post("http://localhost:3000/insert",args, function (data, response) { // CHANGE to broadcsat address for docker
-      console.log(data);
-      res.render('insertAfterPayment',{
-        data:data
-      });
-  });
-});
-
-app.post('/order', function (req, res) {
-    var client = new Client();
-     //client.delete()
-     var args = {
-        data: { 
-            name: req.body.username,
-            number: req.body.name,
-            month: req.body.email,
-            year: req.body.contact,
-            cvv: req.body.address,
-            total: req.body.total,
-            userid: req.body.userid
-        },
-        headers: { "Content-Type": "application/json" }
-    };
-     client.post("http://localhost:3002/orders", args, function (data, response) {
-            // console.log(data[0]['name']);
-            res.render('insertAfterPayment',{
-              data:data,
-            });
-        }); 
-    });
-
-    
 
 app.listen(process.env.PORT || port, function () {
   console.log("Server is running on "+ port +" port");
