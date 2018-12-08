@@ -1,102 +1,120 @@
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-            <meta charset="utf-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="icon" href="./images/favicon.png"/>
-            <title>FoodFries</title>
-    
-            <!-- Bootstrap core CSS -->
-            <link href="css/bootstrap.min.css" rel="stylesheet">
-            <!-- Custom styles for this template -->
-            <link href="css/style.css" rel="stylesheet">
-            <link href="css/responsive.css" rel="stylesheet">
-            <link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-            <link href="fonts/website-font/stylesheet.css" rel="stylesheet" type="text/css" />
-    
-            <script src="js/jquery.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="js/counterup.min.js" type="text/javascript"></script>
-            <script src="js/waypoints.min.js" type="text/javascript"></script>
-            <script src="js/custom.js"></script>
-            <link rel="shortcut icon" type="image/x-icon" href="https://olocdn.global.ssl.fastly.net/img/thecounter/favicon.ico?6579"/>
-             <link rel="stylesheet" type="text/css" media="screen" href="https://olocdn.global.ssl.fastly.net/css/thecounter/site-6579.css" />
-             <link rel="stylesheet" type="text/css" href="./css/search.css">
-             <script type="text/javascript" language="javascript" src="https://olocdn.global.ssl.fastly.net/js/jquery-1.12.4.min.js"></script> 
-        
-        <style>
-            img{
-                display: inline-block;
-                margin: 15px;
-                float: left;
-                height: 60px;
-                width: auto;
-             
-            }
-            form{
-                align:center;
-            }
-            font{
-                color:black;
-                font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-                font-weight:bold;
-            }
-            .payment{
-                padding:5px;
-                margin-left: 42.5%;      
-            }
-            .payment1{
-                padding:5px;
-                margin-left: 38%;
-            }
-            button{
-                margin-top: 10px;
-            }
-            .a{
-                padding: 5px;
-            }
-        </style>
-    </head>
-    <body style="background-image:url('images/burger5.png');background-repeat:no-repeat;background-size:cover;">
-        <section class="tv-paddingT100 tv-bgbanner" id="menu">
-                <div class="container">
-                    <div class="row">
-                        <div class="tv-block-heading">
-                            <h5>Burger-Online</h5>
-                            <h2>Your Order</h2>
-                        </div>
-                    </div>
-                </div>
-                              
-        <div class="payment">
-            <form method="POST" action="/order">
-                <div class="a">
-                    <font>Card Holder's Name:</font><br>
-                    <input type="text" name="name">
-                </div>
-                <div class="a">
-                        <font>Card Number:</font><br>
-                    <input type="text" name="cardnumber">
-                </div>
-                <div class="a">
-                        <font>Expiry Month:</font><br>
-                    <input type="text" name="month">
-                </div>
-                <div class="a">
-                        <font>Expiry Year:</font><br>
-                    <input type="text" name="year">
-                </div>
-                <div class="a">
-                        <font>CVV:</font><br>
-                    <input type="text" name="cvv">
-                </div>
-                <div>
-                    <input type="hidden" value="<%userid%>" name="userid" id="userid" >
-                    <input type="hidden" value="<%total%>" name="total" id="total" >
-                <input type="submit" value="make payment" >
-                </div>
-            </form>
-    </body>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" href="./images/favicon.png"/>
+      <title>FoodFries</title>
+      <!-- Bootstrap core CSS -->
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom styles for this template -->
+      <link href="css/style.css" rel="stylesheet">
+      <link href="css/responsive.css" rel="stylesheet">
+      <link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+      <link href="fonts/website-font/stylesheet.css" rel="stylesheet" type="text/css" />
+      <script src="js/jquery.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/counterup.min.js" type="text/javascript"></script>
+      <script src="js/waypoints.min.js" type="text/javascript"></script>
+      <script src="js/custom.js"></script>
+      <link rel="shortcut icon" type="image/x-icon" href="https://olocdn.global.ssl.fastly.net/img/thecounter/favicon.ico?6579"/>
+      <link rel="stylesheet" type="text/css" media="screen" href="https://olocdn.global.ssl.fastly.net/css/thecounter/site-6579.css" />
+      <link rel="stylesheet" type="text/css" href="./css/search.css">
+      <script type="text/javascript" language="javascript" src="https://olocdn.global.ssl.fastly.net/js/jquery-1.12.4.min.js"></script> 
+      <style>
+         img{
+         display: inline-block;
+         margin: 15px;
+         float: left;
+         height: 60px;
+         width: auto;
+         }
+         form{
+         align:center;
+         }
+         font{
+         color:black;
+         /*font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;*/
+         font-weight:bold;
+         }
+         .payment{
+         padding:5px;
+         margin-left: 42.5%;      
+         }
+         .payment1{
+         padding:5px;
+         margin-left: 38%;
+         }
+         button{
+         margin-top: 10px;
+         }
+         .a{
+         padding: 5px;
+         }
+      </style>
+   </head>
+   <body style="background-image:url('images/burger5.png');background-repeat:no-repeat;background-size:cover;">
+      <div class="main-nav">
+         <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="index.html">
+                     <!-- <img class="img-responsive" src="./images/logo.png" alt="logo"> -->
+                     <p id="Logo_custom">Burger-Online</p>
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse">
+                  <ul class="nav navbar-nav navbar-right">
+                     <li class="scroll"><a href="/restraunts" style="color: #cc050c;">Home</a></li>
+                     <li class="scroll"><a href="/logout" style="color: #cc050c;">Logout</a></li>
+                  </ul>
+               </div>
+            </div>
+         </nav>
+      </div>
+      <section class="tv-paddingT100 tv-bgbanner" id="menu">
+      <div class="container">
+         <div class="row">
+            <div class="tv-block-heading">
+               <h5>Burger-Online</h5>
+               <h2>Your Order</h2>
+            </div>
+         </div>
+      </div>
+      <div class="payment">
+      <form method="POST" action="/order">
+         <div class="a">
+            <font>Card Holder's Name:</font><br>
+            <input type="text" name="name">
+         </div>
+         <div class="a">
+            <font>Card Number:</font><br>
+            <input type="text" name="cardnumber">
+         </div>
+         <div class="a">
+            <font>Expiry Month:</font><br>
+            <input type="text" name="month">
+         </div>
+         <div class="a">
+            <font>Expiry Year:</font><br>
+            <input type="text" name="year">
+         </div>
+         <div class="a">
+            <font>CVV:</font><br>
+            <input type="text" name="cvv">
+         </div>
+         <div>
+            <input type="hidden" value="<%userid%>" name="userid" id="userid" >
+            <input type="hidden" value="<%total%>" name="total" id="total" >
+            <input type="submit" value="make payment" >
+         </div>
+      </form>
+   </body>
 </html>

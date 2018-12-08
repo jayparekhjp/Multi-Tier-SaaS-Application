@@ -395,7 +395,9 @@ a:hover {
 }
 .tv-bgbanner{
     background: rgba(0, 0, 0, 0) url("../images/bgbanner.jpg") no-repeat scroll center top / cover ;
-    min-height: 650px;
+    /*min-height: 650px;*/
+    height: 100vh;
+    overflow: auto;
     background-attachment: fixed;
 }
 .tv-about-content p{
@@ -765,4 +767,19 @@ a:hover {
     font-size: 36px !important; 
     padding: 30px 18px !important; 
     display: inline-block !important;
+}
+
+table, td, th {  
+  /*border: 1px solid #ddd;*/
+  text-align: left !important; 
+}
+
+table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+}
+
+th, td, tr {
+  padding: 15px !important;
+  width: 45px !important;
 }

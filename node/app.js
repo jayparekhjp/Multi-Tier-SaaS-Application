@@ -42,7 +42,10 @@ app.get('/viewcart', function (req, res) {
         data: { "id": cookies.get('userid', { signed: true })  },
         headers: {"Content-Type":"application/json"}
     };
-
+    var userid = cookies.get('userid', { signed: true })
+    if(userid === undefined){
+      res.redirect('/login');
+    }
     client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
         if(data  === null){
           data = [];
@@ -63,7 +66,7 @@ app.post('/deleteitem',function(req,res){
       },
       headers: { "Content-Type": "application/json" }
   };
-  console.log(args);
+  // console.log(args);
 
   client.delete("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/cartDelete", args, function (data, response) {
           res.redirect('/viewcart');
@@ -84,13 +87,6 @@ app.get('/', function (req, res) {
 })  
  
 // Jay Parekh-Users ----------------------------------------------------------------------------------------------------
-app.get('/users/ping',function(req,res){
-    console.log('Ping Called');
-    client.get("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/ping", function (data, response) {
-        console.log(data);
-        res.send(data);
-    });
-});
 
 app.get('/login',function(req,res){
     var cookies = new Cookies(req, res, { keys: keys })
@@ -118,9 +114,9 @@ app.post('/users/loginSubmit',function(req,res){
         },
         headers: { "Content-Type": "application/json" }
     };
-    console.log(args);
+    // console.log(args);
     client.post("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/users/login", args, function (data, response) {
-        console.log(data);
+        // console.log(data);
         // res.send(data);
         if (data == "Password Incorrect"){
             res.redirect('/login');
@@ -151,7 +147,7 @@ app.post('/users/signupSubmit',function(req,res){
             },
             headers: { "Content-Type": "application/json" }
         };
-        console.log(args);
+        // console.log(args);
         client.post("http://cmpe281-1995605336.us-west-1.elb.amazonaws.com:3000/api/users/signup", args, function (data, response) {
             // console.log(data);
             if (data){
@@ -183,7 +179,7 @@ app.get('/restraunts', function (req, res) {
     res.redirect('/login');
   }
   client.get("http://GOAPI-1977895044.us-west-1.elb.amazonaws.com:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
-      console.log(data);
+      // console.log(data);
       res.render('search',{
         data:data
       });
@@ -198,10 +194,14 @@ app.get('/menu', function (req, res) {
       parameters: { "restraunt_id": res_id } // request headers
   };
   var cookies = new Cookies(req, res, { keys: keys })
+  var userid = cookies.get('userid', { signed: true })
+  if(userid === undefined){
+    res.redirect('/login');
+  }
   cookies.set('restraunt_id', res_id, { signed: false })
   var userid = cookies.get('userid', { signed: true })
   client.get("http://GOAPI-1977895044.us-west-1.elb.amazonaws.com:3000/menus",args, function (data, response) {
-      console.log(userid);
+      // console.log(userid);
       res.render('menu',{
         data:data,
         userid:userid
@@ -213,6 +213,10 @@ app.get('/menu', function (req, res) {
 app.post('/summary', function (req, res) {
     var client = new Client();
     var cookies = new Cookies(req, res, { keys: keys })
+    var userid = cookies.get('userid', { signed: true })
+    if(userid === undefined){
+      res.redirect('/login');
+    }
     var args = {
     data: {
      "id":cookies.get('userid', { signed: true })
@@ -221,8 +225,10 @@ app.post('/summary', function (req, res) {
     };
     client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
         var amount = 0;
-        for (var i = data.length - 1; i >= 0; i--) {
-          amount+=data[i]['price']
+        if(data !== null){
+          for (var i = data.length - 1; i >= 0; i--) {
+            amount+=data[i]['price']
+          }
         }
         cookies.set('total', amount, {signed: true})
         res.render('summary',{
@@ -233,11 +239,16 @@ app.post('/summary', function (req, res) {
 
 
 app.post('/payment', function (req,res) {
-var client = new Client();
-    res.render('payment',{ 
-        userid : req.body.id,
-        total : req.body.total, 
-    });
+  var cookies = new Cookies(req, res, { keys: keys })
+  var userid = cookies.get('userid', { signed: true })
+  if(userid === undefined){
+    res.redirect('/login');
+  }
+  var client = new Client();
+  res.render('payment',{ 
+      userid : req.body.id,
+      total : req.body.total, 
+  });
 });
 
 app.post('/order', function (req, res) {
@@ -245,8 +256,11 @@ app.post('/order', function (req, res) {
      var cookies = new Cookies(req, res, { keys: keys })
      var userid = cookies.get('userid', { signed: true })
      var total = cookies.get('total', { signed: true })
+      if(userid === undefined){
+        res.redirect('/login');
+      }
      //client.delete()
-     console.log(req.body)
+     // console.log(req.body)
      var args = {
         data: { 
             name: req.body.name,
@@ -260,7 +274,7 @@ app.post('/order', function (req, res) {
         headers: { "Content-Type": "application/json" }
     };
     client.post("http://cmpe281-1432011132.us-east-2.elb.amazonaws.com:3000/orders", args, function (data, response) {
-          console.log(data);
+          // console.log(data);
           res.render('insertAfterPayment',{
             data:data,
             userid : userid
@@ -272,20 +286,27 @@ app.get('/list', function (req, res) {
   var client = new Client();
   var cookies = new Cookies(req, res, { keys: keys })
   var userid = cookies.get('userid', { signed: true })
+  if(userid === undefined){
+    res.redirect('/login');
+  }
   var args = {
         data: { 
         "id": userid
       },
       headers: {"Content-Type":"application/json"}
     };
-  console.log(args)
   client.get("http://cmpe281-1432011132.us-east-2.elb.amazonaws.com:3000/details",args, function (data, response) { 
-      console.log(data);
+      // console.log(data);
       res.render('list',{
         data:data
       });
   });
 });
+
+app.get('/logout', function (req, res) {
+  res.clearCookie("userid");
+  res.redirect('/login');
+})
 
 
 app.listen(port, function () {
