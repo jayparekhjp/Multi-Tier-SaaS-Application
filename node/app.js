@@ -238,9 +238,9 @@ app.get('/restraunts', function (req, res) {
   // console.log(pin)
   var cookies = new Cookies(req, res, { keys: keys })
   var userid = cookies.get('userid', { signed: true })
-  if(userid === undefined){
+  /*if(userid === undefined){
     res.redirect('/login');
-  }
+  }*/
   client.get("http://GOAPI-1977895044.us-west-1.elb.amazonaws.com:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
       console.log(data);
       res.render('search',{
