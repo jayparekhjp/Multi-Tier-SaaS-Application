@@ -40,10 +40,10 @@ app.get('/viewcart', function (req, res) {
     var cookies = new Cookies(req, res, { keys: keys})
     var client = new Client();
     var args = {
-        data: { "id": cookies.get('userid', { signed: true }) },
+        data: { "id": cookies.get('userid', { signed: true })  },
         headers: {"Content-Type":"application/json"}// request headers
     };
-    client.get("http://34.216.22.59:3000/api/cart/itemDisplay",args, function (data, response) {
+    client.get("http://52.38.53.215:3000/api/cart/itemDisplay",args, function (data, response) {
         res.render('cart',{
           data:data
         });
@@ -79,7 +79,7 @@ app.post('/deleteitem',function(req,res){
       headers: { "Content-Type": "application/json" }
   };
   console.log(args);
-  client.delete("http://34.216.22.59:3000/api/cart/cartDelete", args, function (data, response) {
+  client.delete("http://52.38.53.215:3000/api/cart/cartDelete", args, function (data, response) {
       
           res.redirect('/viewcart');
       }
@@ -102,11 +102,10 @@ app.post('/summary', function (req, res) {
     };
     var cookies = new Cookies(req, res, { keys: keys})
     var userid = cookies.get('userid', { signed: true })
-    client.get("http://34.219.121.214:3000/api/cart/itemDisplay",args, function (data, response) {
+    client.get("http://52.38.53.215:3000/api/cart/itemDisplay",args, function (data, response) {
         // console.log(data[0]['name']);
         res.render('summary',{
-          data:data,
-          userid : userid
+          data:data
         });
     });
 });
@@ -114,10 +113,10 @@ app.post('/summary', function (req, res) {
 
 app.post('/payment', function (req,res) {
 var client = new Client();
-//client.post("http://localhost:3002/orders", function (data, response) {
-    //console.log(data[0]['name']);
-
-    res.render('payment',{total:req.body.total});
+    res.render('payment',{ 
+        userid : req.body.id,
+        total : req.body.total, 
+    });
 });
 
 app.get('/', function (req, res) {
@@ -275,11 +274,26 @@ app.get('/menu', function (req, res) {
 app.post('/order', function (req, res) {
     var client = new Client();
      //client.delete()
-         
-     client.post("http://localhost:3002/orders", function (data, response) {
-      // console.log(data[0]['name']);
+     var args = {
+        data: { 
+            name: req.body.username,
+            number: req.body.name,
+            month: req.body.email,
+            year: req.body.contact,
+            cvv: req.body.address,
+            total: req.body.total,
+            userid: req.body.userid
+        },
+        headers: { "Content-Type": "application/json" }
+    };
+     client.post("http://localhost:3002/orders", args, function (data, response) {
+            // console.log(data[0]['name']);
+            res.render('insertAfterPayment',{
+              data:data,
+            });
+        }); 
     });
-});
+
     
 
 app.listen(port, function () {
