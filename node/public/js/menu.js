@@ -40,8 +40,11 @@
    console.log("THIS WORKS")*/
    $.ajax({
      type: 'POST',
-     // url: 'http://localhost:3000/api/cart/itemSave',
-     url: 'http://demo8655652.mockable.io/count',
+     url: "http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemSave",
+     // url: 'http://demo8655652.mockable.io/count',
+     beforeSend: function(request) {
+      // request.setRequestHeader("Access-Control-Allow-Origin", "localhost");
+     },
      data: JSON.stringify({ 
       rid: restraunt_id, 
       iid: item_id,
@@ -54,7 +57,7 @@
  
      crossDomain: true,
      success: function (msg) {
-      // console.log(msg)
+      console.log(msg)
         var myMap = new Map();
         for (var i = msg.length - 1; i >= 0; i--) {
           if(myMap.has(msg[i]['iid'])){
@@ -77,7 +80,7 @@
      },
      error: function (request, status, error) {
  
-        alert(error);
+        console.log(error);
      }
   });
  });

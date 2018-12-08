@@ -53,35 +53,37 @@ License URI: http://www.themevault.net/license/-->
                                    <th>Restuarant Name</th>
                                    <th>Option</th>                                
                                  </tr>
-                                <% if (data !== undefined && data.length !== 0 ) { %>
-                                 <% data.forEach(function(data){%>
-                                      <tr class="vendor" data-vendorid="" data-hasdispatch="false">
-                                         <td>
-                                             <%= data.iname %>
-                           
-                                            <div class="streetaddress">
-                                            </div>
-                                         </td>
-                                         <td>
-                                          <%= data.price %><br><br>
+                                <% if (data !== undefined) { %>
+                                   <% data.forEach(function(data){%>
+                                    <% if (data.price !== 0) { %>
+                                        <tr class="vendor" data-vendorid="" data-hasdispatch="false">
+                                           <td>
+                                               <%= data.iname %>
+                             
+                                              <div class="streetaddress">
+                                              </div>
+                                           </td>
+                                           <td>
+                                            <%= data.price %><br><br>
+                                              <br>
+                                           </td>
+                                           <td>
+                                            <%= data.res %><br>
                                             <br>
                                          </td>
                                          <td>
-                                          <%= data.res %><br>
-                                          <br>
-                                       </td>
-                                       <td>
-                                            
-                                          <form method="POST" action="/deleteitem">
-                                             <input type="hidden" name="itemid" value="<%= data.iid %>" id="itemid">
-                                             <input type="hidden" name="userid" value="<%= data.id %>" id="userid">
-                                             <input type="hidden" name="resid" value="<%= data.rid %>" id="resid">
-                                             <input type="submit" value="delete" id="delete">
-                                          </form>
-                                          <br>
-                                       </td>
-                                      </tr>
-                                   <% }); %>
+                                              
+                                            <form method="POST" action="/deleteitem">
+                                               <input type="hidden" name="itemid" value="<%= data.iid %>" id="itemid">
+                                               <input type="hidden" name="userid" value="<%= data.id %>" id="userid">
+                                               <input type="hidden" name="resid" value="<%= data.rid %>" id="resid">
+                                               <input type="submit" value="delete" id="delete">
+                                            </form>
+                                            <br>
+                                         </td>
+                                        </tr>
+                                        <% } %>
+                                     <% }); %>
                                 <% } %>
                                 <tr>
                                  <td>

@@ -44,6 +44,10 @@ app.get('/viewcart', function (req, res) {
         headers: {"Content-Type":"application/json"}// request headers
     };
     client.get("http://Project-132974579.us-west-2.elb.amazonaws.com:3000/api/cart/itemDisplay",args, function (data, response) {
+        if(data  === null){
+          data = [];
+        }
+        // console.log(data)
         res.render('cart',{
           data:data
         });
@@ -138,11 +142,11 @@ app.get('/users/ping',function(req,res){
 app.get('/login',function(req,res){
     var cookies = new Cookies(req, res, { keys: keys })
     var userid = cookies.get('userid', { signed: true })
-    /*if(userid !== undefined){
+    if(userid !== undefined){
       res.redirect('/restraunts');
     }else{
       res.render('login');
-    }*/
+    }
 });
 
 app.get('/login-test',function(req,res){
@@ -238,9 +242,9 @@ app.get('/restraunts', function (req, res) {
   // console.log(pin)
   var cookies = new Cookies(req, res, { keys: keys })
   var userid = cookies.get('userid', { signed: true })
-  /*if(userid === undefined){
+  if(userid === undefined){
     res.redirect('/login');
-  }*/
+  }
   client.get("http://GOAPI-1977895044.us-west-1.elb.amazonaws.com:3000/restraunts",args, function (data, response) { // CHANGE to broadcsat address for docker
       console.log(data);
       res.render('search',{
