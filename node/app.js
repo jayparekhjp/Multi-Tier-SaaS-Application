@@ -39,7 +39,6 @@ function parseCookies (request) {
 app.get('/viewcart', function (req, res) {
     var cookies = new Cookies(req, res, { keys: keys})
     var client = new Client();
-    var cookies = new Cookies(req, res, { keys: keys })
     var args = {
         data: { "id": cookies.get('userid', { signed: true })  },
         headers: {"Content-Type":"application/json"}// request headers
